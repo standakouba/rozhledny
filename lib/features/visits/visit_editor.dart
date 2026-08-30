@@ -135,7 +135,11 @@ class _VisitEditorSheetState extends ConsumerState<VisitEditorSheet> {
         left: 16,
         right: 16,
         top: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        // Klávesnice (viewInsets) i systémová lišta (padding). `paddingOf`
+        // klesne na nulu, když je klávesnice venku, takže se nesčítají.
+        bottom: MediaQuery.viewInsetsOf(context).bottom +
+            MediaQuery.paddingOf(context).bottom +
+            16,
       ),
       child: SingleChildScrollView(
         child: Column(

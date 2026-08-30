@@ -21,6 +21,16 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.9.2
+
+- vlastní ikona aplikace: silueta rozhledny místo výchozí flutterovské
+  (kreslí ji tools/make_icon.dart, adaptivní i klasická varianta)
+
+## 0.9.1
+
+- spodní část detailu rozhledny se schovávala pod systémovou lištu telefonu;
+  modální panely bezpečnou zónu samy neřeší a odsazení ji nepočítalo
+
 ## 0.9.0
 
 První použitelná verze — nahrazuje papírovou mapu s kroužky.
