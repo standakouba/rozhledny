@@ -24,6 +24,9 @@ const _czZoom = 7.0;
 /// Pod tímto zoomem se kreslí jen tečky — jmenovky ani odznaky nejsou čitelné.
 const _compactBelowZoom = 10.0;
 
+/// Zoom pro pohled „co mám kolem sebe“ — pár kilometrů na šířku obrazovky.
+const _nearbyZoom = 12.0;
+
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
 
@@ -45,6 +48,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   StreamSubscription<MapEvent>? _events;
 
+  /// Po startu se mapa jednou přesune na aktuální polohu.
+  ///
+  /// Jen jednou: GPS chodí opakovaně a bez téhle pojistky by mapa trhla
+  /// zpátky pokaždé, když přijde přesnější údaj — klidně uprostřed toho,
+  /// jak si člověk prohlíží úplně jiný kout republiky.
+  bool _centeredOnMe = false;
+
   @override
   void initState() {
     super.initState();
@@ -53,7 +63,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     // jde ve flutter_map samostatnou cestou (`rotateRaw`) a do callbacku
     // se nikdy nedostane. Střelka kompasu by pak visela na hodnotě z
     // posledního posunu a tvářila se, že ukazuje špatným směrem.
-    _events = _controller.mapEventStream.listen((e) => _syncCamera(e.camera));
+    _events = _controller.mapEventStream.listen((e) {
+      // Jakmile uživatel s mapou sám pohne, automatické vycentrování se
+      // zruší. Přijít o rozkoukaný výřez kvůli opožděnému GPS fixu je horší
+      // než zůstat tam, kam se člověk podíval.
+      if (_isUserGesture(e.source)) _centeredOnMe = true;
+      _syncCamera(e.camera);
+    });
   }
 
   @override
@@ -61,6 +77,33 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _events?.cancel();
     _controller.dispose();
     super.dispose();
+  }
+
+  /// Pohnul mapou uživatel, nebo se posunula sama (kód, změna velikosti)?
+  bool _isUserGesture(MapEventSource source) => switch (source) {
+        MapEventSource.dragStart ||
+        MapEventSource.onDrag ||
+        MapEventSource.dragEnd ||
+        MapEventSource.multiFingerGestureStart ||
+        MapEventSource.onMultiFinger ||
+        MapEventSource.multiFingerEnd ||
+        MapEventSource.doubleTapZoomAnimationController ||
+        MapEventSource.doubleTapHold ||
+        MapEventSource.flingAnimationController ||
+        MapEventSource.scrollWheel =>
+          true,
+        _ => false,
+      };
+
+  /// Přesune mapu na aktuální polohu, pokud je k dispozici a ještě se to
+  /// nestalo. Volá se ze dvou míst, protože není dané, co přijde dřív —
+  /// připravená mapa, nebo první poloha z GPS.
+  void _centerOnMeOnce() {
+    if (_centeredOnMe || !_mapReady) return;
+    final me = ref.read(currentPositionProvider).value;
+    if (me == null) return;
+    _centeredOnMe = true;
+    _controller.move(LatLng(me.latitude, me.longitude), _nearbyZoom);
   }
 
   /// Překresluje se jen při skutečné změně — stream chodí i při každém
@@ -101,6 +144,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       if (_mapReady && !next.allowRotation && _controller.camera.rotation != 0) {
         _controller.rotate(0);
       }
+    });
+
+    // GPS fix obvykle dorazí až po vykreslení mapy, takže vycentrování musí
+    // počkat na něj. Poslední známá poloha přijde skoro hned, takže pohled
+    // na celou republiku bliká jen zlomek vteřiny.
+    ref.listen(currentPositionProvider, (previous, next) {
+      if (next.value != null) _centerOnMeOnce();
     });
 
     final settings = ref.watch(sharedPrefsProvider);
@@ -173,6 +223,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             onMapReady: () {
               setState(() => _mapReady = true);
               _syncCamera(_controller.camera);
+              _centerOnMeOnce();
             },
             onTap: (_, _) => setState(() => _selectedUuid = null),
             // Dlouhý stisk je nejrychlejší cesta k „tady stojí rozhledna,

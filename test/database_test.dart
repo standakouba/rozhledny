@@ -108,7 +108,7 @@ void main() {
       await db.upsertVisit(VisitsCompanion.insert(
         uuid: visitUuid,
         towerUuid: towerUuid,
-        visitedOn: DateTime(2026, 5, 1),
+        visitedOn: Value(DateTime(2026, 5, 1)),
         createdAt: now,
         updatedAt: now,
         rating: const Value(3),
@@ -117,7 +117,7 @@ void main() {
       await db.upsertVisit(VisitsCompanion.insert(
         uuid: visitUuid,
         towerUuid: towerUuid,
-        visitedOn: DateTime(2026, 5, 2),
+        visitedOn: Value(DateTime(2026, 5, 2)),
         createdAt: now,
         updatedAt: DateTime.now(),
         rating: const Value(5),
@@ -154,7 +154,7 @@ void main() {
       await db.upsertVisit(VisitsCompanion.insert(
         uuid: uuid,
         towerUuid: towerUuid,
-        visitedOn: day,
+        visitedOn: Value(day),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         rating: Value(rating),
@@ -211,6 +211,88 @@ void main() {
 
       expect(await db.watchTowersWithStats().first, isEmpty);
       expect(await db.watchVisits(towerUuid).first, isEmpty);
+    });
+  });
+
+  group('návštěvy bez data', () {
+    late String towerUuid;
+
+    setUp(() async {
+      towerUuid = osmTowerUuid('node', 1);
+      final now = DateTime.now();
+      await db.upsertTower(TowersCompanion.insert(
+        uuid: towerUuid,
+        lat: 48.86,
+        lon: 14.29,
+        source: TowerSource.osm,
+        createdAt: now,
+        updatedAt: now,
+        name: const Value('Kleť'),
+      ));
+    });
+
+    Future<String> addVisit({DateTime? day}) async {
+      final uuid = newUuid();
+      await db.upsertVisit(VisitsCompanion.insert(
+        uuid: uuid,
+        towerUuid: towerUuid,
+        visitedOn: Value(day),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      ));
+      return uuid;
+    }
+
+    test('rozhledna je pokořená i bez data návštěvy', () async {
+      await addVisit();
+
+      final klet = (await db.watchTowersWithStats().first).single;
+      expect(klet.isVisited, isTrue,
+          reason: 'zpětně zapsaná návštěva se musí počítat');
+      expect(klet.visitCount, 1);
+      // MIN/MAX v SQL prázdné hodnoty přeskakují, takže tady vyjde null
+      // i u navštívené rozhledny — na to musí být UI připravené.
+      expect(klet.lastVisit, isNull);
+      expect(klet.firstVisit, isNull);
+    });
+
+    test('datované a nedatované návštěvy se sčítají dohromady', () async {
+      await addVisit();
+      await addVisit(day: DateTime(2026, 5, 1));
+      await addVisit();
+
+      final klet = (await db.watchTowersWithStats().first).single;
+      expect(klet.visitCount, 3);
+      expect(klet.lastVisit, DateTime(2026, 5, 1),
+          reason: 'poslední známé datum se nesmí ztratit mezi prázdnými');
+    });
+
+    test('nedatované návštěvy se nehlásí jako duplicity', () async {
+      // Dvě návštěvy bez data můžou být dva výlety stejně dobře jako jeden
+      // zapsaný dvakrát. Hádat za uživatele by znamenalo mazat mu záznamy.
+      await addVisit();
+      await addVisit();
+
+      expect(await db.duplicateVisitGroups(), isEmpty);
+    });
+
+    test('datum jde k návštěvě doplnit dodatečně', () async {
+      final uuid = await addVisit();
+      final visit = (await db.watchVisits(towerUuid).first).single;
+      expect(visit.visitedOn, isNull);
+
+      await db.upsertVisit(VisitsCompanion.insert(
+        uuid: uuid,
+        towerUuid: towerUuid,
+        visitedOn: Value(DateTime(2026, 5, 1)),
+        createdAt: visit.createdAt,
+        updatedAt: DateTime.now(),
+      ));
+
+      final after = (await db.watchVisits(towerUuid).first).single;
+      expect(after.visitedOn, DateTime(2026, 5, 1));
+      expect((await db.watchTowersWithStats().first).single.visitCount, 1,
+          reason: 'doplnění data nesmí založit druhou návštěvu');
     });
   });
 }

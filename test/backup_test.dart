@@ -51,7 +51,7 @@ void main() {
     await db.upsertVisit(VisitsCompanion.insert(
       uuid: id,
       towerUuid: towerUuid,
-      visitedOn: day,
+      visitedOn: Value(day),
       createdAt: day,
       updatedAt: updatedAt ?? day,
       rating: Value(rating),

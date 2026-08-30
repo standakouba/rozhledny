@@ -21,6 +21,22 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.11.0
+
+- návštěvu jde zapsat bez data. U rozhleden nasbíraných před aplikací si
+  po letech nikdo nevzpomene, kdy tam byl, a vynucené datum by vedlo
+  k vymýšlení. Nedatovaná návštěva se počítá do pokořených rozhleden
+  i do celkového počtu, jen nejde do rozpadu po letech — ten ji vykáže
+  zvlášť, aby se součet nerozešel.
+- formát zálohy zvýšen na 2: starší verze aplikace by na návštěvě bez data
+  spadla, takže ji teď odmítne srozumitelnou hláškou
+
+## 0.10.0
+
+- mapa se po startu vycentruje na aktuální polohu místo pohledu na celou ČR;
+  jen jednou a jen dokud uživatel sám nepohne mapou, aby opožděný GPS fix
+  netrhal rozkoukaným výřezem
+
 ## 0.9.2
 
 - vlastní ikona aplikace: silueta rozhledny místo výchozí flutterovské

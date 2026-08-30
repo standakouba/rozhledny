@@ -323,19 +323,23 @@ class _VisitSummary extends StatelessWidget {
     }
 
     final n = stats.visitCount;
+    final last = stats.lastVisit;
+
+    // `lastVisit` je null i u navštívené rozhledny, když má jen nedatované
+    // návštěvy — SQL MIN/MAX prázdné hodnoty přeskakuje. Bez téhle větve
+    // by detail spadl přesně u těch rozhleden, které se zadávají zpětně.
+    final label = switch ((n, last)) {
+      (1, null) => 'Navštíveno',
+      (1, final d?) => 'Navštíveno ${dateFormat.format(d)}',
+      (_, null) => 'Navštíveno $n×',
+      (_, final d?) => 'Navštíveno $n×, naposledy ${dateFormat.format(d)}',
+    };
+
     return Row(
       children: [
         const Icon(Icons.check_circle, color: Color(0xFF2E7D32)),
         const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            n == 1
-                ? 'Navštíveno ${dateFormat.format(stats.lastVisit!)}'
-                : 'Navštíveno $n×, naposledy '
-                    '${dateFormat.format(stats.lastVisit!)}',
-            style: theme.textTheme.titleSmall,
-          ),
-        ),
+        Expanded(child: Text(label, style: theme.textTheme.titleSmall)),
         if (stats.bestRating != null) ...[
           const Icon(Icons.star, size: 16, color: Colors.amber),
           Text('${stats.bestRating}'),
@@ -385,8 +389,18 @@ class _VisitTile extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    Text(dateFormat.format(visit.visitedOn),
-                        style: Theme.of(context).textTheme.titleSmall),
+                    Text(
+                      visit.visitedOn == null
+                          ? 'Bez data'
+                          : dateFormat.format(visit.visitedOn!),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            // Nedatovaná návštěva je platný záznam, ne chyba —
+                            // odlišuje se barvou, ne varováním.
+                            color: visit.visitedOn == null
+                                ? Theme.of(context).colorScheme.outline
+                                : null,
+                          ),
+                    ),
                     const Spacer(),
                     if (visit.rating != null)
                       Row(

@@ -73,7 +73,15 @@ class Visits extends Table {
   TextColumn get towerUuid => text()();
 
   /// Jen datum, bez času — zapisuje se i zpětně z papírové mapy.
-  DateTimeColumn get visitedOn => dateTime()();
+  ///
+  /// Nepovinné schválně: u rozhleden nasbíraných před aplikací si po letech
+  /// nikdo nevzpomene, kdy tam byl. Vynucené datum by vedlo k vymýšlení,
+  /// a smyšlený údaj je horší než přiznané „nevím“ — zaneřádil by statistiky
+  /// po letech a nešel by odlišit od skutečného.
+  ///
+  /// Návštěva bez data se tedy počítá do celkového počtu i do pokořených
+  /// rozhleden, ale do rozpadu po letech ne.
+  DateTimeColumn get visitedOn => dateTime().nullable()();
   IntColumn get rating => integer().nullable()();
   TextColumn get note => text().nullable()();
 
@@ -121,7 +129,7 @@ class AppDatabase extends _$AppDatabase {
       : super(executor ?? driftDatabase(name: 'rozhledny'));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -160,6 +168,13 @@ class AppDatabase extends _$AppDatabase {
             // Doplní je proto migrace — a sahá výhradně na wiki sloupce
             // rozhleden z OSM, aby se návštěv a vlastních bodů ani nedotkla.
             await applyEnrichmentFromAsset(this);
+          }
+          if (from < 3) {
+            // SQLite neumí u sloupce zrušit NOT NULL, takže se tabulka musí
+            // přestavět. `alterTable` ji vytvoří podle nového schématu
+            // a data překopíruje podle jmen sloupců — zapsané návštěvy
+            // tedy zůstávají, jen u nich datum smí být prázdné.
+            await m.alterTable(TableMigration(visits));
           }
         },
       );
@@ -303,7 +318,12 @@ class AppDatabase extends _$AppDatabase {
         .get();
     final byKey = <String, List<Visit>>{};
     for (final v in all) {
-      final day = DateTime(v.visitedOn.year, v.visitedOn.month, v.visitedOn.day);
+      // Návštěvy bez data se neporovnávají. Dvě takové na téže rozhledně
+      // můžou stejně dobře být dva různé výlety jako jeden zapsaný dvakrát,
+      // a hádat za uživatele by tu znamenalo mazat mu záznamy.
+      final on = v.visitedOn;
+      if (on == null) continue;
+      final day = DateTime(on.year, on.month, on.day);
       byKey.putIfAbsent('${v.towerUuid}@${day.toIso8601String()}', () => [])
           .add(v);
     }

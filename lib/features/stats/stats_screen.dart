@@ -55,9 +55,18 @@ class _Body extends StatelessWidget {
     final regions = byRegion.entries.toList()
       ..sort((a, b) => b.value.visited.compareTo(a.value.visited));
 
+    // Návštěvy bez data se do rozpadu po letech zařadit nedají, ale zmizet
+    // taky nesmí — jinak by se součet přehledu rozešel s celkovým počtem
+    // a vypadalo by to jako chyba.
     final byYear = <int, int>{};
+    var undated = 0;
     for (final v in visits) {
-      byYear[v.visitedOn.year] = (byYear[v.visitedOn.year] ?? 0) + 1;
+      final on = v.visitedOn;
+      if (on == null) {
+        undated++;
+        continue;
+      }
+      byYear[on.year] = (byYear[on.year] ?? 0) + 1;
     }
     final years = byYear.entries.toList()..sort((a, b) => b.key.compareTo(a.key));
 
@@ -107,14 +116,24 @@ class _Body extends StatelessWidget {
             visited: e.value.visited,
             total: e.value.total,
           ),
-        if (years.isNotEmpty) ...[
+        if (years.isNotEmpty || undated > 0) ...[
           const SizedBox(height: 24),
           _Section(title: 'Návštěvy po letech'),
           for (final y in years)
             _BarRow(
               label: '${y.key}',
               value: y.value,
-              max: years.map((e) => e.value).reduce((a, b) => a > b ? a : b),
+              max: years.isEmpty
+                  ? 1
+                  : years.map((e) => e.value).reduce((a, b) => a > b ? a : b),
+            ),
+          if (undated > 0)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                'a $undated ${_visitWord(undated)} bez data',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             ),
         ],
         if (mostVisited.isNotEmpty) ...[
@@ -150,6 +169,13 @@ class _Body extends StatelessWidget {
       ],
     );
   }
+}
+
+/// „1 návštěva / 2 návštěvy / 5 návštěv“ — česká čísla se neskloňují sama.
+String _visitWord(int n) {
+  if (n == 1) return 'návštěva';
+  if (n >= 2 && n <= 4) return 'návštěvy';
+  return 'návštěv';
 }
 
 class _Progress extends StatelessWidget {
