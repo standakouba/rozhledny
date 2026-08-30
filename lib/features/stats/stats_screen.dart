@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/database.dart';
 import '../../data/providers.dart';
 import '../towers/tower_detail_sheet.dart';
+import 'czech_plurals.dart';
 
 final allVisitsProvider = StreamProvider<List<Visit>>(
   (ref) => ref.watch(databaseProvider).watchAllVisits(),
@@ -103,8 +104,7 @@ class _Body extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
-              'Na ${visits.length - conquered.length} výletů jste se vraceli '
-              'někam, kde jste už byli.',
+              returnsSentence(visits.length - conquered.length),
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
@@ -131,7 +131,7 @@ class _Body extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
-                'a $undated ${_visitWord(undated)} bez data',
+                'a $undated ${visitWord(undated)} bez data',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -169,13 +169,6 @@ class _Body extends StatelessWidget {
       ],
     );
   }
-}
-
-/// „1 návštěva / 2 návštěvy / 5 návštěv“ — česká čísla se neskloňují sama.
-String _visitWord(int n) {
-  if (n == 1) return 'návštěva';
-  if (n >= 2 && n <= 4) return 'návštěvy';
-  return 'návštěv';
 }
 
 class _Progress extends StatelessWidget {

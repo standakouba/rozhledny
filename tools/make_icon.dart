@@ -44,12 +44,67 @@ void main() {
   _drawTower(legacy, _white, _legacyScale);
   File('${dir.path}/icon.png').writeAsBytesSync(encodePng(legacy));
 
-  stdout.writeln('Hotovo -> ${dir.path}/icon.png, icon_foreground.png');
+  // Grafika pro Google Play. Vzniká ze stejné kresby jako ikona, aby se
+  // obchod a launcher nerozešly, až se tvar věže někdy doladí.
+  final play = Directory('assets/play')..createSync(recursive: true);
+
+  // Ikona v obchodě: 512×512, bez průhlednosti (Play si rohy zaoblí sám).
+  final storeIcon = Image(width: 512, height: 512, numChannels: 4);
+  fill(storeIcon, color: _green);
+  _drawTower(storeIcon, _white, _legacyScale);
+  File('${play.path}/icon-512.png').writeAsBytesSync(encodePng(storeIcon));
+
+  File('${play.path}/feature-1024x500.png')
+      .writeAsBytesSync(encodePng(_featureGraphic()));
+
+  stdout.writeln('Hotovo -> ${dir.path}/ a ${play.path}/');
+}
+
+/// Titulní grafika obchodu: 1024×500, věž vlevo, název vpravo.
+///
+/// Bez podtitulu: vestavěné písmo balíčku `image` je Latin-1 a české háčky
+/// v něm nejsou, takže by z „návštěv“ vyšlo „navstev“. Radši nic než
+/// zkomolená čeština na první věci, kterou člověk v obchodě uvidí.
+Image _featureGraphic() {
+  const width = 1024;
+  const height = 500;
+  const towerBox = 420;
+  const textWidth = 420;
+
+  final graphic = Image(width: width, height: height, numChannels: 4);
+  fill(graphic, color: _green);
+
+  final tower = Image(width: towerBox, height: towerBox, numChannels: 4);
+  _drawTower(tower, _white, 0.74);
+  compositeImage(graphic, tower, dstX: 60, dstY: (height - towerBox) ~/ 2);
+
+  // Nápis se vykreslí do velkorysé vrstvy, ořízne na skutečný rozsah pixelů
+  // a teprve pak zvětší. Odhadovat šířku z počtu znaků nefunguje — písmo je
+  // proporcionální a text pak přeteče přes okraj.
+  final textLayer = Image(width: 800, height: 80, numChannels: 4);
+  drawString(textLayer, 'ROZHLEDNY',
+      font: arial48, x: 0, y: 8, color: _white);
+  final wordmark = copyResize(
+    trim(textLayer, mode: TrimMode.transparent),
+    width: textWidth,
+    interpolation: Interpolation.cubic,
+  );
+
+  compositeImage(
+    graphic,
+    wordmark,
+    dstX: 545,
+    dstY: (height - wordmark.height) ~/ 2,
+  );
+
+  return graphic;
 }
 
 void _drawTower(Image img, Color color, double scale) {
-  const center = _size / 2;
-  final span = _size * scale;
+  // Rozměry se berou z plátna, ne z konstanty — tatáž kresba se používá
+  // pro ikonu 1024, ikonu obchodu 512 i pro titulní grafiku.
+  final center = img.width / 2;
+  final span = img.width * scale;
   final top = center - span / 2;
   final bottom = center + span / 2;
 

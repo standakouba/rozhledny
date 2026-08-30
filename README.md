@@ -30,21 +30,20 @@ Potřeba je Flutter (vyvíjeno na 3.47) a Android SDK.
 ```bash
 flutter pub get
 dart run build_runner build          # vygeneruje kód pro drift
-flutter build apk --debug --dart-define-from-file=dart_defines.json
+flutter build apk --debug
 ```
 
 ### API klíč k Mapy.com
 
-Turistický podklad vyžaduje bezplatný klíč z
-[developer.mapy.com](https://developer.mapy.com/). Do repozitáře nepatří —
-vytvořte si `dart_defines.json` (je v `.gitignore`):
+Výchozí podklad je OpenStreetMap a funguje bez jakéhokoli klíče. Turistická
+a letecká mapa Mapy.com vyžadují bezplatný klíč z
+[developer.mapy.com](https://developer.mapy.com/); zadává se **v aplikaci
+v Nastavení** a zůstává jen v telefonu.
 
-```json
-{ "MAPY_API_KEY": "váš klíč" }
-```
-
-Klíč jde zadat i přímo v aplikaci v Nastavení. Bez něj aplikace funguje
-a spadne na podklad OpenStreetMap.
+Klíč se do buildu vědomě nezapéká, a to ani ve vývojové verzi. Z rozdistribuovaného
+balíčku by šel vytáhnout a čerpat cizí free tier — a mít na to zvláštní cestu
+jen pro vývoj by znamenalo dvě verze chování, z nichž ta riskantní se dřív nebo
+později dostane do vydání omylem.
 
 ## Data
 

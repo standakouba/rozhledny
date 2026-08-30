@@ -67,6 +67,15 @@ class _Body extends ConsumerWidget {
         // ne položku v menu. Přepínač tady by se s kompasem jen rozcházel.
         const Divider(),
         const _Header('API klíč Mapy.com'),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+          child: Text(
+            'Nepovinné. Turistická a letecká mapa Mapy.com vyžadují vlastní '
+            'klíč — v aplikaci žádný není, aby se nedal zneužít. Klíč zůstává '
+            'jen ve vašem telefonu.',
+            style: TextStyle(fontSize: 13),
+          ),
+        ),
         _ApiKeyField(
           value: settings.mapyApiKey,
           onSave: notifier.setMapyApiKey,

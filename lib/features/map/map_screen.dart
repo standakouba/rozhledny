@@ -236,7 +236,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           children: [
             TileLayer(
               urlTemplate: basemap.url(apiKey),
-              userAgentPackageName: 'cz.rozhledny.rozhledny',
+              userAgentPackageName: 'cz.standakouba.rozhledny',
               maxNativeZoom: basemap.maxZoom,
               tileProvider: store.value == null
                   ? NetworkTileProvider()
