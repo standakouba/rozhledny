@@ -130,7 +130,11 @@ class _TowerEditorSheetState extends ConsumerState<TowerEditorSheet> {
       padding: EdgeInsets.only(
         left: 16,
         right: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        // Klávesnice (viewInsets) i systémová lišta (padding); viz komentář
+        // ve visit_editor.dart — nesčítají se, protože se vzájemně vylučují.
+        bottom: MediaQuery.viewInsetsOf(context).bottom +
+            MediaQuery.paddingOf(context).bottom +
+            16,
       ),
       child: SingleChildScrollView(
         child: Form(

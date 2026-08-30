@@ -137,7 +137,12 @@ class _Content extends ConsumerWidget {
 
     return ListView(
       controller: scrollController,
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      // Spodní odsazení musí přičíst systémovou lištu telefonu — modální
+      // panel bezpečnou zónu sám neřeší a poslední návštěva by se schovala
+      // pod navigaci. `paddingOf` je proti `viewPaddingOf` správně: při
+      // otevřené klávesnici klesne na nulu, takže se odsazení nesčítá dvakrát.
+      padding: EdgeInsets.fromLTRB(
+          16, 0, 16, 24 + MediaQuery.paddingOf(context).bottom),
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
