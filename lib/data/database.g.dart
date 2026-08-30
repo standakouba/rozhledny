@@ -1666,9 +1666,9 @@ class $VisitsTable extends Visits with TableInfo<$VisitsTable, Visit> {
   late final GeneratedColumn<DateTime> visitedOn = GeneratedColumn<DateTime>(
     'visited_on',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
   @override
@@ -1773,8 +1773,6 @@ class $VisitsTable extends Visits with TableInfo<$VisitsTable, Visit> {
         _visitedOnMeta,
         visitedOn.isAcceptableOrUnknown(data['visited_on']!, _visitedOnMeta),
       );
-    } else if (isInserting) {
-      context.missing(_visitedOnMeta);
     }
     if (data.containsKey('rating')) {
       context.handle(
@@ -1834,7 +1832,7 @@ class $VisitsTable extends Visits with TableInfo<$VisitsTable, Visit> {
       visitedOn: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}visited_on'],
-      )!,
+      ),
       rating: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}rating'],
@@ -1870,7 +1868,15 @@ class Visit extends DataClass implements Insertable<Visit> {
   final String towerUuid;
 
   /// Jen datum, bez času — zapisuje se i zpětně z papírové mapy.
-  final DateTime visitedOn;
+  ///
+  /// Nepovinné schválně: u rozhleden nasbíraných před aplikací si po letech
+  /// nikdo nevzpomene, kdy tam byl. Vynucené datum by vedlo k vymýšlení,
+  /// a smyšlený údaj je horší než přiznané „nevím“ — zaneřádil by statistiky
+  /// po letech a nešel by odlišit od skutečného.
+  ///
+  /// Návštěva bez data se tedy počítá do celkového počtu i do pokořených
+  /// rozhleden, ale do rozpadu po letech ne.
+  final DateTime? visitedOn;
   final int? rating;
   final String? note;
   final DateTime createdAt;
@@ -1880,7 +1886,7 @@ class Visit extends DataClass implements Insertable<Visit> {
     required this.id,
     required this.uuid,
     required this.towerUuid,
-    required this.visitedOn,
+    this.visitedOn,
     this.rating,
     this.note,
     required this.createdAt,
@@ -1893,7 +1899,9 @@ class Visit extends DataClass implements Insertable<Visit> {
     map['id'] = Variable<int>(id);
     map['uuid'] = Variable<String>(uuid);
     map['tower_uuid'] = Variable<String>(towerUuid);
-    map['visited_on'] = Variable<DateTime>(visitedOn);
+    if (!nullToAbsent || visitedOn != null) {
+      map['visited_on'] = Variable<DateTime>(visitedOn);
+    }
     if (!nullToAbsent || rating != null) {
       map['rating'] = Variable<int>(rating);
     }
@@ -1911,7 +1919,9 @@ class Visit extends DataClass implements Insertable<Visit> {
       id: Value(id),
       uuid: Value(uuid),
       towerUuid: Value(towerUuid),
-      visitedOn: Value(visitedOn),
+      visitedOn: visitedOn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(visitedOn),
       rating: rating == null && nullToAbsent
           ? const Value.absent()
           : Value(rating),
@@ -1931,7 +1941,7 @@ class Visit extends DataClass implements Insertable<Visit> {
       id: serializer.fromJson<int>(json['id']),
       uuid: serializer.fromJson<String>(json['uuid']),
       towerUuid: serializer.fromJson<String>(json['towerUuid']),
-      visitedOn: serializer.fromJson<DateTime>(json['visitedOn']),
+      visitedOn: serializer.fromJson<DateTime?>(json['visitedOn']),
       rating: serializer.fromJson<int?>(json['rating']),
       note: serializer.fromJson<String?>(json['note']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -1946,7 +1956,7 @@ class Visit extends DataClass implements Insertable<Visit> {
       'id': serializer.toJson<int>(id),
       'uuid': serializer.toJson<String>(uuid),
       'towerUuid': serializer.toJson<String>(towerUuid),
-      'visitedOn': serializer.toJson<DateTime>(visitedOn),
+      'visitedOn': serializer.toJson<DateTime?>(visitedOn),
       'rating': serializer.toJson<int?>(rating),
       'note': serializer.toJson<String?>(note),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -1959,7 +1969,7 @@ class Visit extends DataClass implements Insertable<Visit> {
     int? id,
     String? uuid,
     String? towerUuid,
-    DateTime? visitedOn,
+    Value<DateTime?> visitedOn = const Value.absent(),
     Value<int?> rating = const Value.absent(),
     Value<String?> note = const Value.absent(),
     DateTime? createdAt,
@@ -1969,7 +1979,7 @@ class Visit extends DataClass implements Insertable<Visit> {
     id: id ?? this.id,
     uuid: uuid ?? this.uuid,
     towerUuid: towerUuid ?? this.towerUuid,
-    visitedOn: visitedOn ?? this.visitedOn,
+    visitedOn: visitedOn.present ? visitedOn.value : this.visitedOn,
     rating: rating.present ? rating.value : this.rating,
     note: note.present ? note.value : this.note,
     createdAt: createdAt ?? this.createdAt,
@@ -2037,7 +2047,7 @@ class VisitsCompanion extends UpdateCompanion<Visit> {
   final Value<int> id;
   final Value<String> uuid;
   final Value<String> towerUuid;
-  final Value<DateTime> visitedOn;
+  final Value<DateTime?> visitedOn;
   final Value<int?> rating;
   final Value<String?> note;
   final Value<DateTime> createdAt;
@@ -2058,7 +2068,7 @@ class VisitsCompanion extends UpdateCompanion<Visit> {
     this.id = const Value.absent(),
     required String uuid,
     required String towerUuid,
-    required DateTime visitedOn,
+    this.visitedOn = const Value.absent(),
     this.rating = const Value.absent(),
     this.note = const Value.absent(),
     required DateTime createdAt,
@@ -2066,7 +2076,6 @@ class VisitsCompanion extends UpdateCompanion<Visit> {
     this.deleted = const Value.absent(),
   }) : uuid = Value(uuid),
        towerUuid = Value(towerUuid),
-       visitedOn = Value(visitedOn),
        createdAt = Value(createdAt),
        updatedAt = Value(updatedAt);
   static Insertable<Visit> custom({
@@ -2097,7 +2106,7 @@ class VisitsCompanion extends UpdateCompanion<Visit> {
     Value<int>? id,
     Value<String>? uuid,
     Value<String>? towerUuid,
-    Value<DateTime>? visitedOn,
+    Value<DateTime?>? visitedOn,
     Value<int?>? rating,
     Value<String?>? note,
     Value<DateTime>? createdAt,
@@ -3267,7 +3276,7 @@ typedef $$VisitsTableCreateCompanionBuilder = VisitsCompanion Function({
   Value<int> id,
   required String uuid,
   required String towerUuid,
-  required DateTime visitedOn,
+  Value<DateTime?> visitedOn,
   Value<int?> rating,
   Value<String?> note,
   required DateTime createdAt,
@@ -3278,7 +3287,7 @@ typedef $$VisitsTableUpdateCompanionBuilder = VisitsCompanion Function({
   Value<int> id,
   Value<String> uuid,
   Value<String> towerUuid,
-  Value<DateTime> visitedOn,
+  Value<DateTime?> visitedOn,
   Value<int?> rating,
   Value<String?> note,
   Value<DateTime> createdAt,
@@ -3464,7 +3473,7 @@ class $$VisitsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> uuid = const Value.absent(),
                 Value<String> towerUuid = const Value.absent(),
-                Value<DateTime> visitedOn = const Value.absent(),
+                Value<DateTime?> visitedOn = const Value.absent(),
                 Value<int?> rating = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -3486,7 +3495,7 @@ class $$VisitsTableTableManager
                 Value<int> id = const Value.absent(),
                 required String uuid,
                 required String towerUuid,
-                required DateTime visitedOn,
+                Value<DateTime?> visitedOn = const Value.absent(),
                 Value<int?> rating = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 required DateTime createdAt,

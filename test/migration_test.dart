@@ -89,6 +89,32 @@ void main() {
     expect(own.photoUrl, isNull);
   });
 
+  test('po upgradu jde zapsat návštěva bez data', () async {
+    // Přechod na verzi 3 přestavuje tabulku návštěv, aby datum smělo být
+    // prázdné. Když se přestavba nepovede, projeví se to až tady.
+    final db = AppDatabase(NativeDatabase(File(dbPath)));
+    addTearDown(db.close);
+    await db.applyEnrichmentForTest(enrichment);
+
+    await db.upsertVisit(VisitsCompanion.insert(
+      uuid: 'bez-data',
+      towerUuid: kletUuid,
+      visitedOn: const Value(null),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ));
+
+    final visits = await db.watchVisits(kletUuid).first;
+    expect(visits, hasLength(3), reason: 'dvě původní plus nová');
+    expect(visits.where((v) => v.visitedOn == null), hasLength(1));
+
+    final klet = (await db.watchTowersWithStats().first)
+        .firstWhere((t) => t.tower.uuid == kletUuid);
+    expect(klet.visitCount, 3);
+    expect(klet.lastVisit, DateTime(2026, 5, 20),
+        reason: 'původní data se přestavbou tabulky nesmí ztratit');
+  });
+
   test('opakované obohacení nic nerozbije', () async {
     final db = AppDatabase(NativeDatabase(File(dbPath)));
     addTearDown(db.close);

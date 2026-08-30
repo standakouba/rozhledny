@@ -34,7 +34,8 @@ class VisitEditorSheet extends ConsumerStatefulWidget {
 }
 
 class _VisitEditorSheetState extends ConsumerState<VisitEditorSheet> {
-  late DateTime _date;
+  /// `null` = nevím kdy. U rozhleden zapisovaných zpětně je to běžný případ.
+  late DateTime? _date;
   late int? _rating;
   late TextEditingController _note;
 
@@ -46,9 +47,10 @@ class _VisitEditorSheetState extends ConsumerState<VisitEditorSheet> {
   @override
   void initState() {
     super.initState();
-    // Předvyplněné dnešní datum sedí na běžný případ, ale musí jít přepsat —
-    // rozhledny z papírové mapy se zadávají roky zpětně.
-    _date = widget.existing?.visitedOn ?? DateTime.now();
+    // U nové návštěvy se předvyplní dnešek — to je běžný případ. U úpravy se
+    // bere, co je uložené, včetně prázdna: „nevím kdy“ se nesmí při otevření
+    // formuláře tiše přepsat na dnešek.
+    _date = widget.existing == null ? DateTime.now() : widget.existing!.visitedOn;
     _rating = widget.existing?.rating;
     _note = TextEditingController(text: widget.existing?.note ?? '');
   }
@@ -62,7 +64,7 @@ class _VisitEditorSheetState extends ConsumerState<VisitEditorSheet> {
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: _date,
+      initialDate: _date ?? DateTime.now(),
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
       helpText: 'Kdy jste tam byli?',
@@ -105,7 +107,9 @@ class _VisitEditorSheetState extends ConsumerState<VisitEditorSheet> {
       towerUuid: widget.towerUuid,
       // Čas se zahazuje — návštěva je záležitost dne, ne minuty, a jednotný
       // tvar usnadní hledání duplicit při importu z druhého telefonu.
-      visitedOn: DateTime(_date.year, _date.month, _date.day),
+      visitedOn: Value(
+        _date == null ? null : DateTime(_date!.year, _date!.month, _date!.day),
+      ),
       createdAt: widget.existing?.createdAt ?? now,
       updatedAt: now,
       rating: Value(_rating),
@@ -155,10 +159,35 @@ class _VisitEditorSheetState extends ConsumerState<VisitEditorSheet> {
             const SizedBox(height: 16),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.event),
-              title: Text(dateFormat.format(_date)),
+              leading: Icon(_date == null ? Icons.event_busy : Icons.event),
+              title: Text(
+                _date == null ? 'Datum neznámé' : dateFormat.format(_date!),
+                style: _date == null
+                    ? TextStyle(color: Theme.of(context).colorScheme.outline)
+                    : null,
+              ),
+              subtitle: _date == null
+                  ? const Text('Návštěva se počítá, jen nepůjde do přehledu '
+                      'po letech')
+                  : null,
               trailing: const Icon(Icons.edit_calendar),
               onTap: _pickDate,
+            ),
+            // Zpětně zadávané rozhledny jsou hlavní důvod, proč tohle
+            // tlačítko existuje — po letech si datum nikdo nevybaví.
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                onPressed: () => setState(() => _date = _date == null
+                    ? DateTime.now()
+                    : null),
+                icon: Icon(
+                    _date == null ? Icons.event_available : Icons.event_busy,
+                    size: 18),
+                label: Text(_date == null
+                    ? 'Přece jen datum zadám'
+                    : 'Nevzpomenu si na datum'),
+              ),
             ),
             const SizedBox(height: 8),
             _RatingPicker(

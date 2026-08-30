@@ -9,7 +9,11 @@ import 'photos.dart';
 
 /// Formát zálohy. Zvýší se, až se schéma změní tak, že by starší import
 /// nešel načíst — pak podle něj půjde rozhodnout, co s tím.
-const backupFormatVersion = 1;
+///
+/// 2: datum návštěvy smí být prázdné. Starší verze aplikace by na takovém
+/// záznamu spadla při parsování, takže musí zálohu odmítnout srozumitelnou
+/// hláškou místo záhadné výjimky.
+const backupFormatVersion = 2;
 
 const _dataFileName = 'data.json';
 const _photosDir = 'photos/';
