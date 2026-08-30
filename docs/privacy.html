@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozhledny — Zásady ochrany osobních údajů</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  h2 { font-size: 1.15rem; margin-top: 2.25rem; }
+  .lead { color: #555; margin-top: 0; }
+  @media (prefers-color-scheme: dark) { .lead { color: #aaa; } }
+  table { border-collapse: collapse; width: 100%; margin: .5rem 0 1rem; }
+  th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid #8884; vertical-align: top; }
+  th { font-weight: 600; }
+  footer { margin-top: 3rem; font-size: .9rem; color: #666; }
+  @media (prefers-color-scheme: dark) { footer { color: #999; } }
+</style>
+</head>
+<body>
+
+<h1>Zásady ochrany osobních údajů</h1>
+<p class="lead">Aplikace <strong>Rozhledny</strong> · platné od 30. srpna 2026</p>
+
+<p><strong>Rozhledny neshromažďují žádné osobní údaje.</strong> Aplikace nemá
+server ani uživatelské účty. Všechno, co v ní vytvoříte, zůstává v paměti
+vašeho telefonu a nikam se neodesílá.</p>
+
+<h2>Co aplikace ukládá do vašeho telefonu</h2>
+
+<table>
+  <tr><th>Údaj</th><th>K čemu slouží</th></tr>
+  <tr>
+    <td>Navštívené rozhledny, data návštěv, hodnocení, poznámky</td>
+    <td>Vaše evidence. Uloženo v lokální databázi aplikace.</td>
+  </tr>
+  <tr>
+    <td>Fotografie, které k návštěvám přidáte</td>
+    <td>Uloženy jako soubory v adresáři aplikace.</td>
+  </tr>
+  <tr>
+    <td>Poloha zařízení</td>
+    <td>
+      Vycentrování mapy a výpočet vzdáleností k rozhlednám. Zpracovává se
+      pouze v telefonu, neukládá se do historie a nikam se neodesílá.
+      Oprávnění můžete odmítnout — aplikace pak funguje bez zobrazení
+      vzdáleností.
+    </td>
+  </tr>
+  <tr>
+    <td>API klíč k Mapy.com, pokud si nějaký zadáte</td>
+    <td>
+      Nepovinný. Slouží k načítání turistického podkladu.
+      Zůstává v nastavení aplikace ve vašem telefonu.
+    </td>
+  </tr>
+</table>
+
+<h2>Co odchází ze zařízení</h2>
+
+<p>Aplikace se připojuje k internetu jen kvůli mapovým podkladům a fotografiím
+rozhleden. Při tom se — jako u každého stahování z internetu — dozví
+poskytovatel obsahu vaši IP adresu a to, které dlaždice nebo obrázky si
+vyžádáte. Žádné vaše návštěvy, poznámky ani fotografie se přitom neodesílají.</p>
+
+<ul>
+  <li><strong>OpenStreetMap</strong> — výchozí mapový podklad
+    (<a href="https://osmfoundation.org/wiki/Privacy_Policy">zásady</a>)</li>
+  <li><strong>Mapy.com (Seznam.cz a.s.)</strong> — pouze pokud si zadáte
+    vlastní API klíč a přepnete na jejich podklad
+    (<a href="https://o.seznam.cz/ochrana-udaju/">zásady</a>)</li>
+  <li><strong>Wikimedia Commons</strong> — fotografie rozhleden
+    (<a href="https://foundation.wikimedia.org/wiki/Policy:Privacy_policy">zásady</a>)</li>
+</ul>
+
+<h2>Sdílení dat, které spouštíte vy</h2>
+
+<p>V Nastavení si můžete data vyexportovat do souboru ZIP. Ten vzniká
+ve vašem telefonu a odešle se pouze tam, kam ho sami pošlete. Aplikace
+ho nikam neposílá sama.</p>
+
+<h2>Reklama, analytika, sledování</h2>
+
+<p>Aplikace neobsahuje reklamu, analytické nástroje ani sledovací knihovny.
+Nesdílí data s třetími stranami a nic neprodává.</p>
+
+<h2>Děti</h2>
+
+<p>Aplikace není zaměřena na děti a žádné údaje o věku nezjišťuje.</p>
+
+<h2>Smazání dat</h2>
+
+<p>Data můžete kdykoli smazat v aplikaci jednotlivě, nebo je odstranit
+najednou smazáním dat aplikace v nastavení systému Android, případně
+odinstalací. Protože nic neleží na serveru, tím jsou data pryč nadobro —
+proto doporučujeme si je předtím vyexportovat.</p>
+
+<h2>Změny</h2>
+
+<p>Případné změny těchto zásad se objeví na této stránce spolu s novým
+datem platnosti.</p>
+
+<h2>Kontakt</h2>
+
+<p>Stanislav Kouba · <a href="mailto:standa.kouba@gmail.com">standa.kouba@gmail.com</a></p>
+
+<footer>
+  <p>Mapová data © přispěvatelé OpenStreetMap (ODbL) · popisy z Wikipedie
+  (CC BY-SA) · fotografie z Wikimedia Commons · mapové podklady
+  © Seznam.cz a.s. a další</p>
+  <p>Aplikace © 2026 Stanislav Kouba</p>
+</footer>
+
+</body>
+</html>

@@ -7,12 +7,14 @@ const _keyApiKey = 'mapy_api_key';
 const _keyBasemap = 'basemap_id';
 const _keyAllowRotation = 'allow_map_rotation';
 
-/// Klíč zapečený do buildu přes `--dart-define-from-file=dart_defines.json`.
-///
-/// Slouží jen jako výchozí hodnota, aby vývojový build nemusel klíč pokaždé
-/// klikat v Nastavení. Soubor s klíčem je v .gitignore; release build bez něj
-/// prostě spadne na OSM, dokud se klíč nezadá ručně.
-const _bakedApiKey = String.fromEnvironment('MAPY_API_KEY');
+// API klíč k Mapy.com se do aplikace **nezapéká**, ani ve vývojovém buildu.
+//
+// Z distribuovaného balíčku by ho šlo vytáhnout a čerpat cizí free tier.
+// Mít na to zvláštní cestu jen pro vývoj by znamenalo dvě verze chování,
+// z nichž ta riskantní se dřív nebo později dostane do vydání omylem.
+//
+// Klíč si tedy zadává každý uživatel sám v Nastavení a zůstává jen v jeho
+// telefonu. Bez klíče aplikace normálně funguje na podkladu OpenStreetMap.
 
 final sharedPrefsProvider = FutureProvider<SharedPreferences>(
   (ref) => SharedPreferences.getInstance(),
@@ -57,11 +59,10 @@ class Settings {
 class SettingsNotifier extends StateNotifier<Settings> {
   SettingsNotifier(this._prefs)
       : super(Settings(
-          // Ručně zadaný klíč má přednost před tím z buildu.
-          mapyApiKey: _prefs.getString(_keyApiKey) ??
-              (_bakedApiKey.isEmpty ? null : _bakedApiKey),
-          // Bez uložené volby se začíná turistickou mapou — kvůli ní to celé je.
-          basemapId: _prefs.getString(_keyBasemap) ?? mapyOutdoor.id,
+          mapyApiKey: _prefs.getString(_keyApiKey),
+          // Výchozí je OpenStreetMap: funguje hned po instalaci a bez klíče.
+          // Na turistickou mapu si uživatel přepne, až si klíč pořídí.
+          basemapId: _prefs.getString(_keyBasemap) ?? osmStandard.id,
           allowRotation: _prefs.getBool(_keyAllowRotation) ?? false,
         ));
 

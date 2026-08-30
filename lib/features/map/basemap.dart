@@ -70,7 +70,9 @@ const osmStandard = MapBasemap(
   attributionBuilder: _osmAttribution,
 );
 
-const basemaps = <MapBasemap>[mapyOutdoor, mapyAerial, osmStandard];
+/// OpenStreetMap je první, protože je výchozí a funguje bez klíče.
+/// Podklady Mapy.com jdou vybrat, teprve když si uživatel zadá vlastní klíč.
+const basemaps = <MapBasemap>[osmStandard, mapyOutdoor, mapyAerial];
 
 MapBasemap basemapById(String? id) =>
     basemaps.firstWhere((b) => b.id == id, orElse: () => osmStandard);

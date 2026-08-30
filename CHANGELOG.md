@@ -21,6 +21,24 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.12.2
+
+- „volně přístupná“ přejmenováno na „přístupná veřejnosti“. OSM tag access
+  říká, kdo smí dovnitř, ne jestli se platí — u placených rozhleden si dva
+  sousední řádky protiřečily
+
+## 0.12.1
+
+- opraveno skloňování ve statistikách („Na 3 výletů“ -> „Na 3 výlety“)
+- název balíčku sjednocen na cz.standakouba.rozhledny před vydáním do Play
+
+## 0.12.0
+
+- API klíč k Mapy.com se do aplikace už nezapéká, ani ve vývojovém buildu.
+  Z rozdistribuovaného balíčku by šel vytáhnout a čerpat cizí free tier.
+- výchozí podklad je OpenStreetMap; na Mapy.com jde přepnout, teprve když si
+  uživatel v Nastavení zadá vlastní klíč
+
 ## 0.11.0
 
 - návštěvu jde zapsat bez data. U rozhleden nasbíraných před aplikací si

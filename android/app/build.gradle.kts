@@ -1,11 +1,23 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Podpisový klíč pro release. Soubor je v .gitignore a odkazuje na keystore
+// mimo repozitář — do gitu se tedy nedostane ani heslo, ani samotný klíč.
+//
+// Ztráta keystoru je nevratná: Play by aktualizaci podepsanou jiným klíčem
+// odmítl a aplikace by musela vzniknout znovu pod jiným názvem balíčku.
+val keystoreProperties: Properties? =
+    rootProject.file("key.properties").takeIf { it.exists() }?.let { file ->
+        Properties().apply { file.inputStream().use { load(it) } }
+    }
+
 android {
-    namespace = "cz.rozhledny.rozhledny"
+    namespace = "cz.standakouba.rozhledny"
     // Flutter 3.47 hlásí compileSdk 36, ale některý z pluginů je přeložený
     // proti 37 a Gradle pak build odmítne. Nainstalovaná platforma je stejně
     // android-37, takže je to jen srovnání s realitou.
@@ -18,8 +30,8 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "cz.rozhledny.rozhledny"
+        // Název balíčku je po nahrání do Google Play neměnný.
+        applicationId = "cz.standakouba.rozhledny"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -32,11 +44,27 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            // Bez key.properties (na cizím stroji, v CI) se release podepsat
+            // nedá — a nesmí tiše spadnout na ladicí klíč, protože takový
+            // balíček by Play odmítl až při nahrávání, po celém buildu.
+            if (keystoreProperties != null) {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (keystoreProperties != null) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

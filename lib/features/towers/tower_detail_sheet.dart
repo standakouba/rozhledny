@@ -255,8 +255,12 @@ class _OsmFacts extends StatelessWidget {
 
   final Tower tower;
 
+  /// `access` v OSM říká, **kdo smí dovnitř** — ne jestli se platí. To je
+  /// samostatný tag `fee`. Dřívější „volně přístupná“ se četla jako „zdarma“
+  /// a u placených rozhleden si pak dva sousední řádky protiřečily:
+  /// „Vstupné se platí“ a hned pod tím „volně přístupná“.
   static const _accessLabels = {
-    'yes': 'volně přístupná',
+    'yes': 'přístupná veřejnosti',
     'no': 'nepřístupná',
     'private': 'soukromá',
     'customers': 'jen pro hosty',
