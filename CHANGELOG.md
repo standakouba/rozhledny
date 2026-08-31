@@ -21,6 +21,17 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.13.0
+
+- sdílení návštěv rozděleno od úplné zálohy. Sdílení posílá jen data
+  (desítky kB), takže projde messengerem po každém výletu; úplná záloha
+  včetně fotek zůstává na přechod na nový telefon
+- aplikace přijímá zálohu poslanou přes systémové sdílení. Druhý telefon
+  na soubor jen klepne a data se sloučí — místo ukládání souboru a hledání
+  v Nastavení. Nabízí se u všech ZIP souborů; zúžit filtr na jméno souboru
+  nejde, protože `pathPattern` vyžaduje shodu `host`, kterou content URI
+  od messengerů nesplňují. Cizí archiv aplikace odmítne s vysvětlením.
+
 ## 0.12.3
 
 - navštívené rozhledny mají na mapě fajfku místo oka, nenavštívené oko dál.

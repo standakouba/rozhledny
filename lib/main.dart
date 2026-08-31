@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,8 @@ import 'features/map/map_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/stats/stats_screen.dart';
 import 'features/towers/tower_list_screen.dart';
+import 'services/backup.dart';
+import 'services/incoming_share.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,15 +49,69 @@ class RozhlednyApp extends StatelessWidget {
   }
 }
 
-class HomeShell extends StatefulWidget {
+class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell> {
   int _tab = 0;
+  final _subscriptions = <StreamSubscription<void>>[];
+
+  @override
+  void initState() {
+    super.initState();
+    // Poslouchá se odsud, ne z obrazovky Nastavení: soubor může aplikaci
+    // probudit ve chvíli, kdy Nastavení nikdo neotevřel, a výsledek by
+    // se pak neměl kde zobrazit.
+    final share = ref.read(incomingShareProvider);
+    _subscriptions.addAll([
+      share.results.stream.listen(_showReport),
+      share.errors.stream.listen(_showError),
+    ]);
+    share.start();
+  }
+
+  @override
+  void dispose() {
+    for (final s in _subscriptions) {
+      s.cancel();
+    }
+    super.dispose();
+  }
+
+  void _showReport(MergeReport report) {
+    if (!mounted) return;
+    final dupes = report.suspectedDuplicates.length;
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Data přijata'),
+        content: Text(
+          dupes == 0
+              ? report.summary
+              : '${report.summary}\n\nPozor: $dupes× je stejná rozhledna '
+                  'zapsaná dvakrát ve stejný den. Nejspíš jste ten výlet '
+                  'zapsali oba — přebytečnou návštěvu smažete v detailu '
+                  'přejetím doleva.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Rozumím'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showError(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
 
   static const _tabs = <_TabDef>[
     _TabDef('Mapa', Icons.map_outlined, Icons.map),

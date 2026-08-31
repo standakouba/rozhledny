@@ -64,13 +64,36 @@ každá přenese právě jednou.
 Obojí používá stejné `encodeBackup` / `decodeBackup` / `mergeBackup`, které
 už existují a jsou otestované.
 
-## Kdy se synchronizuje
+## Kdy se zapisuje
+
+**Po změně dat, s odkladem zhruba deseti sekund.** Ne při ukončení aplikace.
+
+Tohle je podstatné rozhodnutí, ne detail. Android nezaručuje, že stav
+`detached` vůbec doručí — proces může zabít kvůli paměti, aplikace může
+spadnout. Kdyby zápis visel na ukončení, tiše by se ztratily poslední změny
+a projevilo by se to až za měsíc tím, že na druhém telefonu něco chybí.
+Zápis po změně naopak proběhne, dokud aplikace prokazatelně žije.
+
+Odklad je tam proto, že jedna zapsaná návštěva znamená několik zápisů do
+databáze za sebou — návštěva, fotka, úprava hodnocení. Bez něj by to byly
+čtyři přepisy sdíleného souboru a cloud by čtyřikrát nahrával.
+
+Doplňkově:
+
+- **při odchodu do pozadí** (`paused`, který systém doručuje spolehlivě) —
+  dopíše to, co ještě čeká v odkladu
+- **jen když se od posledního zápisu opravdu něco změnilo**; bez téhle
+  pojistky by se soubor přepsal při každém přepnutí aplikace a cloudový
+  klient by donekonečna nahrával identický obsah
+- ručně tlačítkem v Nastavení
+
+Fotky stojí mimo tuhle logiku: zapíšou se jednou při přidání a už se nikdy
+nemění.
+
+## Kdy se čte
 
 - při spuštění aplikace, jakmile je databáze připravená
 - při návratu z pozadí, nejvýš jednou za pět minut
-- po změně dat, s odkladem zhruba deset sekund — dávka úprav tak vyvolá
-  jeden zápis, ne deset
-- ručně tlačítkem v Nastavení
 
 ## Slučování a konflikty
 
