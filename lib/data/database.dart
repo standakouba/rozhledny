@@ -90,17 +90,6 @@ class Visits extends Table {
   BoolColumn get deleted => boolean().withDefault(const Constant(false))();
 }
 
-/// Fotka patří konkrétní návštěvě. V databázi je jen jméno souboru,
-/// samotný obrázek leží v adresáři aplikace.
-class Photos extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get uuid => text().unique()();
-  TextColumn get visitUuid => text()();
-  TextColumn get fileName => text()();
-  DateTimeColumn get createdAt => dateTime()();
-  BoolColumn get deleted => boolean().withDefault(const Constant(false))();
-}
-
 /// Rozhledna spolu s agregací jejích návštěv.
 ///
 /// Agregace se počítá dotazem, ne uloženým příznakem na [Towers] — příznak by se
@@ -123,13 +112,13 @@ class TowerWithStats {
   bool get isVisited => visitCount > 0;
 }
 
-@DriftDatabase(tables: [Towers, Visits, Photos])
+@DriftDatabase(tables: [Towers, Visits])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor])
       : super(executor ?? driftDatabase(name: 'rozhledny'));
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -142,8 +131,6 @@ class AppDatabase extends _$AppDatabase {
           // nebo kvůli počtu na markeru.
           await customStatement(
               'CREATE INDEX idx_visits_tower ON visits (tower_uuid)');
-          await customStatement(
-              'CREATE INDEX idx_photos_visit ON photos (visit_uuid)');
         },
         onUpgrade: (m, from, to) async {
           if (from < 2) {
@@ -175,6 +162,13 @@ class AppDatabase extends _$AppDatabase {
             // a data překopíruje podle jmen sloupců — zapsané návštěvy
             // tedy zůstávají, jen u nich datum smí být prázdné.
             await m.alterTable(TableMigration(visits));
+          }
+          if (from < 4) {
+            // Vlastní fotky u návštěv se zrušily: nešly zvětšit, takže se
+            // z nich stejně nedalo nic poznat. Tabulka mizí i s daty —
+            // samotné soubory maže PhotoCleanup při startu aplikace.
+            await customStatement('DROP TABLE IF EXISTS photos');
+            await customStatement('DROP INDEX IF EXISTS idx_photos_visit');
           }
         },
       );
@@ -271,17 +265,6 @@ class AppDatabase extends _$AppDatabase {
 
   // ----------------------------------------------------------------- fotky
 
-  Stream<List<Photo>> watchPhotos(String visitUuid) => (select(photos)
-        ..where((p) => p.visitUuid.equals(visitUuid) & p.deleted.equals(false))
-        ..orderBy([(p) => OrderingTerm.asc(p.createdAt)]))
-      .watch();
-
-  Future<void> insertPhoto(PhotosCompanion photo) => into(photos).insert(photo);
-
-  Future<void> softDeletePhoto(String uuid) =>
-      (update(photos)..where((p) => p.uuid.equals(uuid)))
-          .write(const PhotosCompanion(deleted: Value(true)));
-
   // -------------------------------------------------- záloha a slučování
 
   Future<Tower?> towerByUuid(String uuid) =>
@@ -289,9 +272,6 @@ class AppDatabase extends _$AppDatabase {
 
   Future<Visit?> visitByUuid(String uuid) =>
       (select(visits)..where((v) => v.uuid.equals(uuid))).getSingleOrNull();
-
-  Future<Photo?> photoByUuid(String uuid) =>
-      (select(photos)..where((p) => p.uuid.equals(uuid))).getSingleOrNull();
 
   /// Co se posílá na druhý telefon.
   ///
@@ -304,8 +284,6 @@ class AppDatabase extends _$AppDatabase {
       .get();
 
   Future<List<Visit>> allVisitsForExport() => select(visits).get();
-
-  Future<List<Photo>> allPhotosForExport() => select(photos).get();
 
   /// Návštěvy téže rozhledny ve stejný den pod různým UUID.
   ///

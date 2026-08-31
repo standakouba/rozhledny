@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/database.dart';
 import '../../data/providers.dart';
-import '../../services/photos.dart';
 import '../visits/visit_editor.dart';
 import 'tower_info_card.dart';
 import 'tower_colors.dart';
@@ -367,9 +365,6 @@ class _VisitTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final photos = ref.watch(photosProvider(visit.uuid)).value ?? const [];
-    final storage = ref.watch(photoStorageProvider).value;
-
     return Dismissible(
       key: ValueKey(visit.uuid),
       direction: DismissDirection.endToStart,
@@ -421,30 +416,7 @@ class _VisitTile extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Text(visit.note!),
                 ],
-                if (photos.isNotEmpty && storage != null) ...[
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    height: 64,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        for (final p in photos)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: Image.file(
-                                File(storage.file(p.fileName).path),
-                                width: 64,
-                                height: 64,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
+
               ],
             ),
           ),

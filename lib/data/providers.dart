@@ -34,7 +34,3 @@ final visitsProvider =
   return ref.watch(databaseProvider).watchVisits(towerUuid);
 });
 
-final photosProvider =
-    StreamProvider.family<List<Photo>, String>((ref, visitUuid) {
-  return ref.watch(databaseProvider).watchPhotos(visitUuid);
-});
