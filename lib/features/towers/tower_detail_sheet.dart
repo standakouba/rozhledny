@@ -9,6 +9,7 @@ import '../../data/providers.dart';
 import '../../services/photos.dart';
 import '../visits/visit_editor.dart';
 import 'tower_info_card.dart';
+import 'tower_colors.dart';
 import 'tower_editor_sheet.dart';
 
 /// Detail rozhledny se seznamem všech návštěv.
@@ -341,7 +342,7 @@ class _VisitSummary extends StatelessWidget {
 
     return Row(
       children: [
-        const Icon(Icons.check_circle, color: Color(0xFF2E7D32)),
+        const Icon(Icons.check_circle, color: visitedColor),
         const SizedBox(width: 8),
         Expanded(child: Text(label, style: theme.textTheme.titleSmall)),
         if (stats.bestRating != null) ...[

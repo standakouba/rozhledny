@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../towers/tower_colors.dart';
+
 /// Značka rozhledny na mapě.
 ///
 /// Vědomě lehký widget bez Material vrstev — na mapě jich je naráz i několik
@@ -21,22 +23,26 @@ class TowerMarker extends StatelessWidget {
 
   final bool selected;
 
-  static const _visited = Color(0xFF2E7D32);
-  static const _unvisited = Color(0xFF757575);
-
   @override
   Widget build(BuildContext context) {
-    final color = visitCount > 0 ? _visited : _unvisited;
+    final visited = visitCount > 0;
+    final color = visited ? visitedColor : unvisitedColor;
 
     if (compact) {
+      // Na odzoomované mapě se ikona nevykreslí čitelně, takže navštívené
+      // odlišuje velikost. Barva sama by na zeleném podkladu nestačila.
+      final size = visited ? 13.0 : 9.0;
       return Center(
         child: Container(
-          width: 10,
-          height: 10,
+          width: size,
+          height: size,
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 1.5),
+            border: Border.all(color: Colors.white, width: visited ? 2.5 : 1.5),
+            boxShadow: const [
+              BoxShadow(color: Colors.black26, blurRadius: 2),
+            ],
           ),
         ),
       );
@@ -60,7 +66,15 @@ class TowerMarker extends StatelessWidget {
               BoxShadow(color: Colors.black26, blurRadius: 3, offset: Offset(0, 1)),
             ],
           ),
-          child: const Icon(Icons.visibility, size: 15, color: Colors.white),
+          // Fajfka u navštívených, oko u zbytku. Rozdíl je tak v **tvaru**,
+          // ne jen v barvě — čitelné i na slunci a pro toho, kdo zelenou
+          // od šedé rozliší hůř.
+          child: Icon(
+            visited ? Icons.check : Icons.visibility,
+            size: visited ? 18 : 15,
+            color: Colors.white,
+            weight: visited ? 900 : null,
+          ),
         ),
         // Opakované návštěvy jsou na mapě vidět rovnou — Kleť se sedmi
         // návštěvami se nemá schovávat za stejný puntík jako jednorázovka.
@@ -73,7 +87,7 @@ class TowerMarker extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: _visited, width: 1),
+                border: Border.all(color: visitedColor, width: 1),
               ),
               child: Text(
                 '${visitCount}x',
@@ -81,7 +95,7 @@ class TowerMarker extends StatelessWidget {
                   fontSize: 9,
                   height: 1.1,
                   fontWeight: FontWeight.bold,
-                  color: _visited,
+                  color: visitedColor,
                 ),
               ),
             ),
