@@ -37,6 +37,32 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <!-- Příjem zálohy z druhého telefonu.
+
+                 Obojí se filtruje jen podle MIME typu, takže se aplikace
+                 nabízí u každého ZIPu — jak ve sdílení, tak při otevírání.
+
+                 Zúžit to na jméno souboru přes `pathPattern` nejde: ten
+                 vyžaduje shodu `host`, kterou `content://` URI od messengerů
+                 nesplňují (a `host="*"` není zástupný znak, jak se běžně
+                 traduje). Ověřeno přes `pm query-activities` — s omezením
+                 na jméno se aplikace nenabídla u žádného URI. Volba tedy
+                 byla „u všech ZIPů, nebo vůbec“.
+                 Cizí archiv aplikace odmítne srozumitelnou hláškou. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/zip"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="application/zip"/>
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

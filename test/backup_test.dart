@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart' hide isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rozhledny/data/database.dart';
 import 'package:rozhledny/data/ids.dart';
 import 'package:rozhledny/services/backup.dart';
+import 'package:rozhledny/services/photos.dart';
 
 /// Slučování je jediné místo, kde se dají data ztratit nebo zdvojit,
 /// a ručně se testuje mizerně — na dva telefony a týden výletů.
@@ -248,6 +251,96 @@ void main() {
 
       final report = await mergeBackup(mine, await roundTrip(theirs));
       expect(report.suspectedDuplicates, isEmpty);
+    });
+  });
+
+  group('sdílení návštěv vs. úplná záloha', () {
+    late Directory tempDir;
+    late PhotoStorage storage;
+
+    setUp(() {
+      tempDir = Directory.systemTemp.createTempSync('rozhledny-fotky');
+      storage = PhotoStorage(tempDir);
+    });
+
+    tearDown(() => tempDir.deleteSync(recursive: true));
+
+    Future<BackupPayload> payloadWithPhoto() async {
+      await addTower(mine, klet, name: 'Kleť');
+      final visitUuid = await addVisit(mine, klet, day: DateTime(2026, 5, 1));
+      await storage.saveBytes('foto.jpg', List.filled(2048, 7));
+      await mine.insertPhoto(PhotosCompanion.insert(
+        uuid: 'foto-1',
+        visitUuid: visitUuid,
+        fileName: 'foto.jpg',
+        createdAt: DateTime.now(),
+      ));
+      return payloadOf(mine);
+    }
+
+    test('sdílení nepošle fotky ani jejich záznamy', () async {
+      // Záznam bez souboru by na druhém telefonu udělal prázdné okno
+      // v galerii — data musí odpovídat tomu, co je v archivu.
+      final zip = await buildBackupArchive(
+        payload: await payloadWithPhoto(),
+        storage: storage,
+        includePhotos: false,
+      );
+
+      final restored = AppDatabase(NativeDatabase.memory());
+      addTearDown(restored.close);
+      // Rozhledny z OSM se v záloze neposílají, protože je druhá strana má
+      // z assetu — test to musí napodobit, jinak by návštěva dorazila
+      // k neexistujícímu bodu.
+      await addTower(restored, klet, name: 'Kleť');
+      final emptyDir = Directory.systemTemp.createTempSync('prazdne');
+      addTearDown(() => emptyDir.deleteSync(recursive: true));
+
+      await restoreBackupArchive(
+        zipBytes: zip,
+        db: restored,
+        storage: PhotoStorage(emptyDir),
+      );
+
+      expect(await restored.allPhotosForExport(), isEmpty,
+          reason: 'bez souborů nesmí přijít ani záznamy');
+      expect((await restored.watchTowersWithStats().first).single.visitCount, 1,
+          reason: 'návštěva se přenést musí');
+    });
+
+    test('úplná záloha fotku přenese včetně souboru', () async {
+      final zip = await buildBackupArchive(
+        payload: await payloadWithPhoto(),
+        storage: storage,
+        includePhotos: true,
+      );
+
+      final restored = AppDatabase(NativeDatabase.memory());
+      addTearDown(restored.close);
+      await addTower(restored, klet, name: 'Kleť');
+      final target = Directory.systemTemp.createTempSync('cil');
+      addTearDown(() => target.deleteSync(recursive: true));
+      final targetStorage = PhotoStorage(target);
+
+      await restoreBackupArchive(
+        zipBytes: zip,
+        db: restored,
+        storage: targetStorage,
+      );
+
+      expect(await restored.allPhotosForExport(), hasLength(1));
+      expect(targetStorage.file('foto.jpg').existsSync(), isTrue);
+    });
+
+    test('sdílení je řádově menší než úplná záloha', () async {
+      final payload = await payloadWithPhoto();
+      final small = await buildBackupArchive(
+          payload: payload, storage: storage, includePhotos: false);
+      final full = await buildBackupArchive(
+          payload: payload, storage: storage, includePhotos: true);
+
+      expect(small.length, lessThan(full.length),
+          reason: 'kvůli tomuhle rozdílu to celé vzniklo');
     });
   });
 

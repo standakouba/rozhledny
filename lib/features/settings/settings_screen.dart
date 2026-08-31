@@ -189,7 +189,10 @@ class _BackupTiles extends ConsumerStatefulWidget {
 class _BackupTilesState extends ConsumerState<_BackupTiles> {
   bool _busy = false;
 
-  Future<void> _export() async {
+  /// Sdílení návštěv a úplná záloha jsou tatáž operace s jedním rozdílem —
+  /// fotkami. Ty ale dělají rozdíl mezi desítkami kilobajtů a stovkami
+  /// megabajtů, takže je to v UI oddělené na dvě různá tlačítka.
+  Future<void> _export({required bool includePhotos}) async {
     setState(() => _busy = true);
     try {
       final db = ref.read(databaseProvider);
@@ -199,18 +202,22 @@ class _BackupTilesState extends ConsumerState<_BackupTiles> {
         visits: await db.allVisitsForExport(),
         photos: await db.allPhotosForExport(),
       );
-      final bytes =
-          await buildBackupArchive(payload: payload, storage: storage);
+      final bytes = await buildBackupArchive(
+        payload: payload,
+        storage: storage,
+        includePhotos: includePhotos,
+      );
       final file =
           await writeBackupToFile(bytes, await getTemporaryDirectory());
 
       await SharePlus.instance.share(ShareParams(
         files: [XFile(file.path, mimeType: 'application/zip')],
-        text: 'Záloha rozhleden: ${payload.visits.length} návštěv, '
-            '${payload.towers.length} vlastních rozhleden',
+        text: includePhotos
+            ? 'Úplná záloha rozhleden'
+            : 'Rozhledny: ${payload.visits.length} návštěv',
       ));
     } catch (e) {
-      _tell('Export se nepovedl: $e');
+      _tell('Nepovedlo se to: $e');
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -286,14 +293,23 @@ class _BackupTilesState extends ConsumerState<_BackupTiles> {
       children: [
         ListTile(
           leading: const Icon(Icons.ios_share),
-          title: const Text('Exportovat a odeslat'),
-          subtitle: const Text('ZIP s návštěvami, fotkami a vlastními body'),
+          title: const Text('Sdílet návštěvy'),
+          subtitle: const Text('Malý soubor bez fotek — pošlete ho po výletu. '
+              'Druhý telefon na něj jen klepne.'),
+          isThreeLine: true,
           enabled: !_busy,
-          onTap: _export,
+          onTap: () => _export(includePhotos: false),
+        ),
+        ListTile(
+          leading: const Icon(Icons.archive_outlined),
+          title: const Text('Úplná záloha'),
+          subtitle: const Text('Včetně fotek. Na přechod na nový telefon.'),
+          enabled: !_busy,
+          onTap: () => _export(includePhotos: true),
         ),
         ListTile(
           leading: const Icon(Icons.download_outlined),
-          title: const Text('Načíst zálohu'),
+          title: const Text('Načíst ze souboru'),
           subtitle: const Text('Data se sloučí, nic se nepřepíše'),
           enabled: !_busy,
           onTap: _import,

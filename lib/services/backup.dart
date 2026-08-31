@@ -159,27 +159,51 @@ T _withLocalId<T extends UpdateCompanion<dynamic>>(T companion, int? localId) {
 
 // ------------------------------------------------------------- ZIP / soubor
 
-/// Sestaví ZIP s `data.json` a složkou `photos/`.
+/// Sestaví ZIP s `data.json` a volitelně složkou `photos/`.
 ///
 /// ZIP proto, že fotky se nedají rozumně nacpat do JSONu — base64 by soubor
 /// nafoukl o třetinu a poslat pár set fotek mailem by přestalo jít.
+///
+/// [includePhotos] rozděluje dva různé účely, které se dřív pletly dohromady:
+///
+/// - **sdílení návštěv** (`false`) — dělá se po každém výletu a musí projít
+///   messengerem, takže obsahuje jen data a má řádově desítky kB
+/// - **úplná záloha** (`true`) — dělá se před přechodem na nový telefon
+///   a musí obsahovat všechno včetně fotek, i za cenu stovek megabajtů
+///
+/// Bez toho rozdělení by každé sdílení po výletu posílalo celou sbírku fotek
+/// znovu, což je při stovce snímků nepoužitelné.
 Future<List<int>> buildBackupArchive({
   required BackupPayload payload,
   required PhotoStorage storage,
+  bool includePhotos = true,
 }) async {
   final archive = Archive();
 
-  final json = utf8.encode(const JsonEncoder.withIndent('  ')
-      .convert(encodeBackup(payload)));
-  archive.addFile(ArchiveFile(_dataFileName, json.length, json));
-
-  for (final photo in payload.photos) {
-    final file = storage.file(photo.fileName);
-    if (!file.existsSync()) continue; // fotka smazaná mimo aplikaci
-    final bytes = await file.readAsBytes();
-    archive.addFile(
-        ArchiveFile('$_photosDir${photo.fileName}', bytes.length, bytes));
+  // Do dat jdou jen ty fotky, jejichž soubor v archivu opravdu je. Záznam
+  // bez souboru by na druhém telefonu udělal prázdné okno v galerii —
+  // ať už proto, že se fotky vědomě neposílají, nebo že soubor mezitím
+  // někdo smazal mimo aplikaci.
+  final included = <Photo>[];
+  if (includePhotos) {
+    for (final photo in payload.photos) {
+      final file = storage.file(photo.fileName);
+      if (!file.existsSync()) continue;
+      final bytes = await file.readAsBytes();
+      archive.addFile(
+          ArchiveFile('$_photosDir${photo.fileName}', bytes.length, bytes));
+      included.add(photo);
+    }
   }
+
+  final json = utf8.encode(const JsonEncoder.withIndent('  ').convert(
+    encodeBackup(BackupPayload(
+      towers: payload.towers,
+      visits: payload.visits,
+      photos: included,
+    )),
+  ));
+  archive.addFile(ArchiveFile(_dataFileName, json.length, json));
 
   return ZipEncoder().encode(archive);
 }
