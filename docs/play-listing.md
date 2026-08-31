@@ -75,6 +75,23 @@ fotografie z Wikimedia Commons — u každé je uveden autor a licence.
 Mapové podklady © Seznam.cz a.s. a další.
 ```
 
+## Poznámky k verzi
+
+*(max 500 znaků na jazyk, pole „What's new" u každého vydání)*
+
+### 0.12.2 — první testovací verze
+
+```
+První testovací verze.
+
+Mapa 672 rozhleden z OpenStreetMap, evidence navštívených včetně opakovaných
+návštěv s datem, hodnocením, poznámkou a fotkami. Popisy z Wikipedie a fotky
+z Wikimedia Commons. Funguje i bez signálu.
+
+Data zůstávají ve vašem telefonu — bez účtu a bez serveru. Na druhý telefon
+se přenášejí exportem do souboru.
+```
+
 ---
 
 ## Ostatní pole v konzoli

@@ -46,25 +46,25 @@ android {
 
     signingConfigs {
         create("release") {
-            // Bez key.properties (na cizím stroji, v CI) se release podepsat
-            // nedá — a nesmí tiše spadnout na ladicí klíč, protože takový
-            // balíček by Play odmítl až při nahrávání, po celém buildu.
-            if (keystoreProperties != null) {
-                keyAlias = keystoreProperties.getProperty("keyAlias")
-                keyPassword = keystoreProperties.getProperty("keyPassword")
-                storeFile = file(keystoreProperties.getProperty("storeFile"))
-                storePassword = keystoreProperties.getProperty("storePassword")
-            }
+            val props = keystoreProperties ?: throw GradleException(
+                "Chybí android/key.properties — bez něj nejde postavit release. " +
+                    "Obnov ho ze zálohy klíče (viz CTI-ME.txt u keystoru).",
+            )
+            keyAlias = props.getProperty("keyAlias")
+            keyPassword = props.getProperty("keyPassword")
+            storeFile = file(props.getProperty("storeFile"))
+            storePassword = props.getProperty("storePassword")
         }
     }
 
     buildTypes {
         release {
-            signingConfig = if (keystoreProperties != null) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
-            }
+            // Bez klíče se release nepodepisuje ladicím klíčem, ale build
+            // rovnou spadne. Tiché podepsání ladicím klíčem vyrobí balíček,
+            // který vypadá hotově, Play ho odmítne až při nahrávání a na
+            // telefonu se neprojeví jinak než záhadným
+            // INSTALL_FAILED_UPDATE_INCOMPATIBLE.
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

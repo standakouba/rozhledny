@@ -21,6 +21,15 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.12.3
+
+- navštívené rozhledny mají na mapě fajfku místo oka, nenavštívené oko dál.
+  Liší se tak tvarem, ne jen barvou — čitelné na slunci i pro toho, kdo
+  zelenou od šedé rozliší hůř
+- jasnější zeleň: tmavý odstín se na turistickém podkladu ztrácel v lese
+- na odzoomované mapě jsou navštívené tečky větší, protože ikona se tam
+  nevykreslí čitelně
+
 ## 0.12.2
 
 - „volně přístupná“ přejmenováno na „přístupná veřejnosti“. OSM tag access

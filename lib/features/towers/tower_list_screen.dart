@@ -6,6 +6,7 @@ import '../../data/database.dart';
 import '../../data/providers.dart';
 import '../../services/location.dart';
 import '../visits/visit_editor.dart';
+import 'tower_colors.dart';
 import 'tower_detail_sheet.dart';
 
 enum TowerFilter { all, visited, unvisited, mine }
@@ -273,7 +274,7 @@ class _TowerTile extends StatelessWidget {
       leading: Icon(
         stats.isVisited ? Icons.check_circle : Icons.radio_button_unchecked,
         color: stats.isVisited
-            ? const Color(0xFF2E7D32)
+            ? visitedColor
             : theme.colorScheme.outline,
       ),
       title: Text(t.name ?? 'Rozhledna bez názvu',
