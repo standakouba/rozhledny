@@ -1,48 +1,24 @@
 import 'dart:io';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import '../data/ids.dart';
-
-/// Fotky návštěv leží v adresáři aplikace, v databázi je jen jméno souboru.
+/// Úklid po zrušených fotkách u návštěv.
 ///
-/// Důvod je export: ZIP se skládá z `data.json` a složky `photos/`, takže
-/// jména musí být stabilní a nezávislá na absolutní cestě, která se mezi
-/// telefony liší.
-class PhotoStorage {
-  PhotoStorage(this.dir);
-
-  final Directory dir;
-
-  File file(String fileName) => File(p.join(dir.path, fileName));
-
-  /// Zkopíruje vyfocený nebo vybraný snímek k sobě a vrátí jméno souboru.
-  Future<String> save(XFile picked) async {
-    final ext = p.extension(picked.path).toLowerCase();
-    final fileName = '${newUuid()}${ext.isEmpty ? '.jpg' : ext}';
-    await File(picked.path).copy(p.join(dir.path, fileName));
-    return fileName;
-  }
-
-  /// Kopii z importu ukládáme pod jménem, které přišlo — jinak by se při
-  /// opakovaném importu tatáž fotka přidala znovu pod novým jménem.
-  Future<void> saveBytes(String fileName, List<int> bytes) =>
-      file(fileName).writeAsBytes(bytes);
-
-  Future<void> delete(String fileName) async {
-    final f = file(fileName);
-    if (f.existsSync()) await f.delete();
+/// Fotky se ukládaly jako soubory v adresáři aplikace a v databázi byla jen
+/// jména. Migrace na schéma 4 zahodila tabulku, takže na ty soubory už nic
+/// neodkazuje — a bez tohohle úklidu by v telefonu ležely až do odinstalace,
+/// neviditelné a k ničemu.
+///
+/// Tenhle soubor je přechodný. Až bude jisté, že všechny instalace prošly
+/// migrací, dá se odstranit celý.
+Future<void> removeLegacyVisitPhotos() async {
+  try {
+    final base = await getApplicationDocumentsDirectory();
+    final dir = Directory(p.join(base.path, 'photos'));
+    if (dir.existsSync()) await dir.delete(recursive: true);
+  } catch (_) {
+    // Úklid je kosmetický. Když se nepovede, aplikace kvůli tomu spadnout
+    // nesmí — pár osiřelých souborů nikomu nevadí.
   }
 }
-
-final photoStorageProvider = FutureProvider<PhotoStorage>((ref) async {
-  final base = await getApplicationDocumentsDirectory();
-  final dir = Directory(p.join(base.path, 'photos'));
-  if (!dir.existsSync()) await dir.create(recursive: true);
-  return PhotoStorage(dir);
-});
-
-final imagePickerProvider = Provider<ImagePicker>((ref) => ImagePicker());

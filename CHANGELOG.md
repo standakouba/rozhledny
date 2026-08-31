@@ -21,6 +21,16 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.14.0
+
+- vlastní fotky u návštěv zrušeny. Nešly zvětšit, takže se z nich stejně
+  nedalo nic poznat; přidat je už nejde a stávající se při aktualizaci
+  smažou i se soubory v telefonu
+- sdílení a záloha jsou zase jedna položka. Rozdělení mělo smysl jen kvůli
+  fotkám — bez nich má soubor desítky kilobajtů a projde messengerem vždycky
+- fotka rozhledny z Wikimedia Commons v detailu zůstává beze změny
+- záloha z verze 0.13.0 se načte dál, fotky se z ní jen přeskočí
+
 ## 0.13.0
 
 - sdílení návštěv rozděleno od úplné zálohy. Sdílení posílá jen data

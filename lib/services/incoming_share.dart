@@ -6,7 +6,6 @@ import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 import '../data/providers.dart';
 import 'backup.dart';
-import 'photos.dart';
 
 /// Příjem zálohy, kterou někdo poslal do aplikace přes systémové sdílení.
 ///
@@ -51,7 +50,6 @@ class IncomingShare {
       final report = await restoreBackupArchive(
         zipBytes: bytes,
         db: _ref.read(databaseProvider),
-        storage: await _ref.read(photoStorageProvider.future),
       );
       results.add(report);
     } on FormatException catch (e) {

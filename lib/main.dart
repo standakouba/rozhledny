@@ -11,12 +11,16 @@ import 'features/stats/stats_screen.dart';
 import 'features/towers/tower_list_screen.dart';
 import 'services/backup.dart';
 import 'services/incoming_share.dart';
+import 'services/photos.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // DateFormat s českým locale bez tohohle vyhodí výjimku při prvním formátování
   // data návštěvy — a to je hned na detailu rozhledny.
   await initializeDateFormatting('cs');
+  // Zrušené fotky u návštěv po sobě nechaly soubory v adresáři aplikace.
+  // Úklid nikdo nečeká — proto bez await, ať se start nezdrží.
+  unawaited(removeLegacyVisitPhotos());
   runApp(const ProviderScope(child: RozhlednyApp()));
 }
 

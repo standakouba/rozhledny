@@ -115,6 +115,21 @@ void main() {
         reason: 'původní data se přestavbou tabulky nesmí ztratit');
   });
 
+  test('upgrade zahodí tabulku fotek, návštěvy nechá být', () async {
+    // Fotky u návštěv se zrušily. Tabulka musí zmizet i s daty, ale nesmí
+    // vzít s sebou návštěvu, ke které patřila.
+    final db = AppDatabase(NativeDatabase(File(dbPath)));
+    addTearDown(db.close);
+
+    final tables = await db
+        .customSelect("SELECT name FROM sqlite_master WHERE type = 'table' "
+            "AND name = 'photos'")
+        .get();
+    expect(tables, isEmpty);
+
+    expect(await db.watchVisits(kletUuid).first, hasLength(2));
+  });
+
   test('opakované obohacení nic nerozbije', () async {
     final db = AppDatabase(NativeDatabase(File(dbPath)));
     addTearDown(db.close);
@@ -210,6 +225,12 @@ void _createV1Database(
       [visit.$1, kletUuid, stamp(visit.$2), visit.$3, now, now],
     );
   }
+
+  db.execute(
+    'INSERT INTO photos (uuid, visit_uuid, file_name, created_at) '
+    'VALUES (?,?,?,?)',
+    ['foto-1', 'navsteva-2', 'foto.jpg', now],
+  );
 
   db.execute('PRAGMA user_version = 1');
   db.dispose();

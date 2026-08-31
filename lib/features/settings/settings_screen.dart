@@ -10,7 +10,6 @@ import '../../data/providers.dart';
 import '../map/basemap.dart';
 import '../../services/backup.dart';
 import '../../services/photo_prefetch.dart';
-import '../../services/photos.dart';
 import '../../services/settings.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -189,32 +188,24 @@ class _BackupTiles extends ConsumerStatefulWidget {
 class _BackupTilesState extends ConsumerState<_BackupTiles> {
   bool _busy = false;
 
-  /// Sdílení návštěv a úplná záloha jsou tatáž operace s jedním rozdílem —
-  /// fotkami. Ty ale dělají rozdíl mezi desítkami kilobajtů a stovkami
-  /// megabajtů, takže je to v UI oddělené na dvě různá tlačítka.
-  Future<void> _export({required bool includePhotos}) async {
+  /// Jedna operace pro sdílení i pro zálohu. Bez fotek u návštěv jsou data
+  /// malá — řádově desítky kilobajtů — takže nemá smysl rozlišovat „malý
+  /// soubor na poslání“ a „úplnou zálohu“ jako dřív.
+  Future<void> _export() async {
     setState(() => _busy = true);
     try {
       final db = ref.read(databaseProvider);
-      final storage = await ref.read(photoStorageProvider.future);
       final payload = BackupPayload(
         towers: await db.exportableTowers(),
         visits: await db.allVisitsForExport(),
-        photos: await db.allPhotosForExport(),
       );
-      final bytes = await buildBackupArchive(
-        payload: payload,
-        storage: storage,
-        includePhotos: includePhotos,
-      );
+      final bytes = await buildBackupArchive(payload: payload);
       final file =
           await writeBackupToFile(bytes, await getTemporaryDirectory());
 
       await SharePlus.instance.share(ShareParams(
         files: [XFile(file.path, mimeType: 'application/zip')],
-        text: includePhotos
-            ? 'Úplná záloha rozhleden'
-            : 'Rozhledny: ${payload.visits.length} návštěv',
+        text: 'Rozhledny: ${payload.visits.length} návštěv',
       ));
     } catch (e) {
       _tell('Nepovedlo se to: $e');
@@ -238,7 +229,6 @@ class _BackupTilesState extends ConsumerState<_BackupTiles> {
       final report = await restoreBackupArchive(
         zipBytes: bytes,
         db: ref.read(databaseProvider),
-        storage: await ref.read(photoStorageProvider.future),
       );
       if (mounted) await _showReport(report);
     } catch (e) {
@@ -294,18 +284,11 @@ class _BackupTilesState extends ConsumerState<_BackupTiles> {
         ListTile(
           leading: const Icon(Icons.ios_share),
           title: const Text('Sdílet návštěvy'),
-          subtitle: const Text('Malý soubor bez fotek — pošlete ho po výletu. '
-              'Druhý telefon na něj jen klepne.'),
+          subtitle: const Text('Pošlete soubor po výletu, druhý telefon na něj '
+              'jen klepne. Slouží zároveň jako záloha.'),
           isThreeLine: true,
           enabled: !_busy,
-          onTap: () => _export(includePhotos: false),
-        ),
-        ListTile(
-          leading: const Icon(Icons.archive_outlined),
-          title: const Text('Úplná záloha'),
-          subtitle: const Text('Včetně fotek. Na přechod na nový telefon.'),
-          enabled: !_busy,
-          onTap: () => _export(includePhotos: true),
+          onTap: _export,
         ),
         ListTile(
           leading: const Icon(Icons.download_outlined),

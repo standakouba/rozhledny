@@ -8,10 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <!-- CAMERA se schválně nedeklaruje: image_picker fotí přes systémovou
-         aplikaci, takže vlastní oprávnění nepotřebuje, a deklarace by navíc
-         vynutila runtime dotaz i tam, kde stačí galerie. -->
-
     <application
         android:label="Rozhledny"
         android:name="${applicationName}"

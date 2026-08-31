@@ -5,7 +5,6 @@ import 'package:archive/archive.dart';
 import 'package:drift/drift.dart';
 
 import '../data/database.dart';
-import 'photos.dart';
 
 /// Formát zálohy. Zvýší se, až se schéma změní tak, že by starší import
 /// nešel načíst — pak podle něj půjde rozhodnout, co s tím.
@@ -13,22 +12,21 @@ import 'photos.dart';
 /// 2: datum návštěvy smí být prázdné. Starší verze aplikace by na takovém
 /// záznamu spadla při parsování, takže musí zálohu odmítnout srozumitelnou
 /// hláškou místo záhadné výjimky.
+///
+/// Zrušení fotek u návštěv číslo **nezvyšuje**, i když se formát změnil.
+/// Nový obsah je podmnožinou starého: starší aplikace v záloze prostě
+/// nenajde žádné fotky a zbytek přečte. Zvýšení by naopak zbytečně rozbilo
+/// posílání do telefonu, který ještě nemá aktualizaci.
 const backupFormatVersion = 2;
 
 const _dataFileName = 'data.json';
-const _photosDir = 'photos/';
 
 /// Obsah zálohy před zápisem do databáze.
 class BackupPayload {
-  const BackupPayload({
-    required this.towers,
-    required this.visits,
-    required this.photos,
-  });
+  const BackupPayload({required this.towers, required this.visits});
 
   final List<Tower> towers;
   final List<Visit> visits;
-  final List<Photo> photos;
 }
 
 /// Co import udělal. Slouží k tomu, aby uživatel viděl, že se něco stalo,
@@ -40,14 +38,12 @@ class MergeReport {
   int towersUpdated = 0;
   int visitsAdded = 0;
   int visitsUpdated = 0;
-  int photosAdded = 0;
 
   /// Skupiny návštěv téže rozhledny ve stejný den — kandidáti na duplicitu.
   List<List<Visit>> suspectedDuplicates = const [];
 
   bool get changedAnything =>
-      towersAdded + towersUpdated + visitsAdded + visitsUpdated + photosAdded >
-          0;
+      towersAdded + towersUpdated + visitsAdded + visitsUpdated > 0;
 
   String get summary {
     if (!changedAnything) return 'Nic nového — všechno už jste měli.';
@@ -56,7 +52,6 @@ class MergeReport {
       if (towersUpdated > 0) '$towersUpdated upravených rozhleden',
       if (visitsAdded > 0) '$visitsAdded nových návštěv',
       if (visitsUpdated > 0) '$visitsUpdated aktualizovaných návštěv',
-      if (photosAdded > 0) '$photosAdded fotek',
     ];
     return 'Přidáno: ${parts.join(', ')}.';
   }
@@ -69,7 +64,6 @@ Map<String, dynamic> encodeBackup(BackupPayload p) => {
       'exportedAt': DateTime.now().toIso8601String(),
       'towers': [for (final t in p.towers) t.toJson()],
       'visits': [for (final v in p.visits) v.toJson()],
-      'photos': [for (final ph in p.photos) ph.toJson()],
     };
 
 BackupPayload decodeBackup(Map<String, dynamic> json) {
@@ -78,6 +72,8 @@ BackupPayload decodeBackup(Map<String, dynamic> json) {
     throw const FormatException(
         'Záloha je z novější verze aplikace, aktualizujte ji.');
   }
+  // Klíč `photos` ze starších záloh se záměrně přeskakuje: fotky u návštěv
+  // aplikace už nezná a jejich záznamy by neměly kam patřit.
   return BackupPayload(
     towers: [
       for (final t in (json['towers'] as List? ?? const []))
@@ -86,10 +82,6 @@ BackupPayload decodeBackup(Map<String, dynamic> json) {
     visits: [
       for (final v in (json['visits'] as List? ?? const []))
         Visit.fromJson(v as Map<String, dynamic>),
-    ],
-    photos: [
-      for (final p in (json['photos'] as List? ?? const []))
-        Photo.fromJson(p as Map<String, dynamic>),
     ],
   );
 }
@@ -126,15 +118,6 @@ Future<MergeReport> mergeBackup(AppDatabase db, BackupPayload payload) async {
         report.visitsUpdated++;
       }
     }
-
-    for (final p in payload.photos) {
-      // Fotky se needitují, takže stačí "znám ji už?" — bez toho by opakovaný
-      // import tutéž fotku přidal znovu pod novým id.
-      if (await db.photoByUuid(p.uuid) == null) {
-        await db.insertPhoto(_withLocalId(p.toCompanion(false), null));
-        report.photosAdded++;
-      }
-    }
   });
 
   report.suspectedDuplicates = await db.duplicateVisitGroups();
@@ -152,71 +135,35 @@ T _withLocalId<T extends UpdateCompanion<dynamic>>(T companion, int? localId) {
   return switch (companion) {
     TowersCompanion c => c.copyWith(id: value) as T,
     VisitsCompanion c => c.copyWith(id: value) as T,
-    PhotosCompanion c => c.copyWith(id: value) as T,
     _ => companion,
   };
 }
 
 // ------------------------------------------------------------- ZIP / soubor
 
-/// Sestaví ZIP s `data.json` a volitelně složkou `photos/`.
+/// Sestaví ZIP s `data.json`.
 ///
-/// ZIP proto, že fotky se nedají rozumně nacpat do JSONu — base64 by soubor
-/// nafoukl o třetinu a poslat pár set fotek mailem by přestalo jít.
-///
-/// [includePhotos] rozděluje dva různé účely, které se dřív pletly dohromady:
-///
-/// - **sdílení návštěv** (`false`) — dělá se po každém výletu a musí projít
-///   messengerem, takže obsahuje jen data a má řádově desítky kB
-/// - **úplná záloha** (`true`) — dělá se před přechodem na nový telefon
-///   a musí obsahovat všechno včetně fotek, i za cenu stovek megabajtů
-///
-/// Bez toho rozdělení by každé sdílení po výletu posílalo celou sbírku fotek
-/// znovu, což je při stovce snímků nepoužitelné.
-Future<List<int>> buildBackupArchive({
-  required BackupPayload payload,
-  required PhotoStorage storage,
-  bool includePhotos = true,
-}) async {
+/// Data jsou po zrušení fotek malá — řádově desítky kilobajtů — takže záloha
+/// projde messengerem a dá se posílat po každém výletu. ZIP zůstává kvůli
+/// zpětné kompatibilitě se soubory, které si lidé už uložili.
+Future<List<int>> buildBackupArchive({required BackupPayload payload}) async {
   final archive = Archive();
-
-  // Do dat jdou jen ty fotky, jejichž soubor v archivu opravdu je. Záznam
-  // bez souboru by na druhém telefonu udělal prázdné okno v galerii —
-  // ať už proto, že se fotky vědomě neposílají, nebo že soubor mezitím
-  // někdo smazal mimo aplikaci.
-  final included = <Photo>[];
-  if (includePhotos) {
-    for (final photo in payload.photos) {
-      final file = storage.file(photo.fileName);
-      if (!file.existsSync()) continue;
-      final bytes = await file.readAsBytes();
-      archive.addFile(
-          ArchiveFile('$_photosDir${photo.fileName}', bytes.length, bytes));
-      included.add(photo);
-    }
-  }
-
-  final json = utf8.encode(const JsonEncoder.withIndent('  ').convert(
-    encodeBackup(BackupPayload(
-      towers: payload.towers,
-      visits: payload.visits,
-      photos: included,
-    )),
-  ));
+  final json =
+      utf8.encode(const JsonEncoder.withIndent('  ').convert(encodeBackup(payload)));
   archive.addFile(ArchiveFile(_dataFileName, json.length, json));
-
   return ZipEncoder().encode(archive);
 }
 
-/// Rozbalí zálohu, uloží fotky a sloučí data.
+/// Rozbalí zálohu a sloučí data. Starší archivy se složkou `photos/`
+/// se přečtou taky — obrazová část se jen ignoruje.
 Future<MergeReport> restoreBackupArchive({
   required List<int> zipBytes,
   required AppDatabase db,
-  required PhotoStorage storage,
 }) async {
   final archive = ZipDecoder().decodeBytes(zipBytes);
 
-  final dataFile = archive.files.where((f) => f.name == _dataFileName).firstOrNull;
+  final dataFile =
+      archive.files.where((f) => f.name == _dataFileName).firstOrNull;
   if (dataFile == null) {
     throw const FormatException('V souboru chybí data.json — není to záloha '
         'z téhle aplikace?');
@@ -226,24 +173,12 @@ Future<MergeReport> restoreBackupArchive({
       jsonDecode(utf8.decode(dataFile.content as List<int>))
           as Map<String, dynamic>);
 
-  // Fotky nejdřív na disk, teprve pak do databáze — kdyby zápis spadl,
-  // ať radši zůstane soubor bez záznamu než záznam bez souboru.
-  for (final entry in archive.files) {
-    if (!entry.isFile || !entry.name.startsWith(_photosDir)) continue;
-    final name = entry.name.substring(_photosDir.length);
-    if (name.isEmpty || name.contains('/') || name.contains('\\')) continue;
-    if (storage.file(name).existsSync()) continue;
-    await storage.saveBytes(name, entry.content as List<int>);
-  }
-
   return mergeBackup(db, payload);
 }
 
 Future<File> writeBackupToFile(List<int> bytes, Directory dir) async {
-  final stamp = DateTime.now()
-      .toIso8601String()
-      .substring(0, 16)
-      .replaceAll(':', '-');
+  final stamp =
+      DateTime.now().toIso8601String().substring(0, 16).replaceAll(':', '-');
   final file = File('${dir.path}/rozhledny-$stamp.zip');
   await file.writeAsBytes(bytes);
   return file;

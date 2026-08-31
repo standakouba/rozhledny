@@ -36,7 +36,7 @@ CO APLIKACE UMÍ
 • Turistický podklad se značenými trasami, nebo OpenStreetMap
 • Označení navštívené rozhledny jedním klepnutím
 • Opakované návštěvy — na některé rozhledny se jezdí pravidelně a každý
-  výlet má vlastní záznam s datem, hodnocením, poznámkou a fotkami
+  výlet má vlastní záznam s datem, hodnocením a poznámkou
 • Datum je nepovinné. Rozhledny nasbírané před aplikací se dají zapsat
   zpětně i bez něj — vymýšlet si datum nemá smysl
 • Popisy z české Wikipedie a fotografie z Wikimedia Commons
@@ -48,8 +48,11 @@ CO APLIKACE UMÍ
 BEZ ÚČTU A BEZ SERVERU
 
 Aplikace nemá přihlašování ani cloud. Všechno zůstává ve vašem telefonu.
-Když chcete data sdílet s druhým telefonem, vyexportujete je do souboru
-a na druhé straně naimportujete — záznamy se sloučí, nic se nepřepíše.
+
+Jezdíte ve dvou? Po výletu pošlete návštěvy druhému telefonu jako soubor —
+mailem, messengerem, jak chcete. Má jen desítky kilobajtů. Příjemce na něj
+klepne a záznamy se sloučí s jeho: nic se nepřepíše a co má navíc, o to
+nepřijde.
 
 FUNGUJE I BEZ SIGNÁLU
 
@@ -78,6 +81,37 @@ Mapové podklady © Seznam.cz a.s. a další.
 ## Poznámky k verzi
 
 *(max 500 znaků na jazyk, pole „What's new" u každého vydání)*
+
+### 0.14.0 — konec fotek u návštěv
+
+```
+Vlastní fotky u návštěv končí.
+
+Nešly zvětšit, takže z náhledu stejně nebylo nic poznat. Přidat je už nejde
+a ty stávající se při aktualizaci smažou. Fotky rozhleden z Wikimedia Commons
+v detailu zůstávají.
+
+Sdílení a záloha jsou zase jedna položka — bez fotek má soubor desítky
+kilobajtů a projde messengerem vždycky.
+
+Soubor poslaný ze starší verze se načte dál.
+```
+
+### 0.13.0 — sdílení návštěv
+
+```
+Sdílení návštěv s druhým telefonem.
+
+Nově jde poslat jen návštěvy bez fotek. Soubor má desítky kilobajtů, takže
+projde messengerem po každém výletu — druhý telefon na něj klepne a data se
+sloučí. Nic se nepřepíše.
+
+Úplná záloha včetně fotek zůstává na přechod na nový telefon.
+
+Navštívené rozhledny mají na mapě fajfku a výraznější zelenou.
+
+Návštěvu jde zapsat i bez data, když si po letech nevzpomenete.
+```
 
 ### 0.12.2 — první testovací verze
 
@@ -113,7 +147,7 @@ Vyplňuje se pravdivě — Play deklarace namátkově ověřuje.
 | Shromažďuje aplikace data? | **Ne** |
 | Sdílí data s třetími stranami? | **Ne** |
 | Poloha | Zpracovává se pouze v zařízení, neodesílá se a neukládá do historie |
-| Fotografie | Zůstávají v zařízení |
+| Fotografie | Aplikace k fotkám v telefonu nepřistupuje |
 | Šifrování při přenosu | Netýká se — žádná uživatelská data se nepřenášejí |
 | Mohou uživatelé požádat o smazání dat? | Data jsou jen v zařízení, smaže je odinstalace nebo vymazání dat aplikace |
 
