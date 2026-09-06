@@ -82,6 +82,22 @@ Mapové podklady © Seznam.cz a.s. a další.
 
 *(max 500 znaků na jazyk, pole „What's new" u každého vydání)*
 
+### 0.16.0 — hledání nad mapou a víc rozhleden
+
+```
+Hledání rovnou nad mapou — napíšete jméno a mapa skočí k rozhledně.
+Diakritiku psát nemusíte, „klet“ najde Kleť.
+
+Na přiblížené mapě je u značek vidět jméno rozhledny.
+
+Rozhleden je 701, o 29 víc: přibyly věže, které dotaz do dat míjel,
+a třináct jmen jsme opravili přímo v OpenStreetMap. Data se nově
+aktualizují i v aplikaci, která už běží; dřív je dostaly jen nové
+instalace.
+
+Novou rozhlednu přidáte dlouhým podržením mapy.
+```
+
 ### 0.14.0 — konec fotek u návštěv
 
 ```
@@ -133,7 +149,7 @@ se přenášejí exportem do souboru.
 | Pole | Hodnota |
 |---|---|
 | Kategorie | Cestování a místní informace |
-| Kontaktní e-mail | standa.kouba@gmail.com |
+| Kontaktní e-mail | rozhledny.app@gmail.com |
 | Zásady ochrany údajů | *(URL na docs/privacy.html po zapnutí GitHub Pages)* |
 | Obsahuje reklamu | ne |
 | Nákupy v aplikaci | ne |
