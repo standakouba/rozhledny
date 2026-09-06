@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -252,6 +253,24 @@ void main() {
 
       expect(report.updated, 1);
       expect((await tower(1))?.name, 'Nové');
+    });
+
+    test('nová pravidla se uplatní i na assetu, který se nezměnil', () async {
+      // Telefon má asset srovnaný z minula. Kdyby rozhodoval jen jeho otisk,
+      // změna pravidel by se projevila teprve u nejbližší opravy dat —
+      // přesně tím propadlo mazání zaniklých bodů.
+      final prefs = await SharedPreferences.getInstance();
+      final json = asset([osm(1, name: 'Kleť')]);
+      await addTower(2, name: 'Zaniklá');
+      await prefs.setString(
+        'seed_asset_digest',
+        sha1.convert(utf8.encode(json)).toString(),
+      );
+
+      final report = await syncFromAssetIfChanged(db, prefs, json: json);
+
+      expect(report.removed, 1);
+      expect(await tower(2), isNull);
     });
   });
 }

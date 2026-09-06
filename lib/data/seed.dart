@@ -153,16 +153,27 @@ class AssetSyncReport {
       'smazáno $removed, beze změny $kept';
 }
 
-/// Klíč, pod kterým si aplikace pamatuje, který asset už do dat promítla.
+/// Klíč, pod kterým si aplikace pamatuje, co už do dat promítla.
 const _keyAssetDigest = 'seed_asset_digest';
 
-/// Srovná základní data rozhleden s assetem, ale jen když se asset změnil.
+/// Verze pravidel, podle kterých se data srovnávají.
 ///
-/// Rozhoduje otisk obsahu, ne číslo verze aplikace. Asset se opravuje i bez
-/// vydání (ručně přepsaný název z OSM) a při vývoji se aplikace přeinstaluje
-/// pod stejným buildem — verze by takovou změnu prospala. Otisk čtyřsetkilo-
-/// bajtového souboru stojí pár milisekund a ušetří rozparsování celého JSONu
-/// při každém dalším startu.
+/// Otisk assetu sám nestačí. Když se změní kód srovnání a asset zůstane
+/// stejný, telefon by novou verzi prospal — data přece „sedí“ — a pravidlo
+/// by se uplatnilo až u nejbližší změny dat. Přesně to potkalo mazání
+/// zaniklých bodů: kód dorazil, ale asset byl srovnaný z minula.
+///
+/// Číslo se zvyšuje pokaždé, když [syncTowersFromAsset] začne dělat něco
+/// jiného. 2 = mazání prázdných bodů z OSM, které z dat zmizely.
+const _syncRules = 2;
+
+/// Srovná základní data rozhleden s assetem, ale jen když je co srovnávat.
+///
+/// Rozhoduje otisk obsahu a verze pravidel, ne číslo verze aplikace. Asset se
+/// opravuje i bez vydání (ručně přepsaný název z OSM) a při vývoji se aplikace
+/// přeinstaluje pod stejným buildem — verze by takovou změnu prospala. Otisk
+/// čtyřsetkilobajtového souboru stojí pár milisekund a ušetří rozparsování
+/// celého JSONu při každém dalším startu.
 Future<AssetSyncReport> syncFromAssetIfChanged(
   AppDatabase db,
   SharedPreferences prefs, {
@@ -171,11 +182,12 @@ Future<AssetSyncReport> syncFromAssetIfChanged(
   final digest = json != null
       ? sha1.convert(utf8.encode(json)).toString()
       : await _assetDigest();
+  final stamp = '$_syncRules:$digest';
 
   // Prázdná databáze se plní i tehdy, když otisk sedí: data se můžou ztratit
   // (vymazání dat aplikace), zatímco nastavení zůstane.
   final empty = await db.isEmpty;
-  if (!empty && prefs.getString(_keyAssetDigest) == digest) {
+  if (!empty && prefs.getString(_keyAssetDigest) == stamp) {
     return const AssetSyncReport();
   }
 
@@ -183,7 +195,7 @@ Future<AssetSyncReport> syncFromAssetIfChanged(
       ? AssetSyncReport(added: await seedFromAsset(db, json: json))
       : await syncTowersFromAsset(db, json: json);
 
-  await prefs.setString(_keyAssetDigest, digest);
+  await prefs.setString(_keyAssetDigest, stamp);
   return report;
 }
 

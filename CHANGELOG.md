@@ -96,6 +96,10 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   na sobě návštěvu — a to ani smazanou, protože na druhém telefonu může být
   pořád živá a po importu by neměla na co navázat. Cokoli z toho ho drží
   naživu a dostane jen příznak `osmMissing`
+- srovnání se spouští i po **změně pravidel**, nejen po změně dat. Otisk
+  assetu sám nestačí — telefon má data srovnaná z minula, takže by nové
+  pravidlo (třeba to mazání výš) čekalo na nejbližší opravu dat a do té doby
+  se tvářilo, že nefunguje. Vedle otisku se proto pamatuje i verze pravidel
 
 ## 0.14.0
 
