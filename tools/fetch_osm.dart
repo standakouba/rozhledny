@@ -60,6 +60,11 @@ const _extraObjects = <String, String>{
   'way/495078058': 'Ústecký kraj', // Gotický templ v Krásném Dvoře
   'node/2536298252': 'Karlovarský kraj', // Zámeček u Františkových Lázní
   'way/62201474': 'Karlovarský kraj', // vyhlídka Karla IV. (tower:type=watchtower)
+  // Rozhledna Na horách u Rohatců: v OSM jen `tourism=viewpoint` se jménem,
+  // ve kterém není slovo „rozhledna“, takže ji filtr nechytí ani třetím
+  // řádkem. Je to přitom dřevěná věž s žebříkem do čtyř metrů a výhledem
+  // na Lovoš, Milešovku, Říp a Házmburk.
+  'node/4527603991': 'Ústecký kraj',
 };
 
 const _outPath = 'assets/data/rozhledny.json';
@@ -356,6 +361,17 @@ const _nameOverrides = <String, String>{
 
   // Ves Čermná na Domažlicku leží 470 m odsud a rozhledna nese její jméno.
   'node/7184284590': 'Čermná',
+
+  // Dřevěná vyhlídka z roku 2013 na návrší Křižatka nad Puclicemi. Na témže
+  // místě je i node/5407391631, což je tatáž stavba zapsaná podruhé jako
+  // `tourism=viewpoint`; věž o výšce 6 m sedí s popisem u průvodců.
+  'way/560740791': 'Vyhlídka Puclice',
+
+  // Dřevěná věž z roku 2012 na návrší půl kilometru severně od Nové Vsi
+  // u Kdyně, v místě evropského rozvodí. Lokalitě se říká „Vachatovo“ a věž
+  // podle ní; poloha sedí na sto metrů s GPS, které u „vyhlídkové věže
+  // Nová Ves u Kdyně“ uvádějí turistické servery.
+  'node/2604832161': 'Vachatova rozhledna',
 
   // Dvě jmenovitě doplněné stavby mají v OSM popisný název, který je na
   // jmenovce v mapě zbytečně upovídaný. Věcně sedí, jen se zkracuje.

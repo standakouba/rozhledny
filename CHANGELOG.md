@@ -62,7 +62,13 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   Starý Herštejn, Vítkův Hrádek, templ v Krásném Dvoře, Zámeček u Chebu
   a vyhlídka Karla IV. Jsou to hrady, vysílač a zámecká drobnost, u nichž
   je výhled až druhá funkce; filtr by kvůli nim musel pustit dovnitř všechny
-  hrady v zemi, takže se v generátoru jmenují jednotlivě. Rozhleden je teď 699
+  hrady v zemi, takže se v generátoru jmenují jednotlivě
+- **a nakonec tři, které na papírové mapě byly a v datech se nedaly najít.**
+  Vyhlídka Puclice (na návrší Křižatka) a Vachatova rozhledna (nad Novou Vsí
+  u Kdyně) v datech celou dobu byly, jen jako bezejmenný puntík — v OSM
+  jméno nemají, takže je nešlo najít ani hledáním. Rozhledna Na horách
+  u Rohatců chyběla docela: v OSM je jen vyhlídka a v názvu nemá slovo
+  „rozhledna“, takže ji minuly všechny tři řádky filtru. Rozhleden je teď 700
 - popisy a fotky dostaly i věže, které Wikidata neřadí pod rozhlednu.
   Generátor si položku dohledával podle třídy a vzdálenosti a přehlížel
   přitom `wikidata` tag, který u bodu rovnou stojí v OSM — teď ho bere jako

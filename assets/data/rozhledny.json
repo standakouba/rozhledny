@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-06T11:03:29.978080Z",
+  "generatedAt": "2026-09-06T12:52:12.205779Z",
   "area": "CZ",
   "source": "OpenStreetMap contributors (ODbL)",
-  "count": 699,
+  "count": 700,
   "towers": [
     {
       "osmType": "node",
@@ -115,25 +115,6 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Babka-1.JPG"
     },
     {
-      "osmType": "way",
-      "osmId": 28735648,
-      "name": "Babylon",
-      "lat": 49.127211,
-      "lon": 16.148764,
-      "height": 24.5,
-      "ele": 491.0,
-      "region": "Kraj Vysočina",
-      "wikidata": "Q10859681",
-      "wikidataId": "Q10859681",
-      "wikipediaTitle": "Babylon (rozhledna, okres Třebíč)",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Babylon_(rozhledna,_okres_T%C5%99eb%C3%AD%C4%8D)",
-      "wikipediaExtract": "Rozhledna Babylon je rozhledna na Zeleném kopci (491 m), nepříliš výrazném zalesněném návrší v katastrálním území Kladeruby nad Oslavou, zhruba 1,5 km vjv. od Kramolína v okresu Třebíč. Byla postavena roku 1831 na popud Jindřicha Viléma III. Haugwitze, tehdejšího majitele náměšťského zámku. Samotná rozhledna měří 24,5 metru, vyhlídka je v 18 metrech a vede na ni 112 schodů. Rozhledna je v majetku obce Kramolín, provoz od roku 2002 do roku 2018 zajišťoval Jaroslav Odstrčil.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Kladeruby%20nad%20Oslavou%20CZ%20Babylon%20lookout%20tower%20068.jpg?width=800",
-      "photoAuthor": "User:Miaow Miaow",
-      "photoLicense": "Public domain",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Kladeruby_nad_Oslavou_CZ_Babylon_lookout_tower_068.jpg"
-    },
-    {
       "osmType": "node",
       "osmId": 403355856,
       "name": "Babylon",
@@ -151,6 +132,25 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Koz%C3%A1rov_-_rozhledna_Babylon,_obr01.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 28735648,
+      "name": "Babylon",
+      "lat": 49.127211,
+      "lon": 16.148764,
+      "height": 24.5,
+      "ele": 491.0,
+      "region": "Kraj Vysočina",
+      "wikidata": "Q10859681",
+      "wikidataId": "Q10859681",
+      "wikipediaTitle": "Babylon (rozhledna, okres Třebíč)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Babylon_(rozhledna,_okres_T%C5%99eb%C3%AD%C4%8D)",
+      "wikipediaExtract": "Rozhledna Babylon je rozhledna na Zeleném kopci (491 m), nepříliš výrazném zalesněném návrší v katastrálním území Kladeruby nad Oslavou, zhruba 1,5 km vjv. od Kramolína v okresu Třebíč. Byla postavena roku 1831 na popud Jindřicha Viléma III. Haugwitze, tehdejšího majitele náměšťského zámku. Samotná rozhledna měří 24,5 metru, vyhlídka je v 18 metrech a vede na ni 112 schodů. Rozhledna je v majetku obce Kramolín, provoz od roku 2002 do roku 2018 zajišťoval Jaroslav Odstrčil.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Kladeruby%20nad%20Oslavou%20CZ%20Babylon%20lookout%20tower%20068.jpg?width=800",
+      "photoAuthor": "User:Miaow Miaow",
+      "photoLicense": "Public domain",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Kladeruby_nad_Oslavou_CZ_Babylon_lookout_tower_068.jpg"
     },
     {
       "osmType": "way",
@@ -398,6 +398,21 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Burianova_rozhledna_(02).jpg"
     },
     {
+      "osmType": "node",
+      "osmId": 582965344,
+      "name": "Bílá věž",
+      "lat": 48.900738,
+      "lon": 17.313425,
+      "region": "Jihomoravský kraj",
+      "wikidata": "Q115254499",
+      "wikidataId": "Q115254499",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bila%20vez%201.jpg?width=800",
+      "photoAuthor": "Radek Linner",
+      "photoLicense": "CC BY 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bila_vez_1.jpg"
+    },
+    {
       "osmType": "way",
       "osmId": 361661562,
       "name": "Bílá věž",
@@ -415,21 +430,6 @@
       "photoLicense": "CC BY-SA 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bud%C4%9Bjovice_-_Kostel_Ob%C4%9Btov%C3%A1n%C3%AD_Panny_Marie_-_v%C3%A9%C5%BE.jpg"
-    },
-    {
-      "osmType": "node",
-      "osmId": 582965344,
-      "name": "Bílá věž",
-      "lat": 48.900738,
-      "lon": 17.313425,
-      "region": "Jihomoravský kraj",
-      "wikidata": "Q115254499",
-      "wikidataId": "Q115254499",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bila%20vez%201.jpg?width=800",
-      "photoAuthor": "Radek Linner",
-      "photoLicense": "CC BY 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bila_vez_1.jpg"
     },
     {
       "osmType": "way",
@@ -1751,12 +1751,11 @@
     },
     {
       "osmType": "node",
-      "osmId": 3816657149,
-      "name": "Minirozhledna",
-      "lat": 49.855508,
-      "lon": 14.820817,
-      "region": "Středočeský kraj",
-      "access": "private"
+      "osmId": 9766770275,
+      "name": "minirozhledna",
+      "lat": 49.46053,
+      "lon": 14.394784,
+      "region": "Jihočeský kraj"
     },
     {
       "osmType": "node",
@@ -1768,11 +1767,12 @@
     },
     {
       "osmType": "node",
-      "osmId": 9766770275,
-      "name": "minirozhledna",
-      "lat": 49.46053,
-      "lon": 14.394784,
-      "region": "Jihočeský kraj"
+      "osmId": 3816657149,
+      "name": "Minirozhledna",
+      "lat": 49.855508,
+      "lon": 14.820817,
+      "region": "Středočeský kraj",
+      "access": "private"
     },
     {
       "osmType": "node",
@@ -1830,6 +1830,14 @@
       "lon": 13.417644,
       "region": "Ústecký kraj",
       "access": "customers"
+    },
+    {
+      "osmType": "node",
+      "osmId": 4527603991,
+      "name": "Na horách",
+      "lat": 50.451484,
+      "lon": 14.210242,
+      "region": "Ústecký kraj"
     },
     {
       "osmType": "node",
@@ -2042,6 +2050,16 @@
     },
     {
       "osmType": "node",
+      "osmId": 3627781923,
+      "name": "Ornitologická pozorovatelna",
+      "lat": 49.653058,
+      "lon": 17.231219,
+      "region": "Olomoucký kraj",
+      "openingHours": "24/7",
+      "fee": "no"
+    },
+    {
+      "osmType": "node",
       "osmId": 11653238794,
       "name": "Ornitologická pozorovatelna",
       "lat": 49.418898,
@@ -2064,16 +2082,6 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Ornitologick%C3%A1_pozorovatelna,_Chropyn%C4%9B,_okres_Krom%C4%9B%C5%99%C3%AD%C5%BE.jpg"
-    },
-    {
-      "osmType": "node",
-      "osmId": 3627781923,
-      "name": "Ornitologická pozorovatelna",
-      "lat": 49.653058,
-      "lon": 17.231219,
-      "region": "Olomoucký kraj",
-      "openingHours": "24/7",
-      "fee": "no"
     },
     {
       "osmType": "way",
@@ -2394,6 +2402,16 @@
     },
     {
       "osmType": "node",
+      "osmId": 10087359514,
+      "name": "Ptačí pozorovatelna",
+      "lat": 49.004181,
+      "lon": 14.403317,
+      "region": "Jihočeský kraj",
+      "openingHours": "24/7",
+      "wikidataId": "Q135002607"
+    },
+    {
+      "osmType": "node",
       "osmId": 8820577914,
       "name": "ptačí pozorovatelna",
       "lat": 49.180734,
@@ -2407,16 +2425,6 @@
       "lat": 49.182755,
       "lon": 17.960407,
       "region": "Zlínský kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 10087359514,
-      "name": "Ptačí pozorovatelna",
-      "lat": 49.004181,
-      "lon": 14.403317,
-      "region": "Jihočeský kraj",
-      "openingHours": "24/7",
-      "wikidataId": "Q135002607"
     },
     {
       "osmType": "node",
@@ -2600,14 +2608,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 2370793591,
-      "name": "rozhledna",
-      "lat": 50.074303,
-      "lon": 16.768575,
-      "region": "Pardubický kraj"
-    },
-    {
-      "osmType": "node",
       "osmId": 5010970673,
       "name": "Rozhledna",
       "lat": 50.090139,
@@ -2622,6 +2622,31 @@
       "photoLicense": "CC BY-SA 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Praha_Karlin_Kasarna_g.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 4188950179,
+      "name": "Rozhledna",
+      "lat": 49.166058,
+      "lon": 13.797571,
+      "region": "Jihočeský kraj",
+      "wikidataId": "Q109520916",
+      "wikipediaTitle": "Rozhledna Čestice u Volyně",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_%C4%8Cestice_u_Volyn%C4%9B",
+      "wikipediaExtract": "Rozhledna Čestice u Volyně je malá kovová rozhledna, která vznikla jako přístavba k vysílači mobilního operátora. Nachází se na bezejmenném vršku jihozápadně od obce Čestice asi 6,5 km od Volyně a 13 km od Strakonic.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Cestice.JPG?width=800",
+      "photoAuthor": "Jik jik",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Cestice.JPG"
+    },
+    {
+      "osmType": "node",
+      "osmId": 2370793591,
+      "name": "rozhledna",
+      "lat": 50.074303,
+      "lon": 16.768575,
+      "region": "Pardubický kraj"
     },
     {
       "osmType": "node",
@@ -2664,23 +2689,6 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_na_Velk%C3%A9_De%C5%A1tn%C3%A9.jpg"
-    },
-    {
-      "osmType": "node",
-      "osmId": 4188950179,
-      "name": "Rozhledna",
-      "lat": 49.166058,
-      "lon": 13.797571,
-      "region": "Jihočeský kraj",
-      "wikidataId": "Q109520916",
-      "wikipediaTitle": "Rozhledna Čestice u Volyně",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_%C4%8Cestice_u_Volyn%C4%9B",
-      "wikipediaExtract": "Rozhledna Čestice u Volyně je malá kovová rozhledna, která vznikla jako přístavba k vysílači mobilního operátora. Nachází se na bezejmenném vršku jihozápadně od obce Čestice asi 6,5 km od Volyně a 13 km od Strakonic.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Cestice.JPG?width=800",
-      "photoAuthor": "Jik jik",
-      "photoLicense": "CC BY-SA 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Cestice.JPG"
     },
     {
       "osmType": "node",
@@ -4866,6 +4874,26 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Pancir-rozhledna.jpg"
     },
     {
+      "osmType": "way",
+      "osmId": 125508571,
+      "name": "Rozhledna Panorama",
+      "lat": 50.648926,
+      "lon": 15.751988,
+      "height": 25.7,
+      "region": "Královéhradecký kraj",
+      "openingHours": "Sa-Su 10:00-16:00",
+      "fee": "yes",
+      "wikidataId": "Q12049962",
+      "wikipediaTitle": "Panorama (Černá hora)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Panorama_(%C4%8Cern%C3%A1_hora)",
+      "wikipediaExtract": "Rozhledna Panorama je rozhledna na krkonošské Černé hoře u Janských Lázní. Je čtvrtou nejvýše položenou rozhlednou v Česku.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Cerna%20Hora2.JPG?width=800",
+      "photoAuthor": "Petr Vilgus",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Cerna_Hora2.JPG"
+    },
+    {
       "osmType": "node",
       "osmId": 3493673677,
       "name": "Rozhledna Panorama",
@@ -4885,26 +4913,6 @@
       "photoAuthor": "BíláVrána",
       "photoLicense": "Public domain",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Panor%C3%A1ma_u_Chlebovic.jpg"
-    },
-    {
-      "osmType": "way",
-      "osmId": 125508571,
-      "name": "Rozhledna Panorama",
-      "lat": 50.648926,
-      "lon": 15.751988,
-      "height": 25.7,
-      "region": "Královéhradecký kraj",
-      "openingHours": "Sa-Su 10:00-16:00",
-      "fee": "yes",
-      "wikidataId": "Q12049962",
-      "wikipediaTitle": "Panorama (Černá hora)",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Panorama_(%C4%8Cern%C3%A1_hora)",
-      "wikipediaExtract": "Rozhledna Panorama je rozhledna na krkonošské Černé hoře u Janských Lázní. Je čtvrtou nejvýše položenou rozhlednou v Česku.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Cerna%20Hora2.JPG?width=800",
-      "photoAuthor": "Petr Vilgus",
-      "photoLicense": "CC BY-SA 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Cerna_Hora2.JPG"
     },
     {
       "osmType": "node",
@@ -6851,6 +6859,14 @@
       "region": "Karlovarský kraj"
     },
     {
+      "osmType": "node",
+      "osmId": 2604832161,
+      "name": "Vachatova rozhledna",
+      "lat": 49.371213,
+      "lon": 13.041887,
+      "region": "Plzeňský kraj"
+    },
+    {
       "osmType": "way",
       "osmId": 51138710,
       "name": "Valdická brána",
@@ -7181,6 +7197,15 @@
     },
     {
       "osmType": "way",
+      "osmId": 560740791,
+      "name": "Vyhlídka Puclice",
+      "lat": 49.54908,
+      "lon": 13.017754,
+      "height": 6.0,
+      "region": "Plzeňský kraj"
+    },
+    {
+      "osmType": "way",
       "osmId": 777560941,
       "name": "Vyhlídka Radovič",
       "lat": 50.274097,
@@ -7277,20 +7302,6 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Pruhonice_park_Gloriet_b.jpg"
     },
     {
-      "osmType": "node",
-      "osmId": 3378074028,
-      "name": "vyhlídková věž",
-      "lat": 49.260184,
-      "lon": 15.240635,
-      "region": "Kraj Vysočina",
-      "wikidataId": "Q137214480",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Po%C4%8D%C3%A1tky-kostel-v%C4%9B%C5%BE2019.jpg?width=800",
-      "photoAuthor": "Ben Skála, Benfoto",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Po%C4%8D%C3%A1tky-kostel-v%C4%9B%C5%BE2019.jpg"
-    },
-    {
       "osmType": "way",
       "osmId": 431280034,
       "name": "Vyhlídková věž",
@@ -7308,6 +7319,20 @@
       "lon": 17.340445,
       "region": "Olomoucký kraj",
       "access": "customers"
+    },
+    {
+      "osmType": "node",
+      "osmId": 3378074028,
+      "name": "vyhlídková věž",
+      "lat": 49.260184,
+      "lon": 15.240635,
+      "region": "Kraj Vysočina",
+      "wikidataId": "Q137214480",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Po%C4%8D%C3%A1tky-kostel-v%C4%9B%C5%BE2019.jpg?width=800",
+      "photoAuthor": "Ben Skála, Benfoto",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Po%C4%8D%C3%A1tky-kostel-v%C4%9B%C5%BE2019.jpg"
     },
     {
       "osmType": "node",
@@ -8538,13 +8563,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 2604832161,
-      "lat": 49.371213,
-      "lon": 13.041887,
-      "region": "Plzeňský kraj"
-    },
-    {
-      "osmType": "node",
       "osmId": 2801913442,
       "lat": 48.779843,
       "lon": 16.8105,
@@ -9544,14 +9562,6 @@
     },
     {
       "osmType": "way",
-      "osmId": 560740791,
-      "lat": 49.54908,
-      "lon": 13.017754,
-      "height": 6.0,
-      "region": "Plzeňský kraj"
-    },
-    {
-      "osmType": "way",
       "osmId": 581532169,
       "lat": 50.014018,
       "lon": 14.483386,
@@ -9633,6 +9643,6 @@
       "region": "Středočeský kraj"
     }
   ],
-  "enrichedAt": "2026-09-06T11:03:31.766498Z",
+  "enrichedAt": "2026-09-06T12:52:20.142263Z",
   "enrichmentSource": "Wikidata, Wikipedia (CC BY-SA), Wikimedia Commons"
 }
