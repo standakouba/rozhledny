@@ -32,9 +32,15 @@ const _endpoints = <String>[
 /// `communication;observation`, `observation;communication`, dokonce
 /// `bell_tower, observation`. Přesná shoda takové věže míjela a v datech
 /// chyběly i známé rozhledny jako Drahoušek nebo Hořický chlum.
+/// Třetí řádek dobírá rozhledny, které mapeři zapsali jen jako vyhlídku, ale
+/// pojmenovali je „rozhledna“. Bez něj v datech chyběl Hněvín, Hard nebo
+/// liberecké Lidové sady — někdo je do mapy zanesl bez `man_made=tower`,
+/// zato je jménem výslovně označil za rozhlednu. Brát všechny vyhlídky
+/// nejde, těch jsou v Česku tisíce a většina z nich je skála nebo lavička.
 const _towerFilter = '''
   nwr(area.reg)["tower:type"~"observation"];
   nwr(area.reg)["man_made"="tower"]["tourism"="viewpoint"];
+  nwr(area.reg)["tourism"="viewpoint"]["name"~"[Rr]ozhledn"];
 ''';
 
 const _outPath = 'assets/data/rozhledny.json';
@@ -226,6 +232,9 @@ SELECT ?s ?kraj WHERE {
   { ?s osmkey:tower:type ?tt . FILTER(CONTAINS(STR(?tt), "observation")) }
   UNION
   { ?s osmkey:man_made "tower" . ?s osmkey:tourism "viewpoint" }
+  UNION
+  { ?s osmkey:tourism "viewpoint" . ?s osmkey:name ?nm .
+    FILTER(CONTAINS(STR(?nm), "ozhledn")) }
 }
 ''');
 

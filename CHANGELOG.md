@@ -50,9 +50,15 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   OSM porovnával `tower:type` na přesnou shodu, jenže věž bývá zároveň
   vysílač a tag pak nese víc hodnot — `communication;observation` i
   `bell_tower, observation`. Takové věže filtr míjel. Přibyly Drahoušek,
-  Hořický chlum, Ládví, Čestice u Volyně a vyhlídková věž na Vysočině;
-  celkem je jich teď 677. Stejná chyba byla i v dotazu na kraje, takže by
-  nové body zůstaly bez kraje
+  Hořický chlum, Ládví, Čestice u Volyně a vyhlídková věž na Vysočině.
+  Stejná chyba byla i v dotazu na kraje, takže by nové body zůstaly bez
+  kraje
+- **a dalších patnáct, které mapeři zapsali jen jako vyhlídku, ale
+  pojmenovali „rozhledna“.** Tak je v OSM veden Hněvín, Hard u Sokolova,
+  liberecké Lidové sady nebo Doubravka — bez `man_made=tower`, zato
+  s jménem, které nenechává nikoho na pochybách. Brát všechny vyhlídky
+  nejde, těch jsou tisíce a většina je skála nebo lavička. Rozhleden je
+  teď 692
 - popisy a fotky dostaly i věže, které Wikidata neřadí pod rozhlednu.
   Generátor si položku dohledával podle třídy a vzdálenosti a přehlížel
   přitom `wikidata` tag, který u bodu rovnou stojí v OSM — teď ho bere jako
