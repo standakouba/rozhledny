@@ -21,6 +21,67 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.15.0
+
+- na přiblížené mapě (zoom 13 a víc) se pod značkou vypisuje jméno rozhledny.
+  Není tak potřeba otevírat detail, jen aby člověk zjistil, na co se dívá.
+  Text sedí na světlé plošce se zaoblenými rohy — první pokus s bílým obrysem
+  písmen se nad turistickou mapou v terénu nedal přečíst
+- nenavštívené rozhledny mají místo oka **siluetu rozhledny z ikony
+  aplikace**. Kreslí se kódem podle stejných proporcí jako ikona
+  (`tools/make_icon.dart`), jen zesílených — ve 14 px se původní tvar slil
+  do zvonu. Navštívené mají fajfku dál
+- jmenovka, která by překryla sousední, se vynechá — z blízké dvojice ji
+  dostane jen jedna, aby z textů nebyla kaše. Která, se řídí `uuid`, takže
+  se jmenovky nepřehazují při posunu mapy
+- rozhledny bez názvu v datech zůstávají jen jako puntík, ubylo jich ale:
+  kde jméno chybí v OSM a víme ho z Wikipedie, doplní ho
+  do dat generátor (`nameFromWikipedia`), takže s ním umí pracovat jmenovka
+  na mapě, hledání i řazení. Odsud má jméno třeba Praděd, Val nebo Řežabinec
+- **rozhledny bez názvu jdou v Nastavení skrýt.** Výchozí stav je ukazovat
+  je; po vypnutí zůstanou na mapě i ve statistikách jen pojmenované — a k tomu
+  ty bezejmenné, které už máte navštívené. Vlastní záznam kvůli nastavení
+  zobrazení zmizet nesmí
+- statistiky i seznam se řídí týmž nastavením, takže ukazatel pokroku počítá
+  jen s body, které jsou vidět i na mapě. Stejně tak počítadlo v rohu mapy
+  a počet nad seznamem. Skrývání se netýká vlastních rozhleden — ty nemusí
+  mít jméno hned, špendlíkem se zapíchnou cestou a pojmenují doma
+- **v datech přibylo pět rozhleden, které tam patřily celou dobu.** Dotaz do
+  OSM porovnával `tower:type` na přesnou shodu, jenže věž bývá zároveň
+  vysílač a tag pak nese víc hodnot — `communication;observation` i
+  `bell_tower, observation`. Takové věže filtr míjel. Přibyly Drahoušek,
+  Hořický chlum, Ládví, Čestice u Volyně a vyhlídková věž na Vysočině;
+  celkem je jich teď 677. Stejná chyba byla i v dotazu na kraje, takže by
+  nové body zůstaly bez kraje
+- popisy a fotky dostaly i věže, které Wikidata neřadí pod rozhlednu.
+  Generátor si položku dohledával podle třídy a vzdálenosti a přehlížel
+  přitom `wikidata` tag, který u bodu rovnou stojí v OSM — teď ho bere jako
+  primární klíč. Přibylo 18 věží (Bílá věž v Českých Budějovicích,
+  Bismarckova rozhledna, Jeřabina, Tanečnice, Prašná brána a další).
+  Popis má nakonec 280 rozhleden a fotku 347
+- nad pootočenou mapou zůstávají značky i s texty vodorovné
+- **nová rozhledna se přidává špendlíkem, ne tlačítkem.** Dlouhé podržení
+  zapíchne do mapy šedý špendlík se zeleným plusem a formulář se otevře až
+  klepnutím na něj — je tak vidět, kam prst doopravdy mířil, a dá se to
+  opravit dalším podržením. Tlačítko „přidat rozhlednu“ zmizelo; souřadnice
+  nikdo přepisovat nebude
+- tlačítko „moje poloha“ vypadá stejně jako kompas: bílé kolečko místo
+  barevného FABu. Vzhled je nově v `MapRoundButton`, aby se prvky nad mapou
+  nemohly rozejít
+- opraveny tři názvy, které má OSM v tagu `name` přepsané: Hoslovice
+  (jako „Hostovice“), Alainova věž („Allainova“) a Boiika („Boika“).
+  Rozhodčím byl článek na Wikipedii, na který ukazuje `wikidataId` téhož
+  bodu. Oprava je i v generátoru assetu, jinak by ji přegenerování smazalo
+- **základní data rozhleden se aktualizují i v telefonu, kde aplikace už
+  běží.** Dosud se asset naléval jen do prázdné databáze, takže oprava názvu
+  nebo nově přibylá rozhledna se k nikomu nedostaly. Nově se po každé změně
+  assetu data srovnají — pozná se to podle otisku souboru, ne podle verze
+  aplikace, aby to fungovalo i při ruční opravě dat a při vývoji
+- aktualizace **nesahá** na vlastní rozhledny, na ručně upravené body z OSM
+  ani na smazané, a nic nemaže: rozhledna, která z OSM zmizela, se jen
+  označí příznakem `osmMissing`, protože na ní můžou viset návštěvy.
+  Poznámka u rozhledny je uživatelova a přepis ji nechává být
+
 ## 0.14.0
 
 - vlastní fotky u návštěv zrušeny. Nešly zvětšit, takže se z nich stejně
