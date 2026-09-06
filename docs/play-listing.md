@@ -91,7 +91,7 @@ Mapové podklady © Seznam.cz a.s. a další.
 
 ```
 Hledání rovnou nad mapou — napíšete jméno a mapa skočí k rozhledně.
-Diakritiku psát nemusíte, „klet“ najde Kleť.
+Diakritiku psát nemusíte, „jested“ najde Ještěd.
 
 Na přiblížené mapě je u značek vidět jméno rozhledny.
 

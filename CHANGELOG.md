@@ -28,13 +28,13 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   to, aby se člověk podíval, kde ta věž vlastně je. Pole je nahoře nad mapou,
   pod ním se ukážou nálezy a klepnutí na jeden z nich mapu přesune a značku
   označí. Text v poli zůstane, ať je vidět, co se hledalo
-- **hledání si nevšímá diakritiky.** „klet“ najde Kleť, „nadeje“ Naději —
+- **hledání si nevšímá diakritiky.** „jested“ najde Ještěd, „zaly“ Žalý —
   psát na mobilní klávesnici háčky a čárky je zdržení, které při hledání
   nikdo nechce řešit. Platí to i pro hledání v seznamu, je to tentýž kód
 - nálezy jsou seřazené podle toho, jak dobře sedí: napřed jména začínající
   hledaným textem, pak ta, kde jím začíná některé slovo, a nakonec shoda
-  uvnitř. Kdo napíše „klet“, myslí Kleť, ne „Rozhlednu nad Kletí“ — a ta by
-  podle abecedy vyšla dřív
+  uvnitř. Kdo napíše „majak“, myslí Maják, ne „Chmelový maják“ — a ten by
+  podle abecedy vyšel dřív
 - u nálezu je vidět kraj a vzdálenost, protože samotné jméno nestačí:
   rozhledna Chlum je v Česku několikrát
 - počítadlo rozhleden v rohu mapy se přesunulo pod vyhledávací pole

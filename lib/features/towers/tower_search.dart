@@ -1,8 +1,8 @@
 /// Hledání rozhledny podle jména.
 ///
 /// Diakritika se ignoruje. Psát na mobilní klávesnici háčky a čárky je
-/// zdržení a při hledání je nikdo řešit nechce — „nadeje“ musí najít Naději
-/// a „klet“ Kleť. Obráceně to platí taky: kdo diakritiku napíše, najde totéž.
+/// zdržení a při hledání je nikdo řešit nechce — „zaly“ musí najít Žalý
+/// a „jested“ Ještěd. Obráceně to platí taky: kdo diakritiku napíše, najde totéž.
 library;
 
 import '../../data/database.dart';
@@ -53,8 +53,8 @@ bool nameMatchesQuery(String? name, String query) {
 
 /// Jak dobře jméno odpovídá dotazu; nižší je lepší, `null` znamená nesedí.
 ///
-/// Kdo napíše „klet“, myslí Kleť — ne „Rozhlednu nad Kletí“, která by při
-/// řazení podle abecedy vyšla dřív. Proto jde napřed shoda od začátku jména,
+/// Kdo napíše „majak“, myslí Maják — ne „Chmelový maják“, který by při
+/// řazení podle abecedy vyšel dřív. Proto jde napřed shoda od začátku jména,
 /// pak od začátku některého slova a teprve nakonec shoda kdekoli uvnitř.
 int? _rank(String? name, String foldedQuery) {
   if (name == null) return null;
