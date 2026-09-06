@@ -266,6 +266,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final labelled = _labelled(visible);
 
     return Scaffold(
+      // Klávesnice mapu nesmí zmenšit. Scaffold by jinak vykreslil mapu jen
+      // nad klávesnicí, flutter_map by si podržel střed toho menšího výřezu
+      // a celá mapa by při vysunutí klávesnice poskočila. Takhle se klávesnice
+      // vysune přes ni a mapa zůstane, kde byla; vyhledávací pole je nahoře,
+      // takže ho nic nepřekryje.
+      resizeToAvoidBottomInset: false,
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

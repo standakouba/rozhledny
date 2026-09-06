@@ -38,6 +38,9 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 - u nálezu je vidět kraj a vzdálenost, protože samotné jméno nestačí:
   rozhledna Chlum je v Česku několikrát
 - počítadlo rozhleden v rohu mapy se přesunulo pod vyhledávací pole
+- klávesnice se nad mapou vysouvá přes ni, ne že by mapu zmenšila. Scaffold
+  by ji jinak vykreslil jen nad klávesnicí, flutter_map by si podržel střed
+  toho menšího výřezu a celá mapa by při psaní poskočila
 - klepnutí do mapy zavírá klávesnici i seznam nálezů; hledaný text v poli
   zůstává, smaže ho křížek
 

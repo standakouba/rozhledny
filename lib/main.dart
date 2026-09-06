@@ -150,6 +150,11 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     });
 
     return Scaffold(
+      // Na mapě se klávesnice vysouvá přes obsah, aby mapa nepodskočila —
+      // víc v MapScreen. Rozhoduje se to tady, protože zmenšení dělá tenhle
+      // vnější Scaffold; na ostatních záložkách je naopak potřeba, jinak by
+      // klávesnice zakryla pole, do kterého se zrovna píše.
+      resizeToAvoidBottomInset: _tab != 0,
       body: IndexedStack(
         index: _tab,
         children: const [
