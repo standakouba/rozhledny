@@ -412,7 +412,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   ),
                   const SizedBox(height: 8),
                   // Jmenovatel se řídí nastavením: se skrytými bezejmennými
-                  // by „3 / 672“ tvrdilo, že na mapě chybí stovky bodů.
+                  // by „3 / 701“ tvrdilo, že na mapě chybí stovky bodů.
                   Align(
                     alignment: Alignment.centerLeft,
                     child: _CountBadge(

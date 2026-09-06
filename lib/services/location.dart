@@ -39,7 +39,7 @@ final currentPositionProvider = StreamProvider<Position?>((ref) async* {
 /// Vzdálenost vzdušnou čarou v metrech.
 ///
 /// Vlastní haversine místo `Geolocator.distanceBetween`, protože se volá
-/// pro každou ze 672 rozhleden při každém překreslení seznamu a průchod
+/// pro každou ze 701 rozhleden při každém překreslení seznamu a průchod
 /// přes platformní kanál by byl zbytečně drahý.
 double distanceMeters(double lat1, double lon1, double lat2, double lon2) {
   const earthRadius = 6371000.0;

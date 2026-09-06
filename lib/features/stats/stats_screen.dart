@@ -34,7 +34,7 @@ class StatsScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Chyba: $e')),
         // Statistiky počítají s toutéž množinou jako mapa. Kdyby ne, ukazoval
-        // by pokrok „X z 672“ i body, které uživatel na mapě nemá.
+        // by pokrok „X z 701“ i body, které uživatel na mapě nemá.
         data: (all) => _Body(
           all: shownTowers(all, showUnnamed: showUnnamed),
           visits: visits.value ?? const [],

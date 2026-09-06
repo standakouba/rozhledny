@@ -10,7 +10,7 @@ import '../../data/database.dart';
 /// funguje i bez signálu. Fotka se stahuje na vyžádání a zůstává v cache;
 /// hromadné přednačtení je v Nastavení.
 ///
-/// Rozhledna bez shody (341 z 672) nezobrazí nic — žádné prázdné místo
+/// Rozhledna bez shody (340 z 701) nezobrazí nic — žádné prázdné místo
 /// ani omluvná hláška.
 class TowerInfoCard extends StatelessWidget {
   const TowerInfoCard({super.key, required this.tower});
