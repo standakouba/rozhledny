@@ -3,7 +3,7 @@
 Android aplikace na sbírání rozhleden. Nahrazuje papírovou mapu, do které se
 navštívené rozhledny kroužkovaly tužkou.
 
-Na mapě je 672 rozhleden z OpenStreetMap. Každou jde označit za navštívenou —
+Na mapě je 701 rozhleden z OpenStreetMap. Každou jde označit za navštívenou —
 opakovaně, protože na některé se jezdí pravidelně a každý výlet si zaslouží
 vlastní záznam s datem, hodnocením, poznámkou a fotkami. Rozhlednu, která
 v datech chybí, jde přidat ručně.
@@ -16,7 +16,7 @@ přenášejí exportem do souboru, který se na druhé straně slučuje.
 - **Mapa** — turistický podklad Mapy.com (nebo OpenStreetMap), cache dlaždic
   pro cesty bez signálu, kompas se zámkem otáčení, měřítko, vlastní poloha
 - **Návštěvy** — opakované, s datem i zpětně, hodnocením, poznámkou a fotkami
-- **Popisy a fotky** — 257 popisů z české Wikipedie a 325 fotek z Wikimedia
+- **Popisy a fotky** — 289 popisů z české Wikipedie a 357 fotek z Wikimedia
   Commons, včetně autorů a licencí; fotky jde stáhnout dopředu pro offline
 - **Seznam** — hledání, filtry podle stavu a kraje, řazení podle vzdálenosti,
   abecedy, poslední návštěvy nebo počtu návštěv

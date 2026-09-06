@@ -18,7 +18,7 @@ Rozhledny
 *(max 80 znaků — zobrazuje se pod názvem ve výsledcích hledání)*
 
 ```
-Mapa 672 rozhleden a evidence navštívených. Bez účtu, data zůstávají u vás.
+Mapa 701 rozhleden a evidence navštívených. Bez účtu, data zůstávají u vás.
 ```
 
 ## Úplný popis
@@ -32,16 +32,21 @@ kam jste se vlastně dostali.
 
 CO APLIKACE UMÍ
 
-• 672 rozhleden z OpenStreetMap na mapě celé republiky
+• 701 rozhleden z OpenStreetMap na mapě celé republiky
 • Turistický podklad se značenými trasami, nebo OpenStreetMap
-• Označení navštívené rozhledny jedním klepnutím
+• Hledání rovnou nad mapou: napíšete jméno a mapa skočí k rozhledně,
+  diakritiku psát nemusíte
+• Na přiblížené mapě je u značky jméno rozhledny, nemusíte otevírat detail
+• Návštěvu zapíšete tlačítkem „Byl jsem tu“, datum je předvyplněné
 • Opakované návštěvy — na některé rozhledny se jezdí pravidelně a každý
   výlet má vlastní záznam s datem, hodnocením a poznámkou
 • Datum je nepovinné. Rozhledny nasbírané před aplikací se dají zapsat
   zpětně i bez něj — vymýšlet si datum nemá smysl
 • Popisy z české Wikipedie a fotografie z Wikimedia Commons
 • Vlastní rozhledna: co na mapě chybí, přidáte dlouhým stiskem
-• Hledání a filtry — co mi ještě chybí, co je nejblíž, kam jsem se vracel
+• Rozhledny, které ani v mapách nemají jméno, jdou v nastavení skrýt
+• Hledání a filtry v seznamu — co mi ještě chybí, co je nejblíž, kam jsem
+  se vracel
 • Statistiky: pokrok, rozpad po krajích a letech, nejnavštěvovanější
 • Navigace do vaší oblíbené mapové aplikace
 

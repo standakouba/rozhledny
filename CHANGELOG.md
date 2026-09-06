@@ -104,7 +104,7 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   přitom `wikidata` tag, který u bodu rovnou stojí v OSM — teď ho bere jako
   primární klíč. Přibylo 18 věží (Bílá věž v Českých Budějovicích,
   Bismarckova rozhledna, Jeřabina, Tanečnice, Prašná brána a další).
-  Popis má nakonec 280 rozhleden a fotku 347
+  Popis má nakonec 289 rozhleden a fotku 357
 - nad pootočenou mapou zůstávají značky i s texty vodorovné
 - **nová rozhledna se přidává špendlíkem, ne tlačítkem.** Dlouhé podržení
   zapíchne do mapy šedý špendlík se zeleným plusem a formulář se otevře až
