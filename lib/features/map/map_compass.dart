@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'map_round_button.dart';
+
 /// Kompas na mapě, který zároveň drží zámek otáčení.
 ///
 /// Zámek byl původně přepínač v Nastavení, což je špatné místo: člověk si
@@ -43,59 +45,49 @@ class MapCompass extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Tooltip(
-      message: _tooltip,
-      child: Material(
-        color: theme.colorScheme.surface.withValues(alpha: 0.9),
-        shape: const CircleBorder(),
-        elevation: 2,
-        child: InkWell(
-          customBorder: const CircleBorder(),
-          onTap: _onTap,
-          child: SizedBox(
-            // Stejně velké jako ostatní tlačítka na mapě. Růžice se sem vejde
-            // díky tomu, že písmena sedí těsně u okraje — místo se šetří tam,
-            // ne na velikosti tlačítka.
-            width: 44,
-            height: 44,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Transform.rotate(
-                  // Souhlasně s mapou, ne proti ní: flutter_map vykresluje
-                  // obsah přes `Transform.rotate(angle: camera.rotationRad)`,
-                  // takže sever se na obrazovce posune o +rotation a střelka
-                  // musí za ním.
-                  //
-                  // Pozor na záměnu s markery — ty se otáčejí o -rotationRad,
-                  // ale z opačného důvodu: aby zůstaly svisle, ne aby někam
-                  // ukazovaly.
-                  angle: rotation * math.pi / 180,
-                  child: _CompassRose(
-                    color: locked
-                        ? theme.colorScheme.outline
-                        : theme.colorScheme.onSurface,
-                  ),
-                ),
-                if (locked)
-                  // Na úhlopříčce, kde není žádné písmeno světové strany.
-                  Positioned(
-                    right: 1,
-                    bottom: 1,
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.surface,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.lock,
-                          size: 12, color: theme.colorScheme.onSurface),
-                    ),
-                  ),
-              ],
+    return MapRoundButton(
+      tooltip: _tooltip,
+      onPressed: _onTap,
+      // Růžice se do tlačítka vejde díky tomu, že písmena sedí těsně
+      // u okraje — místo se šetří tam, ne na velikosti tlačítka.
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Transform.rotate(
+            // Souhlasně s mapou, ne proti ní: flutter_map vykresluje
+            // obsah přes `Transform.rotate(angle: camera.rotationRad)`,
+            // takže sever se na obrazovce posune o +rotation a střelka
+            // musí za ním.
+            //
+            // Pozor na záměnu s markery — ty se otáčejí o -rotationRad,
+            // ale z opačného důvodu: aby zůstaly svisle, ne aby někam
+            // ukazovaly.
+            angle: rotation * math.pi / 180,
+            child: _CompassRose(
+              color: locked
+                  ? theme.colorScheme.outline
+                  : theme.colorScheme.onSurface,
             ),
           ),
-        ),
+          if (locked)
+            // Na úhlopříčce, kde není žádné písmeno světové strany.
+            Positioned(
+              right: 1,
+              bottom: 1,
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.lock,
+                  size: 12,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -110,8 +102,10 @@ class _CompassRose extends StatelessWidget {
   final Color color;
 
   @override
-  Widget build(BuildContext context) =>
-      CustomPaint(size: const Size(40, 40), painter: _CompassRosePainter(color));
+  Widget build(BuildContext context) => CustomPaint(
+    size: const Size(40, 40),
+    painter: _CompassRosePainter(color),
+  );
 }
 
 class _CompassRosePainter extends CustomPainter {
@@ -152,7 +146,10 @@ class _CompassRosePainter extends CustomPainter {
       painter.paint(
         canvas,
         center +
-            Offset(math.cos(angle) * labelRadius, math.sin(angle) * labelRadius) -
+            Offset(
+              math.cos(angle) * labelRadius,
+              math.sin(angle) * labelRadius,
+            ) -
             Offset(painter.width / 2, painter.height / 2),
       );
     }
@@ -168,13 +165,15 @@ class _CompassRosePainter extends CustomPainter {
 
     paint.color = _north;
     canvas.drawPath(
-        triangle(center.dy - needleLength, center.dy + needleLength * 0.15),
-        paint);
+      triangle(center.dy - needleLength, center.dy + needleLength * 0.15),
+      paint,
+    );
 
     paint.color = color;
     canvas.drawPath(
-        triangle(center.dy + needleLength, center.dy - needleLength * 0.15),
-        paint);
+      triangle(center.dy + needleLength, center.dy - needleLength * 0.15),
+      paint,
+    );
   }
 
   @override

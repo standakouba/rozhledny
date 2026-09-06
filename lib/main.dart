@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'features/map/map_screen.dart';
+import 'features/towers/tower_colors.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/stats/stats_screen.dart';
 import 'features/towers/tower_list_screen.dart';
@@ -39,12 +40,9 @@ class RozhlednyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: ThemeData(
-        colorSchemeSeed: const Color(0xFF2E7D32),
-        useMaterial3: true,
-      ),
+      theme: ThemeData(colorSchemeSeed: brandColor, useMaterial3: true),
       darkTheme: ThemeData(
-        colorSchemeSeed: const Color(0xFF2E7D32),
+        colorSchemeSeed: brandColor,
         brightness: Brightness.dark,
         useMaterial3: true,
       ),
@@ -97,9 +95,9 @@ class _HomeShellState extends ConsumerState<HomeShell> {
           dupes == 0
               ? report.summary
               : '${report.summary}\n\nPozor: $dupes× je stejná rozhledna '
-                  'zapsaná dvakrát ve stejný den. Nejspíš jste ten výlet '
-                  'zapsali oba — přebytečnou návštěvu smažete v detailu '
-                  'přejetím doleva.',
+                    'zapsaná dvakrát ve stejný den. Nejspíš jste ten výlet '
+                    'zapsali oba — přebytečnou návštěvu smažete v detailu '
+                    'přejetím doleva.',
         ),
         actions: [
           TextButton(
@@ -137,9 +135,12 @@ class _HomeShellState extends ConsumerState<HomeShell> {
         ],
       ),
       bottomNavigationBar: NavigationBar(
-        // Výchozích 80 px ukrajuje z mapy zbytečně moc; 60 stačí na ikonu
-        // i popisek a přitom zůstane nad hranicí pohodlného cíle pro prst.
-        height: 60,
+        // Výchozích 80 px ukrajuje z mapy zbytečně moc, 60 se ale ukázalo
+        // jako moc těsné: klepnutelná je sice celá buňka, jenže popisek pak
+        // sedí pár pixelů nad systémovou lištou a palec, který mine o kousek
+        // níž, klepne mimo aplikaci. 72 nechává pod popiskem rezervu a z mapy
+        // ubere jen osm pixelů.
+        height: 72,
         selectedIndex: _tab,
         onDestinationSelected: (i) => setState(() => _tab = i),
         destinations: [

@@ -12,9 +12,12 @@ import '../../data/providers.dart';
 import '../../services/settings.dart';
 import '../../services/tile_cache.dart';
 import '../../services/location.dart';
+import '../towers/tower_colors.dart';
 import '../towers/tower_detail_sheet.dart';
 import '../towers/tower_editor_sheet.dart';
+import '../towers/tower_visibility.dart';
 import 'map_compass.dart';
+import 'map_round_button.dart';
 import 'tower_marker.dart';
 
 /// Zhruba střed republiky a zoom, ve kterém je vidět celá.
@@ -24,8 +27,19 @@ const _czZoom = 7.0;
 /// Pod tímto zoomem se kreslí jen tečky — jmenovky ani odznaky nejsou čitelné.
 const _compactBelowZoom = 10.0;
 
+/// Od tohohle přiblížení se pod značku vypisuje jméno rozhledny.
+///
+/// Níž je ve výřezu tolik bodů, že by z jmenovek byla souvislá kaše a stejně
+/// by se nedaly přečíst. Třináctka leží mezi zoomem, na který mapa startuje
+/// u aktuální polohy (12), a tím, kam skáče tlačítko „moje poloha“ (14) —
+/// takže se jména objeví hned, jak se člověk podívá na konkrétní kout.
+const _labelsFromZoom = 13.0;
+
 /// Zoom pro pohled „co mám kolem sebe“ — pár kilometrů na šířku obrazovky.
 const _nearbyZoom = 12.0;
+
+/// Průměr bílého očka v hlavičce špendlíku, do kterého se kreslí plus.
+const _pinEye = 20.0;
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -41,6 +55,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   double _zoom = _czZoom;
   double _rotation = 0;
   String? _selectedUuid;
+
+  /// Kamera se drží celá kvůli přepočtu zeměpisných souřadnic na pixely —
+  /// bez něj nejde poznat, které jmenovky by se na obrazovce překryly.
+  MapCamera? _camera;
+
+  /// Místo zapíchnuté dlouhým stiskem, odkud se dá založit nová rozhledna.
+  LatLng? _pin;
 
   /// MapController vyhodí výjimku, když se na něj sáhne dřív, než se mapa
   /// poprvé vykreslí — a nastavení ze SharedPreferences dorazí právě dřív.
@@ -81,19 +102,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   /// Pohnul mapou uživatel, nebo se posunula sama (kód, změna velikosti)?
   bool _isUserGesture(MapEventSource source) => switch (source) {
-        MapEventSource.dragStart ||
-        MapEventSource.onDrag ||
-        MapEventSource.dragEnd ||
-        MapEventSource.multiFingerGestureStart ||
-        MapEventSource.onMultiFinger ||
-        MapEventSource.multiFingerEnd ||
-        MapEventSource.doubleTapZoomAnimationController ||
-        MapEventSource.doubleTapHold ||
-        MapEventSource.flingAnimationController ||
-        MapEventSource.scrollWheel =>
-          true,
-        _ => false,
-      };
+    MapEventSource.dragStart ||
+    MapEventSource.onDrag ||
+    MapEventSource.dragEnd ||
+    MapEventSource.multiFingerGestureStart ||
+    MapEventSource.onMultiFinger ||
+    MapEventSource.multiFingerEnd ||
+    MapEventSource.doubleTapZoomAnimationController ||
+    MapEventSource.doubleTapHold ||
+    MapEventSource.flingAnimationController ||
+    MapEventSource.scrollWheel => true,
+    _ => false,
+  };
 
   /// Přesune mapu na aktuální polohu, pokud je k dispozici a ještě se to
   /// nestalo. Volá se ze dvou míst, protože není dané, co přijde dřív —
@@ -118,7 +138,25 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       _bounds = camera.visibleBounds;
       _zoom = camera.zoom;
       _rotation = camera.rotation;
+      _camera = camera;
     });
+  }
+
+  /// Které rozhledny ve výřezu dostanou jmenovku.
+  ///
+  /// Bez jména v datech není co psát — takových je v OSM zhruba třetina a
+  /// prázdná jmenovka by jen odsadila značku od jejího bodu.
+  Set<String> _labelled(List<TowerWithStats> visible) {
+    final camera = _camera;
+    if (camera == null || _zoom < _labelsFromZoom) return const {};
+    return labelledMarkers([
+      for (final t in visible)
+        if (t.tower.name?.trim().isNotEmpty ?? false)
+          (
+            uuid: t.tower.uuid,
+            pixel: camera.projectAtZoom(LatLng(t.tower.lat, t.tower.lon)),
+          ),
+    ]);
   }
 
   /// Vykreslují se jen rozhledny ve výřezu.
@@ -141,7 +179,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     // Vypnutí gesta samo o sobě mapu nenarovná — když ji uživatel nechal
     // pootočenou a rotaci pak zakáže, zůstala by natočená napořád.
     ref.listen(settingsProvider, (previous, next) {
-      if (_mapReady && !next.allowRotation && _controller.camera.rotation != 0) {
+      if (_mapReady &&
+          !next.allowRotation &&
+          _controller.camera.rotation != 0) {
         _controller.rotate(0);
       }
     });
@@ -169,6 +209,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final store = ref.watch(tileCacheStoreProvider(basemap.id));
     final towers = ref.watch(towersProvider);
     final me = ref.watch(currentPositionProvider).value;
+    final shown = shownTowers(
+      towers.value ?? const [],
+      showUnnamed: settings.showUnnamed,
+    );
+    final visible = _visible(shown);
+    final labelled = _labelled(visible);
 
     return Scaffold(
       floatingActionButton: Column(
@@ -185,151 +231,225 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             },
           ),
           const SizedBox(height: 12),
-          FloatingActionButton.small(
-            heroTag: 'add',
-            tooltip: 'Přidat rozhlednu',
-            onPressed: () => _addTowerHere(me),
-            child: const Icon(Icons.add_location_alt_outlined),
-          ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            heroTag: 'locate',
+          // Stejné kulaté tlačítko jako kompas. Barevný FAB tu dřív křičel
+          // přes mapu a velikostí se s kompasem nepotkal.
+          MapRoundButton(
             tooltip: 'Moje poloha',
             onPressed: me == null ? null : () => _goTo(me),
-            backgroundColor: me == null
-                ? Theme.of(context).disabledColor
-                : null,
             child: const Icon(Icons.my_location),
           ),
         ],
       ),
       body: Stack(
-      children: [
-        FlutterMap(
-          mapController: _controller,
-          options: MapOptions(
-            initialCenter: _czCenter,
-            initialZoom: _czZoom,
-            maxZoom: basemap.maxZoom.toDouble(),
-            minZoom: 5,
-            // Otáčení dvěma prsty se spouští omylem a mapa pak zůstane
-            // natočená, aniž by bylo poznat jak zpátky. Sever nahoru je
-            // proto výchozí; odemyká se kompasem na mapě.
-            interactionOptions: InteractionOptions(
-              flags: settings.allowRotation
-                  ? InteractiveFlag.all
-                  : InteractiveFlag.all & ~InteractiveFlag.rotate,
+        children: [
+          FlutterMap(
+            mapController: _controller,
+            options: MapOptions(
+              initialCenter: _czCenter,
+              initialZoom: _czZoom,
+              maxZoom: basemap.maxZoom.toDouble(),
+              minZoom: 5,
+              // Otáčení dvěma prsty se spouští omylem a mapa pak zůstane
+              // natočená, aniž by bylo poznat jak zpátky. Sever nahoru je
+              // proto výchozí; odemyká se kompasem na mapě.
+              interactionOptions: InteractionOptions(
+                flags: settings.allowRotation
+                    ? InteractiveFlag.all
+                    : InteractiveFlag.all & ~InteractiveFlag.rotate,
+              ),
+              onMapReady: () {
+                setState(() => _mapReady = true);
+                _syncCamera(_controller.camera);
+                _centerOnMeOnce();
+              },
+              onTap: (_, _) => setState(() {
+                _selectedUuid = null;
+                _pin = null;
+              }),
+              // Dlouhý stisk zapíchne špendlík, formulář se otevře až z něj.
+              // Napřímo by se otevřel nad místem, které uživatel pod prstem
+              // neviděl — a souřadnice by pak opravoval poslepu v dialogu.
+              onLongPress: (_, point) => setState(() => _pin = point),
             ),
-            onMapReady: () {
-              setState(() => _mapReady = true);
-              _syncCamera(_controller.camera);
-              _centerOnMeOnce();
-            },
-            onTap: (_, _) => setState(() => _selectedUuid = null),
-            // Dlouhý stisk je nejrychlejší cesta k „tady stojí rozhledna,
-            // kterou nemáme“ — poloha se předvyplní z místa stisku.
-            onLongPress: (_, point) => TowerEditorSheet.show(
-              context,
-              initialPoint: point,
-            ),
-          ),
-          children: [
-            TileLayer(
-              urlTemplate: basemap.url(apiKey),
-              userAgentPackageName: 'cz.standakouba.rozhledny',
-              maxNativeZoom: basemap.maxZoom,
-              tileProvider: store.value == null
-                  ? NetworkTileProvider()
-                  : CachedTileProvider(
-                      store: store.value!,
-                      maxStale: tileMaxStale,
-                    ),
-            ),
-            MarkerLayer(
-              markers: [
-                for (final t in _visible(towers.value ?? const []))
-                  Marker(
-                    point: LatLng(t.tower.lat, t.tower.lon),
-                    width: 34,
-                    height: 34,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() => _selectedUuid = t.tower.uuid);
-                        TowerDetailSheet.show(context, t.tower.uuid);
-                      },
-                      child: TowerMarker(
-                        visitCount: t.visitCount,
-                        compact: _zoom < _compactBelowZoom,
-                        selected: _selectedUuid == t.tower.uuid,
+            children: [
+              TileLayer(
+                urlTemplate: basemap.url(apiKey),
+                userAgentPackageName: 'cz.standakouba.rozhledny',
+                maxNativeZoom: basemap.maxZoom,
+                tileProvider: store.value == null
+                    ? NetworkTileProvider()
+                    : CachedTileProvider(
+                        store: store.value!,
+                        maxStale: tileMaxStale,
                       ),
-                    ),
-                  ),
-              ],
-            ),
-            if (me != null)
+              ),
               MarkerLayer(
                 markers: [
-                  Marker(
-                    point: LatLng(me.latitude, me.longitude),
-                    width: 22,
-                    height: 22,
-                    child: const _MyLocationDot(),
-                  ),
+                  for (final t in visible)
+                    _towerMarker(t, withLabel: labelled.contains(t.tower.uuid)),
                 ],
               ),
-            // Vlevo dole, aby se nepotkalo s atribucí vpravo ani s tlačítky.
-            const Scalebar(
-              alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.only(left: 12, bottom: 8),
-              lineColor: Color(0xFF212121),
-              textStyle: TextStyle(
-                color: Color(0xFF212121),
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                // Podklad mapy je pestrý, takže bílý obrys drží čitelnost
-                // nad lesem i nad silnicí.
-                shadows: [
-                  Shadow(color: Colors.white, blurRadius: 2),
-                  Shadow(color: Colors.white, blurRadius: 4),
-                ],
+              if (me != null)
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: LatLng(me.latitude, me.longitude),
+                      width: 22,
+                      height: 22,
+                      child: const _MyLocationDot(),
+                    ),
+                  ],
+                ),
+              // Nad ostatními vrstvami, ať špendlík nezmizí pod značkou
+              // rozhledny, která už na tom místě je.
+              if (_pin != null) MarkerLayer(markers: [_pinMarker(_pin!)]),
+              // Vlevo dole, aby se nepotkalo s atribucí vpravo ani s tlačítky.
+              const Scalebar(
+                alignment: Alignment.bottomLeft,
+                padding: EdgeInsets.only(left: 12, bottom: 8),
+                lineColor: Color(0xFF212121),
+                textStyle: TextStyle(
+                  color: Color(0xFF212121),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  // Podklad mapy je pestrý, takže bílý obrys drží čitelnost
+                  // nad lesem i nad silnicí.
+                  shadows: [
+                    Shadow(color: Colors.white, blurRadius: 2),
+                    Shadow(color: Colors.white, blurRadius: 4),
+                  ],
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 2),
-                child: basemap.attributionBuilder(context),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: basemap.attributionBuilder(context),
+                ),
               ),
-            ),
-          ],
-        ),
-        if (towers.isLoading)
-          const Align(
-            alignment: Alignment.topCenter,
-            child: LinearProgressIndicator(),
+            ],
           ),
-        _CountBadge(
-          visible: _visible(towers.value ?? const []).length,
-          total: towers.value?.length ?? 0,
-        ),
-      ],
+          if (towers.isLoading)
+            const Align(
+              alignment: Alignment.topCenter,
+              child: LinearProgressIndicator(),
+            ),
+          // Jmenovatel se řídí nastavením: se skrytými bezejmennými by
+          // „3 / 672“ tvrdilo, že na mapě chybí stovky bodů.
+          _CountBadge(visible: visible.length, total: shown.length),
+        ],
       ),
     );
   }
 
-  void _goTo(Position me) => _controller.move(
-        LatLng(me.latitude, me.longitude),
-        // Zoom, ve kterém jsou vidět jednotlivé rozhledny i cesty k nim.
-        _zoom < 13 ? 14 : _zoom,
+  Marker _towerMarker(TowerWithStats t, {required bool withLabel}) =>
+      towerMarker(
+        point: LatLng(t.tower.lat, t.tower.lon),
+        visitCount: t.visitCount,
+        compact: _zoom < _compactBelowZoom,
+        selected: _selectedUuid == t.tower.uuid,
+        // Nad pootočenou mapou musí text zůstat vodorovný, jinak se nepřečte.
+        // Jen nad pootočenou: srovnaná mapa je výchozí stav a Transform
+        // u každé ze sedmi stovek značek by mapě na plynulosti nepřidal.
+        rotate: _rotation != 0,
+        label: withLabel ? t.tower.name : null,
+        onTap: () {
+          setState(() => _selectedUuid = t.tower.uuid);
+          TowerDetailSheet.show(context, t.tower.uuid);
+        },
       );
 
-  /// Přidání rozhledny z tlačítka: přednost má poloha, kde stojím. Bez GPS
-  /// se vezme střed mapy, což je pořád lepší než prázdný formulář.
-  void _addTowerHere(Position? me) {
-    final point = me != null
-        ? LatLng(me.latitude, me.longitude)
-        : _controller.camera.center;
-    TowerEditorSheet.show(context, initialPoint: point);
+  void _goTo(Position me) => _controller.move(
+    LatLng(me.latitude, me.longitude),
+    // Zoom, ve kterém jsou vidět jednotlivé rozhledny i cesty k nim.
+    _zoom < 13 ? 14 : _zoom,
+  );
+
+  /// Špendlík se znaménkem plus.
+  ///
+  /// Dlouhý stisk sám o sobě formulář neotevírá: uživatel má nejdřív vidět,
+  /// kam prst doopravdy mířil. Trefit se pod bříškem prstu na deset metrů
+  /// nejde a opravovat souřadnice v dialogu je horší než posunout špendlík
+  /// dalším stiskem.
+  Marker _pinMarker(LatLng point) {
+    const pin = 44.0;
+
+    return Marker(
+      point: point,
+      width: pin,
+      height: pin,
+      // Na vybraném místě musí sedět hrot špendlíku, ne střed obrázku.
+      alignment: Marker.computePixelAlignment(
+        width: pin,
+        height: pin,
+        left: pin / 2,
+        top: pin,
+      ),
+      rotate: true,
+      child: Tooltip(
+        message: 'Přidat rozhlednu tady',
+        child: GestureDetector(
+          onTap: _addTowerAtPin,
+          // Plus sedí přímo v hlavičce špendlíku, ne vedle něj. Samostatné
+          // tlačítko mířilo jinam, než kam ukazuje hrot, a na malém displeji
+          // si obojí překáželo.
+          //
+          // Skládá se ze dvou kusů, protože `add_location_alt` je jednobarevná
+          // a plus by tím pádem muselo mít barvu celého špendlíku. Takhle nese
+          // barvu jen ta část, která říká „klepni sem a přidej“.
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              const Icon(
+                Icons.place,
+                size: pin,
+                // Táž šedá jako značka dosud nenavštívené rozhledny — na mapě
+                // je tak jedna šedá, ne dvě podobné. Barvu si nese až plus,
+                // které jediné znamená akci.
+                color: unvisitedColor,
+                shadows: [
+                  // Bílá zář odděluje špendlík od tmavších míst mapy, stín pod
+                  // ním ho zvedá nad podklad.
+                  Shadow(color: Colors.white, blurRadius: 3),
+                  Shadow(
+                    color: Colors.black45,
+                    blurRadius: 4,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              // Bílé očko zakrývá díru, kterou má hlavička špendlíku v sobě,
+              // a dělá zelenému plus čitelné pozadí. Střed hlavičky leží
+              // v 0,40 výšky ikony — odtud to odsazení.
+              Positioned(
+                top: pin * 0.40 - _pinEye / 2,
+                child: Container(
+                  width: _pinEye,
+                  height: _pinEye,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    size: _pinEye - 4,
+                    color: brandColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _addTowerAtPin() async {
+    final point = _pin;
+    if (point == null) return;
+    await TowerEditorSheet.show(context, initialPoint: point);
+    // Špendlík už udělal svoje; nechat ho na mapě by jen mátlo.
+    if (mounted) setState(() => _pin = null);
   }
 }
 
@@ -368,11 +488,14 @@ class _CountBadge extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
+              color: Theme.of(context).colorScheme.surface
+                  .withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text('$visible / $total',
-                style: Theme.of(context).textTheme.labelMedium),
+            child: Text(
+              '$visible / $total',
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
           ),
         ),
       ),
