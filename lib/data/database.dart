@@ -115,63 +115,64 @@ class TowerWithStats {
 @DriftDatabase(tables: [Towers, Visits])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor])
-      : super(executor ?? driftDatabase(name: 'rozhledny'));
+    : super(executor ?? driftDatabase(name: 'rozhledny'));
 
   @override
   int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-        onCreate: (m) async {
-          await m.createAll();
-          // Návštěvy se čtou skoro vždy přes rozhlednu, ať už kvůli detailu
-          // nebo kvůli počtu na markeru.
-          await customStatement(
-              'CREATE INDEX idx_visits_tower ON visits (tower_uuid)');
-        },
-        onUpgrade: (m, from, to) async {
-          if (from < 2) {
-            for (final column in [
-              towers.openingHours,
-              towers.fee,
-              towers.access,
-              towers.wikidataId,
-              towers.wikipediaTitle,
-              towers.wikipediaUrl,
-              towers.wikipediaExtract,
-              towers.photoUrl,
-              towers.photoAuthor,
-              towers.photoLicense,
-              towers.photoLicenseUrl,
-              towers.photoPageUrl,
-            ]) {
-              await m.addColumn(towers, column);
-            }
-            // Seed běží jen do prázdné databáze, takže na telefonu, kde už
-            // aplikace jednou byla, by nová pole zůstala navždy prázdná.
-            // Doplní je proto migrace — a sahá výhradně na wiki sloupce
-            // rozhleden z OSM, aby se návštěv a vlastních bodů ani nedotkla.
-            await applyEnrichmentFromAsset(this);
-          }
-          if (from < 3) {
-            // SQLite neumí u sloupce zrušit NOT NULL, takže se tabulka musí
-            // přestavět. `alterTable` ji vytvoří podle nového schématu
-            // a data překopíruje podle jmen sloupců — zapsané návštěvy
-            // tedy zůstávají, jen u nich datum smí být prázdné.
-            await m.alterTable(TableMigration(visits));
-          }
-          if (from < 4) {
-            // Vlastní fotky u návštěv se zrušily: nešly zvětšit, takže se
-            // z nich stejně nedalo nic poznat. Tabulka mizí i s daty —
-            // samotné soubory maže PhotoCleanup při startu aplikace.
-            await customStatement('DROP TABLE IF EXISTS photos');
-            await customStatement('DROP INDEX IF EXISTS idx_photos_visit');
-          }
-        },
+    beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
+    onCreate: (m) async {
+      await m.createAll();
+      // Návštěvy se čtou skoro vždy přes rozhlednu, ať už kvůli detailu
+      // nebo kvůli počtu na markeru.
+      await customStatement(
+        'CREATE INDEX idx_visits_tower ON visits (tower_uuid)',
       );
+    },
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        for (final column in [
+          towers.openingHours,
+          towers.fee,
+          towers.access,
+          towers.wikidataId,
+          towers.wikipediaTitle,
+          towers.wikipediaUrl,
+          towers.wikipediaExtract,
+          towers.photoUrl,
+          towers.photoAuthor,
+          towers.photoLicense,
+          towers.photoLicenseUrl,
+          towers.photoPageUrl,
+        ]) {
+          await m.addColumn(towers, column);
+        }
+        // Seed běží jen do prázdné databáze, takže na telefonu, kde už
+        // aplikace jednou byla, by nová pole zůstala navždy prázdná.
+        // Doplní je proto migrace — a sahá výhradně na wiki sloupce
+        // rozhleden z OSM, aby se návštěv a vlastních bodů ani nedotkla.
+        await applyEnrichmentFromAsset(this);
+      }
+      if (from < 3) {
+        // SQLite neumí u sloupce zrušit NOT NULL, takže se tabulka musí
+        // přestavět. `alterTable` ji vytvoří podle nového schématu
+        // a data překopíruje podle jmen sloupců — zapsané návštěvy
+        // tedy zůstávají, jen u nich datum smí být prázdné.
+        await m.alterTable(TableMigration(visits));
+      }
+      if (from < 4) {
+        // Vlastní fotky u návštěv se zrušily: nešly zvětšit, takže se
+        // z nich stejně nedalo nic poznat. Tabulka mizí i s daty —
+        // samotné soubory maže PhotoCleanup při startu aplikace.
+        await customStatement('DROP TABLE IF EXISTS photos');
+        await customStatement('DROP INDEX IF EXISTS idx_photos_visit');
+      }
+    },
+  );
 
   // ------------------------------------------------------------- rozhledny
 
@@ -183,27 +184,31 @@ class AppDatabase extends _$AppDatabase {
     final last = visits.visitedOn.max();
     final best = visits.rating.max();
 
-    final query = select(towers).join([
-      leftOuterJoin(
-        visits,
-        visits.towerUuid.equalsExp(towers.uuid) & visits.deleted.equals(false),
-        useColumns: false,
-      ),
-    ])
-      ..where(towers.deleted.equals(false))
-      ..addColumns([count, first, last, best])
-      ..groupBy([towers.id]);
-
-    return query.watch().map((rows) => [
-          for (final row in rows)
-            TowerWithStats(
-              tower: row.readTable(towers),
-              visitCount: row.read(count) ?? 0,
-              firstVisit: row.read(first),
-              lastVisit: row.read(last),
-              bestRating: row.read(best),
+    final query =
+        select(towers).join([
+            leftOuterJoin(
+              visits,
+              visits.towerUuid.equalsExp(towers.uuid) &
+                  visits.deleted.equals(false),
+              useColumns: false,
             ),
-        ]);
+          ])
+          ..where(towers.deleted.equals(false))
+          ..addColumns([count, first, last, best])
+          ..groupBy([towers.id]);
+
+    return query.watch().map(
+      (rows) => [
+        for (final row in rows)
+          TowerWithStats(
+            tower: row.readTable(towers),
+            visitCount: row.read(count) ?? 0,
+            firstVisit: row.read(first),
+            lastVisit: row.read(last),
+            bestRating: row.read(best),
+          ),
+      ],
+    );
   }
 
   Stream<TowerWithStats?> watchTowerWithStats(String uuid) =>
@@ -220,47 +225,51 @@ class AppDatabase extends _$AppDatabase {
   /// míří na `id`, které volající (editor formuláře) nezná ani nemá znát.
   /// Bez `id` ke kolizi na primárním klíči nedojde, vložení projde dál
   /// a rozbije se až o unikátní `uuid` — úprava názvu pak tiše spadne.
-  Future<void> upsertTower(TowersCompanion tower) => into(towers).insert(
-        tower,
-        onConflict: DoUpdate((_) => tower, target: [towers.uuid]),
-      );
+  Future<void> upsertTower(TowersCompanion tower) => into(towers)
+      .insert(tower, onConflict: DoUpdate((_) => tower, target: [towers.uuid]));
 
   /// Vlastní rozhlednu jen označí za smazanou a totéž udělá s jejími
   /// návštěvami — jinak by import vrátil obojí zpátky.
   Future<void> softDeleteTower(String uuid) async {
     final now = DateTime.now();
     await transaction(() async {
-      await (update(towers)..where((t) => t.uuid.equals(uuid)))
-          .write(TowersCompanion(deleted: const Value(true), updatedAt: Value(now)));
-      await (update(visits)..where((v) => v.towerUuid.equals(uuid)))
-          .write(VisitsCompanion(deleted: const Value(true), updatedAt: Value(now)));
+      await (update(towers)..where((t) => t.uuid.equals(uuid))).write(
+        TowersCompanion(deleted: const Value(true), updatedAt: Value(now)),
+      );
+      await (update(visits)..where((v) => v.towerUuid.equals(uuid))).write(
+        VisitsCompanion(deleted: const Value(true), updatedAt: Value(now)),
+      );
     });
   }
 
   // -------------------------------------------------------------- návštěvy
 
   /// Návštěvy jedné rozhledny, od nejnovější.
-  Stream<List<Visit>> watchVisits(String towerUuid) => (select(visits)
-        ..where((v) => v.towerUuid.equals(towerUuid) & v.deleted.equals(false))
-        ..orderBy([
-          (v) => OrderingTerm.desc(v.visitedOn),
-          (v) => OrderingTerm.desc(v.createdAt),
-        ]))
-      .watch();
+  Stream<List<Visit>> watchVisits(String towerUuid) =>
+      (select(visits)
+            ..where(
+              (v) => v.towerUuid.equals(towerUuid) & v.deleted.equals(false),
+            )
+            ..orderBy([
+              (v) => OrderingTerm.desc(v.visitedOn),
+              (v) => OrderingTerm.desc(v.createdAt),
+            ]))
+          .watch();
 
   /// Všechny návštěvy napříč rozhlednami — pro statistiky po letech.
   Stream<List<Visit>> watchAllVisits() =>
       (select(visits)..where((v) => v.deleted.equals(false))).watch();
 
   /// Totéž co [upsertTower] — párování podle `uuid`, ne podle `id`.
-  Future<void> upsertVisit(VisitsCompanion visit) => into(visits).insert(
-        visit,
-        onConflict: DoUpdate((_) => visit, target: [visits.uuid]),
-      );
+  Future<void> upsertVisit(VisitsCompanion visit) => into(visits)
+      .insert(visit, onConflict: DoUpdate((_) => visit, target: [visits.uuid]));
 
   Future<void> softDeleteVisit(String uuid) =>
       (update(visits)..where((v) => v.uuid.equals(uuid))).write(
-        VisitsCompanion(deleted: const Value(true), updatedAt: Value(DateTime.now())),
+        VisitsCompanion(
+          deleted: const Value(true),
+          updatedAt: Value(DateTime.now()),
+        ),
       );
 
   // ----------------------------------------------------------------- fotky
@@ -278,12 +287,19 @@ class AppDatabase extends _$AppDatabase {
   /// Rozhledny z OSM se neposílají — druhá strana je má ze stejného assetu
   /// pod stejným UUID. Výjimkou je ručně upravený bod z OSM, kde by se jinak
   /// oprava názvu nebo polohy nepřenesla.
-  Future<List<Tower>> exportableTowers() => (select(towers)
-        ..where((t) =>
-            t.source.equalsValue(TowerSource.user) | t.userModified.equals(true)))
-      .get();
+  Future<List<Tower>> exportableTowers() =>
+      (select(towers)..where(
+            (t) =>
+                t.source.equalsValue(TowerSource.user) |
+                t.userModified.equals(true),
+          ))
+          .get();
 
   Future<List<Visit>> allVisitsForExport() => select(visits).get();
+
+  /// Všechny rozhledny včetně smazaných. Potřebuje je srovnání s assetem,
+  /// aby poznalo, na které body se sahat nesmí.
+  Future<List<Tower>> allTowers() => select(towers).get();
 
   /// Návštěvy téže rozhledny ve stejný den pod různým UUID.
   ///
@@ -292,8 +308,9 @@ class AppDatabase extends _$AppDatabase {
   /// importem. Rozhodnutí necháváme na uživateli, protože dvě návštěvy jednoho
   /// místa v jednom dni jsou teoreticky legitimní.
   Future<List<List<Visit>>> duplicateVisitGroups() async {
-    final all = await (select(visits)..where((v) => v.deleted.equals(false)))
-        .get();
+    final all = await (select(
+      visits,
+    )..where((v) => v.deleted.equals(false))).get();
     final byKey = <String, List<Visit>>{};
     for (final v in all) {
       // Návštěvy bez data se neporovnávají. Dvě takové na téže rozhledně
@@ -302,7 +319,8 @@ class AppDatabase extends _$AppDatabase {
       final on = v.visitedOn;
       if (on == null) continue;
       final day = DateTime(on.year, on.month, on.day);
-      byKey.putIfAbsent('${v.towerUuid}@${day.toIso8601String()}', () => [])
+      byKey
+          .putIfAbsent('${v.towerUuid}@${day.toIso8601String()}', () => [])
           .add(v);
     }
     return [
@@ -312,8 +330,9 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<bool> get isEmpty async {
-    final row = await (selectOnly(towers)..addColumns([towers.id.count()]))
-        .getSingle();
+    final row = await (selectOnly(
+      towers,
+    )..addColumns([towers.id.count()])).getSingle();
     return (row.read(towers.id.count()) ?? 0) == 0;
   }
 }

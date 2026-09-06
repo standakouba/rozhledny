@@ -35,6 +35,24 @@ void main() {
         reason: 'čerstvě naseedovaná databáze nemá žádné návštěvy');
   });
 
+  test('aktualizace nad naseedovaným assetem nic nepřidává ani neztrácí',
+      () async {
+    // Seed i aktualizace si UUID počítají každý zvlášť. Kdyby se rozešly,
+    // aktualizace by rozhledny nenašla, všech sedm stovek by vložila znovu
+    // a návštěvy by zůstaly viset na těch původních.
+    final db = AppDatabase(NativeDatabase.memory());
+    addTearDown(db.close);
+
+    final json = file.readAsStringSync();
+    final seeded = await seedFromAsset(db, json: json);
+    final report = await syncTowersFromAsset(db, json: json);
+
+    expect(report.added, 0);
+    expect(report.missing, 0);
+    expect(report.updated, seeded);
+    expect((await db.allTowers()).length, seeded);
+  });
+
   group('kvalita dat', () {
     late List<Map<String, dynamic>> towers;
 
