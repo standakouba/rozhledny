@@ -9,6 +9,7 @@ import '../../services/settings.dart';
 import '../visits/visit_editor.dart';
 import 'tower_colors.dart';
 import 'tower_detail_sheet.dart';
+import 'tower_search.dart';
 import 'tower_visibility.dart';
 
 enum TowerFilter { all, visited, unvisited, mine }
@@ -39,11 +40,8 @@ class _TowerListScreenState extends ConsumerState<TowerListScreen> {
   }
 
   bool _matches(TowerWithStats t) {
-    final q = _search.text.trim().toLowerCase();
-    if (q.isNotEmpty) {
-      final name = t.tower.name?.toLowerCase() ?? '';
-      if (!name.contains(q)) return false;
-    }
+    // Hledá se stejně jako na mapě, tedy bez ohledu na diakritiku.
+    if (!nameMatchesQuery(t.tower.name, _search.text)) return false;
     if (_region != null && t.tower.region != _region) return false;
     return switch (_filter) {
       TowerFilter.all => true,

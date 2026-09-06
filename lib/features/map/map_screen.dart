@@ -19,6 +19,7 @@ import '../towers/tower_editor_sheet.dart';
 import '../towers/tower_visibility.dart';
 import 'map_compass.dart';
 import 'map_round_button.dart';
+import 'map_search_bar.dart';
 import 'tile_retry.dart';
 import 'tower_marker.dart';
 
@@ -310,10 +311,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 _syncCamera(_controller.camera);
                 _centerOnMeOnce();
               },
-              onTap: (_, _) => setState(() {
-                _selectedUuid = null;
-                _pin = null;
-              }),
+              onTap: (_, _) {
+                // Klepnutí do mapy zavírá i klávesnici od hledání. Jinak by
+                // po výběru rozhledny zůstala vytažená přes půl mapy a
+                // schovat se dala jen systémovým tlačítkem zpět.
+                FocusScope.of(context).unfocus();
+                setState(() {
+                  _selectedUuid = null;
+                  _pin = null;
+                });
+              },
               // Dlouhý stisk zapíchne špendlík, formulář se otevře až z něj.
               // Napřímo by se otevřel nad místem, které uživatel pod prstem
               // neviděl — a souřadnice by pak opravoval poslepu v dialogu.
@@ -382,9 +389,35 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               alignment: Alignment.topCenter,
               child: LinearProgressIndicator(),
             ),
-          // Jmenovatel se řídí nastavením: se skrytými bezejmennými by
-          // „3 / 672“ tvrdilo, že na mapě chybí stovky bodů.
-          _CountBadge(visible: visible.length, total: shown.length),
+          // Hledání a počítadlo sedí nad mapou v jednom sloupci, aby si
+          // nepřekážely: pole je široké přes celou obrazovku a počítadlo
+          // se schovalo pod ně.
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  MapSearchBar(
+                    towers: shown,
+                    me: me,
+                    onSelected: _goToTower,
+                  ),
+                  const SizedBox(height: 8),
+                  // Jmenovatel se řídí nastavením: se skrytými bezejmennými
+                  // by „3 / 672“ tvrdilo, že na mapě chybí stovky bodů.
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: _CountBadge(
+                      visible: visible.length,
+                      total: shown.length,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -406,6 +439,26 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           TowerDetailSheet.show(context, t.tower.uuid);
         },
       );
+
+  /// Přesune mapu na rozhlednu vybranou v hledání a označí ji.
+  ///
+  /// Automatické vycentrování na vlastní polohu se tím ruší natrvalo: kdo si
+  /// nechal ukázat konkrétní rozhlednu, nechce, aby ho opožděný GPS fix
+  /// vzápětí odvezl zpátky domů.
+  void _goToTower(TowerWithStats t) {
+    _centeredOnMe = true;
+    setState(() {
+      _selectedUuid = t.tower.uuid;
+      _pin = null;
+    });
+    if (!_mapReady) return;
+    _controller.move(
+      LatLng(t.tower.lat, t.tower.lon),
+      // Přiblížit aspoň tak, aby u značky byla vidět jmenovka — jinak se
+      // člověk kouká na puntík a neví, jestli našel to, co hledal.
+      _zoom < _labelsFromZoom ? 14 : _zoom,
+    );
+  }
 
   void _goTo(Position me) => _controller.move(
     LatLng(me.latitude, me.longitude),
@@ -528,24 +581,15 @@ class _CountBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface
-                  .withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              '$visible / $total',
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ),
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        '$visible / $total',
+        style: Theme.of(context).textTheme.labelMedium,
       ),
     );
   }
