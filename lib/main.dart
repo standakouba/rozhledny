@@ -5,11 +5,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'data/providers.dart';
+import 'data/seed.dart';
 import 'features/map/map_screen.dart';
 import 'features/towers/tower_colors.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/stats/stats_screen.dart';
 import 'features/towers/tower_list_screen.dart';
+import 'features/towers/tower_sync_message.dart';
 import 'services/backup.dart';
 import 'services/incoming_share.dart';
 import 'services/photos.dart';
@@ -115,6 +118,20 @@ class _HomeShellState extends ConsumerState<HomeShell> {
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
+  /// Aktualizace základních dat proběhla a něco změnila.
+  ///
+  /// Bez zprávy se počet rozhleden mění pod rukama a není poznat proč —
+  /// zvlášť když jich naopak ubude.
+  void _showSync(AssetSyncReport report) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(towerSyncMessage(report)),
+        duration: const Duration(seconds: 6),
+      ),
+    );
+  }
+
   static const _tabs = <_TabDef>[
     _TabDef('Mapa', Icons.map_outlined, Icons.map),
     _TabDef('Seznam', Icons.list_outlined, Icons.list),
@@ -124,6 +141,14 @@ class _HomeShellState extends ConsumerState<HomeShell> {
 
   @override
   Widget build(BuildContext context) {
+    // Poslouchá se odsud ze stejného důvodu jako přijatý soubor: aktualizace
+    // dat se spouští při startu bez ohledu na to, na které záložce uživatel
+    // zrovna je, a hláška musí mít kde vyskočit.
+    ref.listen(seedProvider, (_, next) {
+      final report = next.value;
+      if (report != null && report.changedAnything) _showSync(report);
+    });
+
     return Scaffold(
       body: IndexedStack(
         index: _tab,

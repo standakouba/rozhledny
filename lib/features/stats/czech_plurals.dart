@@ -22,3 +22,10 @@ String returnsSentence(int n) {
   final word = n >= 2 && n <= 4 ? 'výlety' : 'výletů';
   return 'Na $n $word jste se vraceli někam, kde jste už byli.';
 }
+
+/// „1 rozhledna / 2 rozhledny / 5 rozhleden“
+String towerWord(int n) {
+  if (n == 1) return 'rozhledna';
+  if (n >= 2 && n <= 4) return 'rozhledny';
+  return 'rozhleden';
+}

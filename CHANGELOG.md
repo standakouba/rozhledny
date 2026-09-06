@@ -96,6 +96,21 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   na sobě návštěvu — a to ani smazanou, protože na druhém telefonu může být
   pořád živá a po importu by neměla na co navázat. Cokoli z toho ho drží
   naživu a dostane jen příznak `osmMissing`
+- **mapa po startu zůstávala rozmazaná, dokud s ní člověk nepohnul.**
+  Podklad se skládá z dlaždic a ta, která se nestáhne, zůstane ve
+  flutter_map nepovedená napořád — na jejím místě se roztáhne dlaždice
+  z nižšího zoomu a nikdo ji sám nezkusí znovu. Aplikace přitom stihla první
+  dávku vyžádat dřív, než telefon po startu zvedl síť. Nově se podklad kreslí,
+  teprve až je připravená cache dlaždic (do té doby šly požadavky mimo ni
+  rovnou na síť, takže je bez signálu nemělo co obsloužit), a nepovedená
+  dávka se do tří pokusů zopakuje sama. Posun mapy pokusy vrací zpátky,
+  bez signálu se ale nezkouší donekonečna
+- poskytovatel dlaždic se vyrábí jednou, ne při každém překreslení mapy.
+  `CachedTileProvider` si v konstruktoru zakládá vlastního HTTP klienta —
+  dosud tak vznikal nový, s prázdným poolem spojení, na každý snímek posunu
+- po aktualizaci základních dat se ukáže, co se změnilo: „Aktualizace dat:
+  přibylo 5 rozhleden, zmizely 3 rozhledny.“ Dosud se počet rozhleden změnil
+  sám od sebe a nedalo se poznat proč
 - srovnání se spouští i po **změně pravidel**, nejen po změně dat. Otisk
   assetu sám nestačí — telefon má data srovnaná z minula, takže by nové
   pravidlo (třeba to mazání výš) čekalo na nejbližší opravu dat a do té doby
