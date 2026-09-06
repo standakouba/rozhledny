@@ -5,9 +5,11 @@ import 'package:geolocator/geolocator.dart';
 import '../../data/database.dart';
 import '../../data/providers.dart';
 import '../../services/location.dart';
+import '../../services/settings.dart';
 import '../visits/visit_editor.dart';
 import 'tower_colors.dart';
 import 'tower_detail_sheet.dart';
+import 'tower_visibility.dart';
 
 enum TowerFilter { all, visited, unvisited, mine }
 
@@ -111,7 +113,17 @@ class _TowerListScreenState extends ConsumerState<TowerListScreen> {
       body: towers.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Chyba: $e')),
-        data: (all) {
+        data: (everything) {
+          // Nastavení „rozhledny bez názvu“ platí i tady, aby seznam ukazoval
+          // touž množinu jako mapa a statistiky. Vlastní filtry a hledání se
+          // pak vybírají už jen z ní — proto se ořezává hned na začátku, ne
+          // až u vykreslení řádku.
+          final all = shownTowers(
+            everything,
+            showUnnamed: ref.watch(
+              settingsProvider.select((s) => s.showUnnamed),
+            ),
+          );
           final list = _apply(all, me);
           final regions = (all
                 .map((t) => t.tower.region)

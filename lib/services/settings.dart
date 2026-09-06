@@ -6,6 +6,7 @@ import '../features/map/basemap.dart';
 const _keyApiKey = 'mapy_api_key';
 const _keyBasemap = 'basemap_id';
 const _keyAllowRotation = 'allow_map_rotation';
+const _keyShowUnnamed = 'show_unnamed_towers';
 
 // API klíč k Mapy.com se do aplikace **nezapéká**, ani ve vývojovém buildu.
 //
@@ -27,6 +28,7 @@ class Settings {
     this.mapyApiKey,
     this.basemapId,
     this.allowRotation = false,
+    this.showUnnamed = true,
   });
 
   final String? mapyApiKey;
@@ -36,6 +38,13 @@ class Settings {
   /// a pootočená mapa se v terénu čte špatně — sever nahoře je to, co člověk
   /// od papírové mapy čeká.
   final bool allowRotation;
+
+  /// Ukazovat rozhledny, které nemají název.
+  ///
+  /// Je jich skoro třetina a na mapě z nich jsou bezejmenné puntíky. Kdo je
+  /// vypne, uvidí jen rozhledny, které se dají pojmenovat — navštívené
+  /// bezejmenné ale zůstávají vždycky, o vlastní záznamy se přijít nesmí.
+  final bool showUnnamed;
 
   /// Vybraný podklad, nebo první použitelný. Bez klíče spadne na OSM, aby
   /// mapa fungovala hned po instalaci.
@@ -48,11 +57,13 @@ class Settings {
     String? mapyApiKey,
     String? basemapId,
     bool? allowRotation,
+    bool? showUnnamed,
   }) =>
       Settings(
         mapyApiKey: mapyApiKey ?? this.mapyApiKey,
         basemapId: basemapId ?? this.basemapId,
         allowRotation: allowRotation ?? this.allowRotation,
+        showUnnamed: showUnnamed ?? this.showUnnamed,
       );
 }
 
@@ -64,6 +75,7 @@ class SettingsNotifier extends StateNotifier<Settings> {
           // Na turistickou mapu si uživatel přepne, až si klíč pořídí.
           basemapId: _prefs.getString(_keyBasemap) ?? osmStandard.id,
           allowRotation: _prefs.getBool(_keyAllowRotation) ?? false,
+          showUnnamed: _prefs.getBool(_keyShowUnnamed) ?? true,
         ));
 
   final SharedPreferences _prefs;
@@ -81,6 +93,7 @@ class SettingsNotifier extends StateNotifier<Settings> {
       mapyApiKey: trimmed,
       basemapId: state.basemapId,
       allowRotation: state.allowRotation,
+      showUnnamed: state.showUnnamed,
     );
   }
 
@@ -92,6 +105,11 @@ class SettingsNotifier extends StateNotifier<Settings> {
   Future<void> setAllowRotation(bool value) async {
     await _prefs.setBool(_keyAllowRotation, value);
     state = state.copyWith(allowRotation: value);
+  }
+
+  Future<void> setShowUnnamed(bool value) async {
+    await _prefs.setBool(_keyShowUnnamed, value);
+    state = state.copyWith(showUnnamed: value);
   }
 }
 

@@ -11,6 +11,7 @@ import '../map/basemap.dart';
 import '../../services/backup.dart';
 import '../../services/photo_prefetch.dart';
 import '../../services/settings.dart';
+import '../towers/tower_visibility.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -64,6 +65,21 @@ class _Body extends ConsumerWidget {
         // Zámek otáčení se ovládá kompasem přímo na mapě: nechtěného pootočení
         // si člověk všimne v terénu a v tu chvíli hledá tlačítko pod palcem,
         // ne položku v menu. Přepínač tady by se s kompasem jen rozcházel.
+        SwitchListTile(
+          secondary: const Icon(Icons.help_outline),
+          title: const Text('Rozhledny bez názvu'),
+          // Počet se čte z dat, ne z natvrdo zapsaného čísla — po každém
+          // přegenerování assetu je jiný a zastaralý údaj v nastavení mate
+          // víc, než kdyby tam žádný nebyl.
+          subtitle: Text(
+            towers == null
+                ? 'Navštívené a vlastní zůstanou vždycky.'
+                : 'Bez názvu jich je ${towers.where((t) => !hasName(t)).length}. '
+                    'Navštívené a vlastní zůstanou vždycky.',
+          ),
+          value: settings.showUnnamed,
+          onChanged: notifier.setShowUnnamed,
+        ),
         const Divider(),
         const _Header('API klíč Mapy.com'),
         const Padding(

@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/database.dart';
 import '../../data/providers.dart';
+import '../../services/settings.dart';
 import '../towers/tower_detail_sheet.dart';
+import '../towers/tower_visibility.dart';
 import 'czech_plurals.dart';
 
 final allVisitsProvider = StreamProvider<List<Visit>>(
@@ -22,13 +24,21 @@ class StatsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final towers = ref.watch(towersProvider);
     final visits = ref.watch(allVisitsProvider);
+    final showUnnamed = ref.watch(
+      settingsProvider.select((s) => s.showUnnamed),
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text('Statistiky')),
       body: towers.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Chyba: $e')),
-        data: (all) => _Body(all: all, visits: visits.value ?? const []),
+        // Statistiky počítají s toutéž množinou jako mapa. Kdyby ne, ukazoval
+        // by pokrok „X z 672“ i body, které uživatel na mapě nemá.
+        data: (all) => _Body(
+          all: shownTowers(all, showUnnamed: showUnnamed),
+          visits: visits.value ?? const [],
+        ),
       ),
     );
   }
