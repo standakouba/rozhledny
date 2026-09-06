@@ -43,6 +43,25 @@ const _towerFilter = '''
   nwr(area.reg)["tourism"="viewpoint"]["name"~"[Rr]ozhledn"];
 ''';
 
+/// Rozhledny, které se do filtru nevejdou, a přesto to rozhledny jsou.
+///
+/// Jsou to stavby, které v OSM patří do jiné kategorie — hrad, vysílač,
+/// zámecká drobnost — a vyhlídka je u nich až druhá funkce. Filtr by kvůli
+/// nim musel pustit dovnitř všechny hrady a vysílače v zemi, takže se jmenují
+/// jednotlivě. Každá je v mapě rozhleden a lidé na ně chodí kvůli výhledu.
+///
+/// Kraj se u nich uvádí ručně: dotaz na kraje jede podle týchž podmínek jako
+/// filtr, takže by tyhle body v jeho odpovědi taky chyběly.
+const _extraObjects = <String, String>{
+  'way/1175710377': 'Liberecký kraj', // Ještěd (v OSM hotel s vysílačem)
+  'way/169245059': 'Ústecký kraj', // Hasištejn, zřícenina hradu
+  'way/793704436': 'Plzeňský kraj', // Starý Herštejn, zřícenina hradu
+  'way/403585197': 'Jihočeský kraj', // Vítkův Hrádek
+  'way/495078058': 'Ústecký kraj', // Gotický templ v Krásném Dvoře
+  'node/2536298252': 'Karlovarský kraj', // Zámeček u Františkových Lázní
+  'way/62201474': 'Karlovarský kraj', // vyhlídka Karla IV. (tower:type=watchtower)
+};
+
 const _outPath = 'assets/data/rozhledny.json';
 
 /// Syrová odpověď prvního dotazu. Overpass je nespolehlivý a přiřazování krajů
@@ -60,7 +79,7 @@ Future<void> main(List<String> args) async {
 [out:json][timeout:600];
 area["ISO3166-1"="CZ"][admin_level=2]->.reg;
 (
-$_towerFilter);
+$_towerFilter${_extraObjects.keys.map(_byIdClause).join()});
 out center tags;
 '''));
   final towers = _parseTowers(elements);
@@ -70,7 +89,7 @@ out center tags;
   final byRegion = await _cachedMap(_regionCachePath, fresh, _fetchRegions);
   final counts = <String, int>{};
   for (final t in towers) {
-    final region = byRegion[t.key];
+    final region = byRegion[t.key] ?? _extraObjects[t.key];
     if (region != null) {
       t.region = region;
       counts[region] = (counts[region] ?? 0) + 1;
@@ -106,6 +125,13 @@ out center tags;
   for (final t in missingRegion.take(20)) {
     stdout.writeln('      ! ${t.name ?? "(bez nazvu)"}  ${t.lat},${t.lon}');
   }
+}
+
+/// `way/123` -> `  way(123);`, tedy klauzule, kterou Overpass vytáhne
+/// konkrétní objekt bez ohledu na tagy.
+String _byIdClause(String key) {
+  final parts = key.split('/');
+  return '  ${parts.first}(${parts.last});\n';
 }
 
 /// Pojmenované napřed a podle abecedy, nepojmenované na konec.
@@ -330,6 +356,11 @@ const _nameOverrides = <String, String>{
 
   // Ves Čermná na Domažlicku leží 470 m odsud a rozhledna nese její jméno.
   'node/7184284590': 'Čermná',
+
+  // Dvě jmenovitě doplněné stavby mají v OSM popisný název, který je na
+  // jmenovce v mapě zbytečně upovídaný. Věcně sedí, jen se zkracuje.
+  'way/1175710377': 'Ještěd', // v OSM „Hotel Ještěd“
+  'way/403585197': 'Vítkův Hrádek', // v OSM „zřícenina Vítkův hrádek“
 
   // Věž u Vávrovy lávky v chebské Krajince. Poznat ji jde podle okolí:
   // lanové centrum je 130 m na východ a 200 m na sever, přesně jak sedí

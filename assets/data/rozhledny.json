@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-06T10:43:47.784098Z",
+  "generatedAt": "2026-09-06T11:03:29.978080Z",
   "area": "CZ",
   "source": "OpenStreetMap contributors (ODbL)",
-  "count": 692,
+  "count": 699,
   "towers": [
     {
       "osmType": "node",
@@ -185,25 +185,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 3312948861,
-      "name": "Bezručova vyhlídka",
-      "lat": 49.589957,
-      "lon": 18.158897,
-      "height": 13.0,
-      "region": "Moravskoslezský kraj",
-      "access": "no",
-      "wikidataId": "Q122222070",
-      "wikipediaTitle": "Bezručova vyhlídka (Kopřivnice)",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Bezru%C4%8Dova_vyhl%C3%ADdka_(Kop%C5%99ivnice)",
-      "wikipediaExtract": "Bezručova vyhlídka se nachází asi 2 km východně od města Kopřivnice pod vrchem Brd katastrální území Kopřivnice v okrese Nový Jičín v pohoří Podbeskydská pahorkatina. Od roku 2024 je rozhledna uzavřena a bylo odstraněno nástupní schodiště.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bezru%C4%8Dova%20vyhl%C3%ADdka%2C%20Kop%C5%99ivnice.jpg?width=800",
-      "photoAuthor": "Jan Žárský",
-      "photoLicense": "CC BY-SA 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bezru%C4%8Dova_vyhl%C3%ADdka,_Kop%C5%99ivnice.jpg"
-    },
-    {
-      "osmType": "node",
       "osmId": 1396128624,
       "name": "Bezručova vyhlídka",
       "lat": 49.855998,
@@ -220,6 +201,25 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bezrucova_vyhlidka.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 3312948861,
+      "name": "Bezručova vyhlídka",
+      "lat": 49.589957,
+      "lon": 18.158897,
+      "height": 13.0,
+      "region": "Moravskoslezský kraj",
+      "access": "no",
+      "wikidataId": "Q122222070",
+      "wikipediaTitle": "Bezručova vyhlídka (Kopřivnice)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Bezru%C4%8Dova_vyhl%C3%ADdka_(Kop%C5%99ivnice)",
+      "wikipediaExtract": "Bezručova vyhlídka se nachází asi 2 km východně od města Kopřivnice pod vrchem Brd katastrální území Kopřivnice v okrese Nový Jičín v pohoří Podbeskydská pahorkatina. Od roku 2024 je rozhledna uzavřena a bylo odstraněno nástupní schodiště.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bezru%C4%8Dova%20vyhl%C3%ADdka%2C%20Kop%C5%99ivnice.jpg?width=800",
+      "photoAuthor": "Jan Žárský",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bezru%C4%8Dova_vyhl%C3%ADdka,_Kop%C5%99ivnice.jpg"
     },
     {
       "osmType": "way",
@@ -398,21 +398,6 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Burianova_rozhledna_(02).jpg"
     },
     {
-      "osmType": "node",
-      "osmId": 582965344,
-      "name": "Bílá věž",
-      "lat": 48.900738,
-      "lon": 17.313425,
-      "region": "Jihomoravský kraj",
-      "wikidata": "Q115254499",
-      "wikidataId": "Q115254499",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bila%20vez%201.jpg?width=800",
-      "photoAuthor": "Radek Linner",
-      "photoLicense": "CC BY 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bila_vez_1.jpg"
-    },
-    {
       "osmType": "way",
       "osmId": 361661562,
       "name": "Bílá věž",
@@ -430,6 +415,21 @@
       "photoLicense": "CC BY-SA 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bud%C4%9Bjovice_-_Kostel_Ob%C4%9Btov%C3%A1n%C3%AD_Panny_Marie_-_v%C3%A9%C5%BE.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 582965344,
+      "name": "Bílá věž",
+      "lat": 48.900738,
+      "lon": 17.313425,
+      "region": "Jihomoravský kraj",
+      "wikidata": "Q115254499",
+      "wikidataId": "Q115254499",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bila%20vez%201.jpg?width=800",
+      "photoAuthor": "Radek Linner",
+      "photoLicense": "CC BY 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bila_vez_1.jpg"
     },
     {
       "osmType": "way",
@@ -678,6 +678,21 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Goethovarozhledna4.jpg"
     },
     {
+      "osmType": "way",
+      "osmId": 495078058,
+      "name": "Gotický templ",
+      "lat": 50.244287,
+      "lon": 13.358071,
+      "region": "Ústecký kraj",
+      "wikidata": "Q119136784",
+      "wikidataId": "Q119136784",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Kr%C3%A1sn%C3%BD%20Dv%C5%AFr%20Neo-Gothic%20temple%20(4784).jpg?width=800",
+      "photoAuthor": "Gampe",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Kr%C3%A1sn%C3%BD_Dv%C5%AFr_Neo-Gothic_temple_(4784).jpg"
+    },
+    {
       "osmType": "node",
       "osmId": 4186886238,
       "name": "Granátník",
@@ -838,6 +853,15 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Ho%C5%99ick%C3%BD_chlum_(01).jpg"
     },
     {
+      "osmType": "way",
+      "osmId": 169245059,
+      "name": "Hrad Hasištejn",
+      "lat": 50.445247,
+      "lon": 13.257372,
+      "region": "Ústecký kraj",
+      "wikidata": "Q116582"
+    },
+    {
       "osmType": "node",
       "osmId": 2807190842,
       "name": "Hradní věž",
@@ -944,6 +968,25 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Jezern%C3%AD_vyhl%C3%ADdka_084326.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 1175710377,
+      "name": "Ještěd",
+      "lat": 50.732683,
+      "lon": 14.984626,
+      "region": "Liberecký kraj",
+      "website": "https://www.jested.cz/",
+      "wikidata": "Q1129608",
+      "wikidataId": "Q1129608",
+      "wikipediaTitle": "Ještěd (hotel a vysílač)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Je%C5%A1t%C4%9Bd_(hotel_a_vys%C3%ADla%C4%8D)",
+      "wikipediaExtract": "Hotel a televizní vysílač na Ještědu je stavba ve tvaru jednodílného rotačního hyperboloidu, postavená v letech 1966 až 1973 na vrcholu hory Ještěd u Liberce. Je vysoká téměř 100 metrů s kruhovým půdorysem o průměru 33 metrů. Autorem architektonického návrhu je architekt Karel Hubáček, statický projekt zpracoval Zdeněk Patrman a Zdeněk Zachař, výbavu vnitřních prostor navrhl Otakar Binar. Před vybudováním současného hotelu stával na vrcholu hory od poloviny 19. století hotel, v jehož blízkosti byl na počátku 20. století, s ohledem na zájem turistů vybudován další. Stavby byly ze dřeva a obě v šedesátých letech 20.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jested%20002.JPG?width=800",
+      "photoAuthor": "O. Mejsnar",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Jested_002.JPG"
     },
     {
       "osmType": "node",
@@ -1700,10 +1743,10 @@
     },
     {
       "osmType": "node",
-      "osmId": 9766770275,
+      "osmId": 9695521987,
       "name": "minirozhledna",
-      "lat": 49.46053,
-      "lon": 14.394784,
+      "lat": 48.968359,
+      "lon": 14.421525,
       "region": "Jihočeský kraj"
     },
     {
@@ -1725,10 +1768,10 @@
     },
     {
       "osmType": "node",
-      "osmId": 9695521987,
+      "osmId": 9766770275,
       "name": "minirozhledna",
-      "lat": 48.968359,
-      "lon": 14.421525,
+      "lat": 49.46053,
+      "lon": 14.394784,
       "region": "Jihočeský kraj"
     },
     {
@@ -2007,16 +2050,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 3627781923,
-      "name": "Ornitologická pozorovatelna",
-      "lat": 49.653058,
-      "lon": 17.231219,
-      "region": "Olomoucký kraj",
-      "openingHours": "24/7",
-      "fee": "no"
-    },
-    {
-      "osmType": "node",
       "osmId": 4317901992,
       "name": "ornitologická pozorovatelna",
       "lat": 49.354931,
@@ -2031,6 +2064,16 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Ornitologick%C3%A1_pozorovatelna,_Chropyn%C4%9B,_okres_Krom%C4%9B%C5%99%C3%AD%C5%BE.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 3627781923,
+      "name": "Ornitologická pozorovatelna",
+      "lat": 49.653058,
+      "lon": 17.231219,
+      "region": "Olomoucký kraj",
+      "openingHours": "24/7",
+      "fee": "no"
     },
     {
       "osmType": "way",
@@ -2340,21 +2383,22 @@
     },
     {
       "osmType": "node",
+      "osmId": 13868648606,
+      "name": "Ptačí pozorovatelna",
+      "lat": 49.767261,
+      "lon": 14.705446,
+      "height": 5.0,
+      "region": "Středočeský kraj",
+      "fee": "no",
+      "access": "yes"
+    },
+    {
+      "osmType": "node",
       "osmId": 8820577914,
       "name": "ptačí pozorovatelna",
       "lat": 49.180734,
       "lon": 17.929368,
       "region": "Zlínský kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 10087359514,
-      "name": "Ptačí pozorovatelna",
-      "lat": 49.004181,
-      "lon": 14.403317,
-      "region": "Jihočeský kraj",
-      "openingHours": "24/7",
-      "wikidataId": "Q135002607"
     },
     {
       "osmType": "node",
@@ -2366,14 +2410,13 @@
     },
     {
       "osmType": "node",
-      "osmId": 13868648606,
+      "osmId": 10087359514,
       "name": "Ptačí pozorovatelna",
-      "lat": 49.767261,
-      "lon": 14.705446,
-      "height": 5.0,
-      "region": "Středočeský kraj",
-      "fee": "no",
-      "access": "yes"
+      "lat": 49.004181,
+      "lon": 14.403317,
+      "region": "Jihočeský kraj",
+      "openingHours": "24/7",
+      "wikidataId": "Q135002607"
     },
     {
       "osmType": "node",
@@ -2446,16 +2489,6 @@
     },
     {
       "osmType": "way",
-      "osmId": 74038358,
-      "name": "Radniční věž",
-      "lat": 48.855488,
-      "lon": 16.048796,
-      "height": 34.0,
-      "region": "Jihomoravský kraj",
-      "access": "yes"
-    },
-    {
-      "osmType": "way",
       "osmId": 391354925,
       "name": "Radniční věž",
       "lat": 50.087046,
@@ -2475,6 +2508,16 @@
       "photoLicense": "CC BY-SA 3.0",
       "photoLicenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Prag_Altstaedter_Ring_rathaus.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 74038358,
+      "name": "Radniční věž",
+      "lat": 48.855488,
+      "lon": 16.048796,
+      "height": 34.0,
+      "region": "Jihomoravský kraj",
+      "access": "yes"
     },
     {
       "osmType": "node",
@@ -2557,6 +2600,39 @@
     },
     {
       "osmType": "node",
+      "osmId": 2370793591,
+      "name": "rozhledna",
+      "lat": 50.074303,
+      "lon": 16.768575,
+      "region": "Pardubický kraj"
+    },
+    {
+      "osmType": "node",
+      "osmId": 5010970673,
+      "name": "Rozhledna",
+      "lat": 50.090139,
+      "lon": 14.443895,
+      "height": 10.0,
+      "region": "Praha",
+      "fee": "no",
+      "wikidata": "Q104759338",
+      "wikidataId": "Q104759338",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Praha%20Karlin%20Kasarna%20g.jpg?width=800",
+      "photoAuthor": "JiriMatejicek",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Praha_Karlin_Kasarna_g.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 9129821112,
+      "name": "Rozhledna",
+      "lat": 49.995493,
+      "lon": 14.858776,
+      "region": "Středočeský kraj"
+    },
+    {
+      "osmType": "node",
       "osmId": 3475173927,
       "name": "Rozhledna",
       "lat": 50.120636,
@@ -2588,39 +2664,6 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_na_Velk%C3%A9_De%C5%A1tn%C3%A9.jpg"
-    },
-    {
-      "osmType": "node",
-      "osmId": 2370793591,
-      "name": "rozhledna",
-      "lat": 50.074303,
-      "lon": 16.768575,
-      "region": "Pardubický kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 5010970673,
-      "name": "Rozhledna",
-      "lat": 50.090139,
-      "lon": 14.443895,
-      "height": 10.0,
-      "region": "Praha",
-      "fee": "no",
-      "wikidata": "Q104759338",
-      "wikidataId": "Q104759338",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Praha%20Karlin%20Kasarna%20g.jpg?width=800",
-      "photoAuthor": "JiriMatejicek",
-      "photoLicense": "CC BY-SA 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Praha_Karlin_Kasarna_g.jpg"
-    },
-    {
-      "osmType": "node",
-      "osmId": 9129821112,
-      "name": "Rozhledna",
-      "lat": 49.995493,
-      "lon": 14.858776,
-      "region": "Středočeský kraj"
     },
     {
       "osmType": "node",
@@ -3905,25 +3948,6 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Kozich_u_Libakovic.jpg"
     },
     {
-      "osmType": "way",
-      "osmId": 569256050,
-      "name": "rozhledna Kraví hora",
-      "lat": 48.730894,
-      "lon": 14.719868,
-      "height": 38.0,
-      "region": "Jihočeský kraj",
-      "fee": "no",
-      "access": "yes",
-      "wikidataId": "Q8557108",
-      "wikipediaTitle": "Kraví hora (Novohradské hory, rozhledna)",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Krav%C3%AD_hora_(Novohradsk%C3%A9_hory,_rozhledna)",
-      "wikipediaExtract": "Rozhledna Kraví hora stojí poblíž vrcholu Kraví hory v Novohradských horách.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Krav%C3%AD%20hora%20rozhledna.jpg?width=800",
-      "photoAuthor": "Karelj",
-      "photoLicense": "Public domain",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Krav%C3%AD_hora_rozhledna.jpg"
-    },
-    {
       "osmType": "node",
       "osmId": 254020192,
       "name": "Rozhledna Kraví Hora",
@@ -3942,6 +3966,25 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Krav%C3%AD_hora.JPG"
+    },
+    {
+      "osmType": "way",
+      "osmId": 569256050,
+      "name": "rozhledna Kraví hora",
+      "lat": 48.730894,
+      "lon": 14.719868,
+      "height": 38.0,
+      "region": "Jihočeský kraj",
+      "fee": "no",
+      "access": "yes",
+      "wikidataId": "Q8557108",
+      "wikipediaTitle": "Kraví hora (Novohradské hory, rozhledna)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Krav%C3%AD_hora_(Novohradsk%C3%A9_hory,_rozhledna)",
+      "wikipediaExtract": "Rozhledna Kraví hora stojí poblíž vrcholu Kraví hory v Novohradských horách.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Krav%C3%AD%20hora%20rozhledna.jpg?width=800",
+      "photoAuthor": "Karelj",
+      "photoLicense": "Public domain",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Krav%C3%AD_hora_rozhledna.jpg"
     },
     {
       "osmType": "way",
@@ -4134,22 +4177,6 @@
       "wikipediaExtract": "Lenka je dřevěná rozhledna o výšce 8 metrů stojící v nadmořské výšce 663 m n. m. jihozápadním směrem od Teplic nad Metují. Vznikla na jaře roku 2009 a výhled je odsud na Jiráskovy skály, Orlické hory či vrchol Ostaš. Stavba je dvoupatrová, přičemž výhled je možný až z vrchního patra, které je přístupné po žebříku."
     },
     {
-      "osmType": "node",
-      "osmId": 1019835079,
-      "name": "Rozhledna Lhotka",
-      "lat": 49.056799,
-      "lon": 17.588228,
-      "region": "Zlínský kraj",
-      "wikidataId": "Q12049956",
-      "wikipediaTitle": "Rozhledna Lhotka u Hradčovic",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_Lhotka_u_Hrad%C4%8Dovic",
-      "wikipediaExtract": "Rozhledna Lhotka se nachází 1 km od Hradčovic v okrese Uherské Hradiště ve Zlínském kraji. Do provozu byla uvedena v roce 2001.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Lhotka.JPG?width=800",
-      "photoAuthor": "Vestik",
-      "photoLicense": "Public domain",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Lhotka.JPG"
-    },
-    {
       "osmType": "way",
       "osmId": 1525206674,
       "name": "Rozhledna Lhotka",
@@ -4168,6 +4195,22 @@
       "photoLicense": "CC BY 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Lhotka_u_Berouna.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 1019835079,
+      "name": "Rozhledna Lhotka",
+      "lat": 49.056799,
+      "lon": 17.588228,
+      "region": "Zlínský kraj",
+      "wikidataId": "Q12049956",
+      "wikipediaTitle": "Rozhledna Lhotka u Hradčovic",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_Lhotka_u_Hrad%C4%8Dovic",
+      "wikipediaExtract": "Rozhledna Lhotka se nachází 1 km od Hradčovic v okrese Uherské Hradiště ve Zlínském kraji. Do provozu byla uvedena v roce 2001.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Lhotka.JPG?width=800",
+      "photoAuthor": "Vestik",
+      "photoLicense": "Public domain",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Lhotka.JPG"
     },
     {
       "osmType": "way",
@@ -4464,18 +4507,6 @@
     },
     {
       "osmType": "way",
-      "osmId": 172042316,
-      "name": "Rozhledna na Hraničním vrchu",
-      "lat": 50.171783,
-      "lon": 17.604341,
-      "height": 25.0,
-      "ele": 527.0,
-      "region": "Moravskoslezský kraj",
-      "fee": "no",
-      "access": "yes"
-    },
-    {
-      "osmType": "way",
       "osmId": 172042318,
       "name": "Rozhledna na Hraničním vrchu",
       "lat": 50.171671,
@@ -4495,6 +4526,18 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Hrani%C4%8Dn%C3%AD_vrch_01.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 172042316,
+      "name": "Rozhledna na Hraničním vrchu",
+      "lat": 50.171783,
+      "lon": 17.604341,
+      "height": 25.0,
+      "ele": 527.0,
+      "region": "Moravskoslezský kraj",
+      "fee": "no",
+      "access": "yes"
     },
     {
       "osmType": "way",
@@ -5797,6 +5840,23 @@
     },
     {
       "osmType": "node",
+      "osmId": 2536298252,
+      "name": "Rozhledna Zámeček",
+      "lat": 50.119763,
+      "lon": 12.368106,
+      "region": "Karlovarský kraj",
+      "wikidataId": "Q136692437",
+      "wikipediaTitle": "Zámeček (Františkovy Lázně)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Z%C3%A1me%C4%8Dek_(Franti%C5%A1kovy_L%C3%A1zn%C4%9B)",
+      "wikipediaExtract": "Zámeček je stavba ve Wiedermannově parku ve Františkových Lázních. Stavba je charakteristická svým architektonickým výrazem a malými rozměry.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Franti%C5%A1kovy%20L%C3%A1zn%C4%9B%20Z%C3%A1me%C4%8Dek%20(2).jpg?width=800",
+      "photoAuthor": "Lubor Ferenc",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Franti%C5%A1kovy_L%C3%A1zn%C4%9B_Z%C3%A1me%C4%8Dek_(2).jpg"
+    },
+    {
+      "osmType": "node",
       "osmId": 664117301,
       "name": "Rozhledna Černá Studnice",
       "lat": 50.711749,
@@ -6228,6 +6288,16 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Karl%C5%AFv_most_v%C4%9B%C5%BE.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 793704436,
+      "name": "Starý Herštejn",
+      "lat": 49.472055,
+      "lon": 12.71415,
+      "ele": 878.0,
+      "region": "Plzeňský kraj",
+      "wikidata": "Q1014062"
     },
     {
       "osmType": "node",
@@ -7036,6 +7106,24 @@
       "region": "Ústecký kraj"
     },
     {
+      "osmType": "way",
+      "osmId": 62201474,
+      "name": "vyhlídka Karla IV.",
+      "lat": 50.216316,
+      "lon": 12.880518,
+      "region": "Karlovarský kraj",
+      "wikidata": "Q11087180",
+      "wikidataId": "Q11087180",
+      "wikipediaTitle": "Vyhlídka Karla IV. (rozhledna)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Vyhl%C3%ADdka_Karla_IV._(rozhledna)",
+      "wikipediaExtract": "Vyhlídka Karla IV. je rozhledna v Karlových Varech na Jižním (Hamerském) vrchu 514 m n. m. mezi Grandhotelem Pupp a Galerií umění. Rozhledna je chráněna jako kulturní památka.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Karlovy%20Vary%20vyhl%C3%ADdka%20Karla%20IV.%20z%C3%A1%C5%99%C3%AD%202022%20(1).jpg?width=800",
+      "photoAuthor": "Lubor Ferenc",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Karlovy_Vary_vyhl%C3%ADdka_Karla_IV._z%C3%A1%C5%99%C3%AD_2022_(1).jpg"
+    },
+    {
       "osmType": "node",
       "osmId": 9573019059,
       "name": "Vyhlídka na bikepark",
@@ -7189,25 +7277,6 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Pruhonice_park_Gloriet_b.jpg"
     },
     {
-      "osmType": "way",
-      "osmId": 177154801,
-      "name": "vyhlídková věž",
-      "lat": 49.634134,
-      "lon": 17.340445,
-      "region": "Olomoucký kraj",
-      "access": "customers"
-    },
-    {
-      "osmType": "way",
-      "osmId": 431280034,
-      "name": "Vyhlídková věž",
-      "lat": 49.194484,
-      "lon": 16.599976,
-      "region": "Jihomoravský kraj",
-      "website": "https://www.spilberk.cz/spilberk/historie-hradu/rozhledna/",
-      "fee": "yes"
-    },
-    {
       "osmType": "node",
       "osmId": 3378074028,
       "name": "vyhlídková věž",
@@ -7220,6 +7289,25 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Po%C4%8D%C3%A1tky-kostel-v%C4%9B%C5%BE2019.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 431280034,
+      "name": "Vyhlídková věž",
+      "lat": 49.194484,
+      "lon": 16.599976,
+      "region": "Jihomoravský kraj",
+      "website": "https://www.spilberk.cz/spilberk/historie-hradu/rozhledna/",
+      "fee": "yes"
+    },
+    {
+      "osmType": "way",
+      "osmId": 177154801,
+      "name": "vyhlídková věž",
+      "lat": 49.634134,
+      "lon": 17.340445,
+      "region": "Olomoucký kraj",
+      "access": "customers"
     },
     {
       "osmType": "node",
@@ -7363,6 +7451,15 @@
       "lon": 12.359965,
       "region": "Karlovarský kraj",
       "fee": "no"
+    },
+    {
+      "osmType": "way",
+      "osmId": 403585197,
+      "name": "Vítkův Hrádek",
+      "lat": 48.645016,
+      "lon": 14.103266,
+      "region": "Jihočeský kraj",
+      "wikidata": "Q1282008"
     },
     {
       "osmType": "way",
@@ -9536,6 +9633,6 @@
       "region": "Středočeský kraj"
     }
   ],
-  "enrichedAt": "2026-09-06T10:44:00.667273Z",
+  "enrichedAt": "2026-09-06T11:03:31.766498Z",
   "enrichmentSource": "Wikidata, Wikipedia (CC BY-SA), Wikimedia Commons"
 }

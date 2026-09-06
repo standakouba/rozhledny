@@ -57,8 +57,12 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   pojmenovali „rozhledna“.** Tak je v OSM veden Hněvín, Hard u Sokolova,
   liberecké Lidové sady nebo Doubravka — bez `man_made=tower`, zato
   s jménem, které nenechává nikoho na pochybách. Brát všechny vyhlídky
-  nejde, těch jsou tisíce a většina je skála nebo lavička. Rozhleden je
-  teď 692
+  nejde, těch jsou tisíce a většina je skála nebo lavička
+- **a sedm staveb, které se do žádného filtru nevejdou** — Ještěd, Hasištejn,
+  Starý Herštejn, Vítkův Hrádek, templ v Krásném Dvoře, Zámeček u Chebu
+  a vyhlídka Karla IV. Jsou to hrady, vysílač a zámecká drobnost, u nichž
+  je výhled až druhá funkce; filtr by kvůli nim musel pustit dovnitř všechny
+  hrady v zemi, takže se v generátoru jmenují jednotlivě. Rozhleden je teď 699
 - popisy a fotky dostaly i věže, které Wikidata neřadí pod rozhlednu.
   Generátor si položku dohledával podle třídy a vzdálenosti a přehlížel
   přitom `wikidata` tag, který u bodu rovnou stojí v OSM — teď ho bere jako
