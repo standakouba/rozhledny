@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T13:27:38.008775Z",
+  "generatedAt": "2026-09-06T13:55:50.123738Z",
   "area": "CZ",
   "source": "OpenStreetMap contributors (ODbL)",
   "count": 701,
@@ -7481,7 +7481,7 @@
     {
       "osmType": "way",
       "osmId": 550881346,
-      "name": "Vávrova vyhlídka",
+      "name": "Vávrova lávka",
       "lat": 50.0798,
       "lon": 12.359965,
       "region": "Karlovarský kraj",
@@ -9653,6 +9653,6 @@
       "region": "Středočeský kraj"
     }
   ],
-  "enrichedAt": "2026-09-06T13:27:39.746494Z",
+  "enrichedAt": "2026-09-06T13:55:51.843755Z",
   "enrichmentSource": "Wikidata, Wikipedia (CC BY-SA), Wikimedia Commons"
 }

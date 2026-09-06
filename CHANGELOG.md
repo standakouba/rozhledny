@@ -89,10 +89,15 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 - tlačítko „moje poloha“ vypadá stejně jako kompas: bílé kolečko místo
   barevného FABu. Vzhled je nově v `MapRoundButton`, aby se prvky nad mapou
   nemohly rozejít
-- opraveny tři názvy, které má OSM v tagu `name` přepsané: Hoslovice
-  (jako „Hostovice“), Alainova věž („Allainova“) a Boiika („Boika“).
-  Rozhodčím byl článek na Wikipedii, na který ukazuje `wikidataId` téhož
-  bodu. Oprava je i v generátoru assetu, jinak by ji přegenerování smazalo
+- **třináct jmen putovalo zpátky do OpenStreetMap.** Tři byly v OSM
+  přepsané — Hoslovice jako „Hostovice“, Alainova věž jako „Allainova“
+  a Boiika jako „Boika“ (jméno je od keltských Bójů, Boii); rozhodčím byl
+  článek na Wikipedii, na který ukazuje `wikidataId` téhož bodu. Deset
+  dalších věží `name` nemělo vůbec a jméno jsme jim odvozovali z okolí:
+  Vrškamýk, Šibeník, Čermná, Rudíkov, Helfenburk u Bavorova, Vachatova
+  rozhledna, Vyhlídka Puclice, Vyhlídka Radovič a Vávrova lávka. Tabulka
+  ručních oprav v generátoru se tím smrskla na tři řádky — jméno teď drží
+  mapa sama a pozdější upřesnění se k nám dostane bez zásahu do kódu
 - **základní data rozhleden se aktualizují i v telefonu, kde aplikace už
   běží.** Dosud se asset naléval jen do prázdné databáze, takže oprava názvu
   nebo nově přibylá rozhledna se k nikomu nedostaly. Nově se po každé změně
