@@ -42,7 +42,9 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   by ji jinak vykreslil jen nad klávesnicí, flutter_map by si podržel střed
   toho menšího výřezu a celá mapa by při psaní poskočila
 - klepnutí do mapy zavírá klávesnici i seznam nálezů; hledaný text v poli
-  zůstává, smaže ho křížek
+  zůstává, smaže ho křížek. Zavírá se přitom zaměření samotného pole, ne
+  scope — ten si totiž pole pamatuje jako svoje poslední a po zavření detailu
+  rozhledny mu zaměření vracel, takže klávesnice i nálezy naskočily znovu
 
 ## 0.15.0
 

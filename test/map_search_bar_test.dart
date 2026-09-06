@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rozhledny/data/database.dart';
@@ -98,6 +100,31 @@ void main() {
     expect(find.text('Kleť'), findsNothing);
     final field = tester.widget<TextField>(find.byType(TextField));
     expect(field.controller?.text, 'klet');
+  });
+
+  testWidgets('po návratu z detailu se hledání samo neotevře', (tester) async {
+    // Scope si zaměřené pole pamatuje a po zavření cizí obrazovky mu ho vrací.
+    // Kdo klepl do mapy, ať se klávesnice zbaví, ji pak dostal zpátky jen
+    // proto, že si mezitím otevřel detail jiné rozhledny.
+    await pumpBar(tester, towers: [t('Kleť')]);
+    await tester.enterText(find.byType(TextField), 'klet');
+    await tester.pump();
+
+    dismissSearchFocus();
+    await tester.pump();
+    expect(find.text('Kleť'), findsNothing);
+
+    // Detail rozhledny je modální panel, tedy vlastní route.
+    final context = tester.element(find.byType(MapSearchBar));
+    unawaited(showDialog<void>(
+      context: context,
+      builder: (_) => const AlertDialog(content: Text('detail')),
+    ));
+    await tester.pumpAndSettle();
+    Navigator.of(context).pop();
+    await tester.pumpAndSettle();
+
+    expect(find.text('Kleť'), findsNothing, reason: 'nálezy se vrátit nesmí');
   });
 
   testWidgets('když nic nesedí, řekne se to', (tester) async {

@@ -321,7 +321,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 // Klepnutí do mapy zavírá i klávesnici od hledání. Jinak by
                 // po výběru rozhledny zůstala vytažená přes půl mapy a
                 // schovat se dala jen systémovým tlačítkem zpět.
-                FocusScope.of(context).unfocus();
+                dismissSearchFocus();
                 setState(() {
                   _selectedUuid = null;
                   _pin = null;

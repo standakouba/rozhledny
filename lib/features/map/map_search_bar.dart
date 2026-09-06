@@ -11,6 +11,15 @@ import '../towers/tower_search.dart';
 /// mapu přes její detail — čtyři klepnutí za to, aby se člověk podíval, kde
 /// ta věž vlastně je. Nálezy se ukazují pod polem a klepnutí na jeden z nich
 /// mapu přesune; pole zůstane vyplněné, ať je vidět, co se hledalo.
+/// Sklopí klávesnici tak, aby se sama nevrátila.
+///
+/// `FocusScope.of(context).unfocus()` vypadá jako totéž, ale odebírá zaměření
+/// scope, ne poli — a scope si přitom pole drží jako svoje poslední zaměřené.
+/// Jakmile se pak zavře detail rozhledny, scope zaměření dostane zpátky
+/// a poslušně ho předá poli: klávesnice i nálezy naskočí znovu, aniž by o to
+/// kdo stál. Odebrat zaměření přímo poli tuhle paměť scope vyčistí.
+void dismissSearchFocus() => FocusManager.instance.primaryFocus?.unfocus();
+
 class MapSearchBar extends StatefulWidget {
   const MapSearchBar({
     super.key,
