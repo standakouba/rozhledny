@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:drift/drift.dart' hide isNull;
+import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rozhledny/data/database.dart';
@@ -115,6 +115,69 @@ void main() {
     expect((await tower(1))?.note, 'zavřeno v zimě');
   });
 
+  group('body, které z dat zmizely', () {
+    test('prázdný bod z OSM se smaže', () async {
+      // Vzniká, když slučování duplicit dá při dalším běhu generátoru
+      // přednost jinému ze dvou zápisů téhož místa. Nechat ho v databázi
+      // znamená dva puntíky pár metrů od sebe, z toho jeden mrtvý.
+      await addTower(1, name: 'Duplicita');
+
+      final report = await syncTowersFromAsset(db, json: asset([osm(2)]));
+
+      expect(report.removed, 1);
+      expect(report.missing, 0);
+      expect(await tower(1), isNull);
+    });
+
+    test('bod se smazanou návštěvou zůstává', () async {
+      // Tombstone návštěvy může znamenat, že na druhém telefonu je pořád
+      // živá. Po importu odtamtud by neměla na co navázat.
+      await addTower(1, name: 'Kleť');
+      final visitUuid = newUuid();
+      await db.upsertVisit(VisitsCompanion.insert(
+        uuid: visitUuid,
+        towerUuid: osmTowerUuid('node', 1),
+        createdAt: DateTime(2026, 5, 1),
+        updatedAt: DateTime(2026, 5, 1),
+      ));
+      await db.softDeleteVisit(visitUuid);
+
+      final report = await syncTowersFromAsset(db, json: asset([osm(2)]));
+
+      expect(report.removed, 0);
+      expect(report.missing, 1);
+      expect((await tower(1))?.osmMissing, isTrue);
+    });
+
+    test('ručně upravený bod zůstává', () async {
+      await addTower(1, name: 'Moje jméno', userModified: true);
+
+      final report = await syncTowersFromAsset(db, json: asset([osm(2)]));
+
+      expect(report.removed, 0);
+      expect(await tower(1), isNotNull);
+    });
+
+    test('tombstone se nemaže, jinak by ho import vzkřísil', () async {
+      await addTower(1, name: 'Smazaná');
+      await db.softDeleteTower(osmTowerUuid('node', 1));
+
+      final report = await syncTowersFromAsset(db, json: asset([osm(2)]));
+
+      expect(report.removed, 0);
+      expect((await tower(1))?.deleted, isTrue);
+    });
+
+    test('vlastní bod se nemaže, i když v assetu nikdy nebyl', () async {
+      await addTower(1, name: 'Moje vlastní', source: TowerSource.user);
+
+      final report = await syncTowersFromAsset(db, json: asset([osm(2)]));
+
+      expect(report.removed, 0);
+      expect(await tower(1), isNotNull);
+    });
+  });
+
   test('rozhledna, která z dat zmizela, se označí a návštěva na ní přežije',
       () async {
     await addTower(1, name: 'Zaniklá');
@@ -135,7 +198,15 @@ void main() {
   });
 
   test('rozhledna, která se do dat vrátila, přestane být označená', () async {
+    // Držet ji naživu musí návštěva; bez ní by se bod z assetu rovnou smazal
+    // a nebylo by co odznačovat.
     await addTower(1, name: 'Kleť');
+    await db.upsertVisit(VisitsCompanion.insert(
+      uuid: newUuid(),
+      towerUuid: osmTowerUuid('node', 1),
+      createdAt: DateTime(2026, 5, 1),
+      updatedAt: DateTime(2026, 5, 1),
+    ));
     await syncTowersFromAsset(db, json: asset([]));
     expect((await tower(1))?.osmMissing, isTrue);
 

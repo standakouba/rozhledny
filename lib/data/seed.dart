@@ -125,6 +125,7 @@ class AssetSyncReport {
     this.added = 0,
     this.updated = 0,
     this.missing = 0,
+    this.removed = 0,
     this.kept = 0,
   });
 
@@ -134,18 +135,22 @@ class AssetSyncReport {
   /// Rozhledny, kterým se přepsala data z OSM.
   final int updated;
 
-  /// Rozhledny, které z assetu zmizely. Nemažou se, jen se označí.
+  /// Rozhledny, které z assetu zmizely a zůstávají kvůli návštěvě nebo
+  /// ruční úpravě. Jen se označí příznakem.
   final int missing;
+
+  /// Prázdné body z OSM, které z assetu zmizely a nic na nich neviselo.
+  final int removed;
 
   /// Body, na které se nesahalo: vlastní, ručně upravené a smazané.
   final int kept;
 
-  bool get changedAnything => added + updated + missing > 0;
+  bool get changedAnything => added + updated + missing + removed > 0;
 
   @override
   String toString() =>
-      'přidáno $added, aktualizováno $updated, '
-      'chybí v OSM $missing, beze změny $kept';
+      'přidáno $added, aktualizováno $updated, chybí v OSM $missing, '
+      'smazáno $removed, beze změny $kept';
 }
 
 /// Klíč, pod kterým si aplikace pamatuje, který asset už do dat promítla.
@@ -204,9 +209,15 @@ Future<String> _assetDigest() async {
 /// uživatel přijít nesmí. Z polí přepisuje jen ta, která pocházejí z OSM;
 /// poznámka u rozhledny je uživatelova a zůstává.
 ///
-/// Nic nemaže. Rozhledna, která z assetu zmizela, se jen označí `osmMissing`,
-/// protože na ní můžou viset návštěvy — a ty jsou to jediné, co si uživatel
-/// do aplikace sám nasbíral.
+/// Rozhledna, která z assetu zmizela, se **označí** `osmMissing` a zůstane,
+/// pokud na ní cokoli visí — návštěva (i smazaná) nebo ruční úprava. To
+/// jediné si uživatel do aplikace nasbíral sám a přijít o to nesmí.
+///
+/// Smaže se jen prázdný bod z OSM, na kterém nevisí nic. Takové vznikají,
+/// když slučování duplicit dá při dalším běhu generátoru přednost jinému ze
+/// dvou zápisů téhož místa: v telefonu by pak zůstaly dva puntíky pár metrů
+/// od sebe, jeden z nich mrtvý. Tombstone se nemaže ani tak — vzkřísil by ho
+/// první import z druhého telefonu.
 Future<AssetSyncReport> syncTowersFromAsset(
   AppDatabase db, {
   String? json,
@@ -216,8 +227,9 @@ Future<AssetSyncReport> syncTowersFromAsset(
   final now = DateTime.now();
 
   final existing = {for (final t in await db.allTowers()) t.uuid: t};
+  final withVisits = await db.towerUuidsWithVisits();
   final inAsset = <String>{};
-  var added = 0, updated = 0, missing = 0, kept = 0;
+  var added = 0, updated = 0, missing = 0, removed = 0, kept = 0;
 
   await db.batch((b) {
     for (final item in decoded['towers'] as List<dynamic>) {
@@ -244,11 +256,25 @@ Future<AssetSyncReport> syncTowersFromAsset(
     }
 
     for (final row in existing.values) {
-      if (row.source != TowerSource.osm ||
-          row.osmMissing ||
-          inAsset.contains(row.uuid)) {
+      if (row.source != TowerSource.osm || inAsset.contains(row.uuid)) continue;
+
+      // Prázdný bod z OSM, který v datech přestal existovat, se smaže.
+      // Vzniká hlavně tak, že slučování duplicit dá při dalším běhu
+      // generátoru přednost jinému ze dvou zápisů téhož místa — v telefonu
+      // by pak zůstaly dva puntíky pár metrů od sebe, jeden mrtvý.
+      //
+      // Mazat se smí jedině, když na bodu nic nevisí: žádná návštěva ani
+      // smazaná, žádná ruční úprava. Tombstone se nechává být, jinak by ho
+      // import z druhého telefonu vzkřísil.
+      if (!row.userModified &&
+          !row.deleted &&
+          !withVisits.contains(row.uuid)) {
+        b.deleteWhere(db.towers, (t) => t.uuid.equals(row.uuid));
+        removed++;
         continue;
       }
+
+      if (row.osmMissing) continue;
       b.update(
         db.towers,
         TowersCompanion(osmMissing: const Value(true), updatedAt: Value(now)),
@@ -262,6 +288,7 @@ Future<AssetSyncReport> syncTowersFromAsset(
     added: added,
     updated: updated,
     missing: missing,
+    removed: removed,
     kept: kept,
   );
 }

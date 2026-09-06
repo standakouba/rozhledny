@@ -301,6 +301,18 @@ class AppDatabase extends _$AppDatabase {
   /// aby poznalo, na které body se sahat nesmí.
   Future<List<Tower>> allTowers() => select(towers).get();
 
+  /// Rozhledny, na kterých visí návštěva — **i smazaná**.
+  ///
+  /// Tombstone návštěvy může znamenat, že na druhém telefonu je pořád živá.
+  /// Kdyby se rozhledna smazala a import ji pak vrátil, neměla by se návštěva
+  /// na co navěsit a v seznamu ani ve statistikách by se neukázala.
+  Future<Set<String>> towerUuidsWithVisits() async {
+    final rows = await (selectOnly(visits, distinct: true)
+          ..addColumns([visits.towerUuid]))
+        .get();
+    return {for (final r in rows) r.read(visits.towerUuid)!};
+  }
+
   /// Návštěvy téže rozhledny ve stejný den pod různým UUID.
   ///
   /// Vznikají, když stejný výlet zapíšou oba telefony zvlášť — slučování podle

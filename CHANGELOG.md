@@ -88,9 +88,14 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   assetu data srovnají — pozná se to podle otisku souboru, ne podle verze
   aplikace, aby to fungovalo i při ruční opravě dat a při vývoji
 - aktualizace **nesahá** na vlastní rozhledny, na ručně upravené body z OSM
-  ani na smazané, a nic nemaže: rozhledna, která z OSM zmizela, se jen
-  označí příznakem `osmMissing`, protože na ní můžou viset návštěvy.
-  Poznámka u rozhledny je uživatelova a přepis ji nechává být
+  ani na smazané. Poznámka u rozhledny je uživatelova a přepis ji nechává být
+- **bod, který z dat vypadl a nikdo si ho nepřivlastnil, se smaže.** Vzniká
+  to při přegenerování: slučování duplicit dá přednost jinému ze dvou zápisů
+  téhož místa a po tom předchozím zbyde v telefonu mrtvý puntík pár metrů
+  vedle. Smí zmizet jen bod z OSM, který nikdo neupravil, nesmazal a nemá
+  na sobě návštěvu — a to ani smazanou, protože na druhém telefonu může být
+  pořád živá a po importu by neměla na co navázat. Cokoli z toho ho drží
+  naživu a dostane jen příznak `osmMissing`
 
 ## 0.14.0
 
