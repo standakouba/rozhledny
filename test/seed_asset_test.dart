@@ -112,6 +112,23 @@ void main() {
       expect(withText, greaterThan(200), reason: 'ověřeno 257');
     });
 
+    test('jméno doplněné z Wikipedie je označené a očištěné', () {
+      // Doplňuje ho tools/fetch_wiki.dart tam, kde OSM `name` nemá. Příznak
+      // musí zůstat u záznamu, jinak by generátor při dalším běhu nepoznal,
+      // které jméno smí přepsat, a cizí text by v datech uvízl natrvalo.
+      final derived =
+          towers.where((t) => t['nameFromWikipedia'] == true).toList();
+      expect(derived, isNotEmpty);
+
+      for (final t in derived) {
+        expect(t['name'], isNotNull);
+        expect(t['wikipediaTitle'], isNotNull,
+            reason: 'jméno se bere z titulku článku, ten tedy musí být u toho');
+        expect(t['name'], isNot(endsWith(')')),
+            reason: 'závorkové rozlišení z Wikipedie se do jména nepřenáší');
+      }
+    });
+
     test('výtahy se vejdou do karty', () {
       for (final t in towers.where((t) => t['wikipediaExtract'] != null)) {
         expect((t['wikipediaExtract'] as String).length, lessThanOrEqualTo(701));

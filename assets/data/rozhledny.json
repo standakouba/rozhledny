@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-30T11:41:29.693682Z",
+  "generatedAt": "2026-09-06T10:00:14.106353Z",
   "area": "CZ",
   "source": "OpenStreetMap contributors (ODbL)",
-  "count": 672,
+  "count": 677,
   "towers": [
     {
       "osmType": "node",
@@ -27,6 +27,24 @@
     },
     {
       "osmType": "way",
+      "osmId": 485549536,
+      "name": "Alainova věž",
+      "lat": 50.502735,
+      "lon": 15.36423,
+      "height": 13.0,
+      "region": "Liberecký kraj",
+      "wikidataId": "Q37029344",
+      "wikipediaTitle": "Alainova věž",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Alainova_v%C4%9B%C5%BE",
+      "wikipediaExtract": "Alainova věž, lidově zvaná Alainovka, je novogotická stavba na lesní mýtině na jižním svahu podkrkonošského vrchu Tábor v Libereckém kraji, asi 3 km jižně od Lomnice nad Popelkou. Věž byla postavena v 19. století rodem Rohanů a používána do první světové války jako posed v rohanské oboře. Po roce 1945 se stala skladem krmiva pro zvěř a následně byla zcela nevyužívaná. V roce 2009 odkoupilo věž město Lomnice nad Popelkou a v roce 2013-2014 prošla kompletní rekonstrukcí.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Allainova%20v%C4%9B%C5%BE%20(3).JPG?width=800",
+      "photoAuthor": "Lubor Ferenc",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Allainova_v%C4%9B%C5%BE_(3).JPG"
+    },
+    {
+      "osmType": "way",
       "osmId": 261745105,
       "name": "Alexandrova rozhledna",
       "lat": 49.297887,
@@ -46,24 +64,6 @@
     },
     {
       "osmType": "way",
-      "osmId": 485549536,
-      "name": "Allainova věž",
-      "lat": 50.502735,
-      "lon": 15.36423,
-      "height": 13.0,
-      "region": "Liberecký kraj",
-      "wikidataId": "Q37029344",
-      "wikipediaTitle": "Alainova věž",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Alainova_v%C4%9B%C5%BE",
-      "wikipediaExtract": "Alainova věž, lidově zvaná Alainovka, je novogotická stavba na lesní mýtině na jižním svahu podkrkonošského vrchu Tábor v Libereckém kraji, asi 3 km jižně od Lomnice nad Popelkou. Věž byla postavena v 19. století rodem Rohanů a používána do první světové války jako posed v rohanské oboře. Po roce 1945 se stala skladem krmiva pro zvěř a následně byla zcela nevyužívaná. V roce 2009 odkoupilo věž město Lomnice nad Popelkou a v roce 2013-2014 prošla kompletní rekonstrukcí.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Allainova%20v%C4%9B%C5%BE%20(3).JPG?width=800",
-      "photoAuthor": "Lubor Ferenc",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Allainova_v%C4%9B%C5%BE_(3).JPG"
-    },
-    {
-      "osmType": "way",
       "osmId": 382636013,
       "name": "Astronomická věž",
       "lat": 50.086657,
@@ -72,7 +72,16 @@
       "region": "Praha",
       "website": "https://www.klementinum.com/",
       "openingHours": "Mo-Su 10:00-18:00",
-      "wikidata": "Q61971732"
+      "wikidata": "Q61971732",
+      "wikidataId": "Q61971732",
+      "wikipediaTitle": "Astronomická věž (Klementinum)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Astronomick%C3%A1_v%C4%9B%C5%BE_(Klementinum)",
+      "wikipediaExtract": "Astronomická věž je součástí barokního areálu Klementinum na Starém Městě v Praze. Do roku 1938 byla využívána jako hvězdárna, nyní slouží jako vyhlídková věž.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Astronomick%C3%A1%20v%C4%9B%C5%BE%20(Klementinum)%20od%20SV.jpg?width=800",
+      "photoAuthor": "Skot",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Astronomick%C3%A1_v%C4%9B%C5%BE_(Klementinum)_od_SV.jpg"
     },
     {
       "osmType": "node",
@@ -106,25 +115,6 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Babka-1.JPG"
     },
     {
-      "osmType": "node",
-      "osmId": 403355856,
-      "name": "Babylon",
-      "lat": 49.443696,
-      "lon": 16.463914,
-      "region": "Jihomoravský kraj",
-      "fee": "15 CZK",
-      "wikidata": "Q10859682",
-      "wikidataId": "Q10859682",
-      "wikipediaTitle": "Babylon (rozhledna, okres Blansko)",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Babylon_(rozhledna,_okres_Blansko)",
-      "wikipediaExtract": "Rozhledna na vrchu Babylon je ocelová stavba u Kozárova v okrese Blansko.\nVěž byla vybudována v roce 2000 pro mobilního operátora Oskar firmou Ericsson jako vysílač mobilního signálu. Zbudována byla na stejnojmenném kopci v nadmořské výšce 654 metrů. Plošina, na kterou vede 139 schodů, se nachází ve výšce 24 metrů nad zemí a je provozována obcí Kozárov jako vyhlídková. Vstup na ni je zpoplatněn. Na plošině se otevírá výhled nejen na široké okolí, ale při vhodném počasí například na Pavlovské vrchy, chladicí věže jaderné elektrárny Dukovany, Orlické hory a Hrubý a Nízký Jeseník.\nZa mimořádné dohlednosti lze spatřit přes 190 km vzdálené vrcholky Alp.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Koz%C3%A1rov%20-%20rozhledna%20Babylon%2C%20obr01.jpg?width=800",
-      "photoAuthor": "RomanM82",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Koz%C3%A1rov_-_rozhledna_Babylon,_obr01.jpg"
-    },
-    {
       "osmType": "way",
       "osmId": 28735648,
       "name": "Babylon",
@@ -142,6 +132,25 @@
       "photoAuthor": "User:Miaow Miaow",
       "photoLicense": "Public domain",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Kladeruby_nad_Oslavou_CZ_Babylon_lookout_tower_068.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 403355856,
+      "name": "Babylon",
+      "lat": 49.443696,
+      "lon": 16.463914,
+      "region": "Jihomoravský kraj",
+      "fee": "15 CZK",
+      "wikidata": "Q10859682",
+      "wikidataId": "Q10859682",
+      "wikipediaTitle": "Babylon (rozhledna, okres Blansko)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Babylon_(rozhledna,_okres_Blansko)",
+      "wikipediaExtract": "Rozhledna na vrchu Babylon je ocelová stavba u Kozárova v okrese Blansko.\nVěž byla vybudována v roce 2000 pro mobilního operátora Oskar firmou Ericsson jako vysílač mobilního signálu. Zbudována byla na stejnojmenném kopci v nadmořské výšce 654 metrů. Plošina, na kterou vede 139 schodů, se nachází ve výšce 24 metrů nad zemí a je provozována obcí Kozárov jako vyhlídková. Vstup na ni je zpoplatněn. Na plošině se otevírá výhled nejen na široké okolí, ale při vhodném počasí například na Pavlovské vrchy, chladicí věže jaderné elektrárny Dukovany, Orlické hory a Hrubý a Nízký Jeseník.\nZa mimořádné dohlednosti lze spatřit přes 190 km vzdálené vrcholky Alp.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Koz%C3%A1rov%20-%20rozhledna%20Babylon%2C%20obr01.jpg?width=800",
+      "photoAuthor": "RomanM82",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Koz%C3%A1rov_-_rozhledna_Babylon,_obr01.jpg"
     },
     {
       "osmType": "way",
@@ -176,25 +185,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 1396128624,
-      "name": "Bezručova vyhlídka",
-      "lat": 49.855998,
-      "lon": 17.8682,
-      "region": "Moravskoslezský kraj",
-      "fee": "no",
-      "access": "yes",
-      "wikidataId": "Q10856850",
-      "wikipediaTitle": "Bezručova vyhlídka",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Bezru%C4%8Dova_vyhl%C3%ADdka",
-      "wikipediaExtract": "Bezručova vyhlídka je menší rozhledna u města Hradec nad Moravicí v okrese Opava, nacházející se v zámeckém parku zámku Hradec nad Moravicí, cca 2 km od zámku.\nVýhled z rozhledny je umožněn, díky vzrostlým okolním stromům, jen severním směrem na Hradec nad Moravicí a Opavu.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bezrucova%20vyhlidka.jpg?width=800",
-      "photoAuthor": "Jakub Pospíšil",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bezrucova_vyhlidka.jpg"
-    },
-    {
-      "osmType": "node",
       "osmId": 3312948861,
       "name": "Bezručova vyhlídka",
       "lat": 49.589957,
@@ -211,6 +201,25 @@
       "photoLicense": "CC BY-SA 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bezru%C4%8Dova_vyhl%C3%ADdka,_Kop%C5%99ivnice.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 1396128624,
+      "name": "Bezručova vyhlídka",
+      "lat": 49.855998,
+      "lon": 17.8682,
+      "region": "Moravskoslezský kraj",
+      "fee": "no",
+      "access": "yes",
+      "wikidataId": "Q10856850",
+      "wikipediaTitle": "Bezručova vyhlídka",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Bezru%C4%8Dova_vyhl%C3%ADdka",
+      "wikipediaExtract": "Bezručova vyhlídka je menší rozhledna u města Hradec nad Moravicí v okrese Opava, nacházející se v zámeckém parku zámku Hradec nad Moravicí, cca 2 km od zámku.\nVýhled z rozhledny je umožněn, díky vzrostlým okolním stromům, jen severním směrem na Hradec nad Moravicí a Opavu.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bezrucova%20vyhlidka.jpg?width=800",
+      "photoAuthor": "Jakub Pospíšil",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bezrucova_vyhlidka.jpg"
     },
     {
       "osmType": "way",
@@ -244,7 +253,16 @@
       "region": "Karlovarský kraj",
       "openingHours": "Apr-Oct 09:00-18:00",
       "fee": "no",
-      "wikidata": "Q866509"
+      "wikidata": "Q866509",
+      "wikidataId": "Q866509",
+      "wikipediaTitle": "Bismarckova rozhledna (Zelená hora)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Bismarckova_rozhledna_(Zelen%C3%A1_hora)",
+      "wikipediaExtract": "Bismarckova rozhledna je rozhledna nacházející se na vrcholu Zelené hory (641 m), v katastrálním území Dolní Pelhřimov, přibližně 4 km západně od města Cheb v okrese Cheb v Karlovarském kraji.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bismarckova%20rozhledna%20(Zelen%C3%A1%20hora)%202.jpg?width=800",
+      "photoAuthor": "Jitka Erbenová (cheva)",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bismarckova_rozhledna_(Zelen%C3%A1_hora)_2.jpg"
     },
     {
       "osmType": "way",
@@ -283,7 +301,7 @@
     {
       "osmType": "node",
       "osmId": 829529480,
-      "name": "Boika",
+      "name": "Boiika",
       "lat": 49.846518,
       "lon": 15.78408,
       "region": "Pardubický kraj",
@@ -387,7 +405,16 @@
       "lon": 14.472028,
       "height": 51.0,
       "region": "Jihočeský kraj",
-      "wikidata": "Q93451321"
+      "wikidata": "Q93451321",
+      "wikidataId": "Q93451321",
+      "wikipediaTitle": "Bílá věž (klášterní)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/B%C3%ADl%C3%A1_v%C4%9B%C5%BE_(kl%C3%A1%C5%A1tern%C3%AD)",
+      "wikipediaExtract": "Bílá věž (do roku 1985 Klášterní věž nebo Dominikánská věž), je barokně upravená hranolová věž, součást památkově chráněného bývalého dominikánského konventu v Českých Budějovicích. S 51 metry jde o druhou nejvyšší věž ve městě a původně gotickou dominantu Českých Budějovic. Vznik věže i její pozdější přestavba byly reakcí na požáry města v letech 1463 a 1728",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bud%C4%9Bjovice%20-%20Kostel%20Ob%C4%9Btov%C3%A1n%C3%AD%20Panny%20Marie%20-%20v%C3%A9%C5%BE.jpg?width=800",
+      "photoAuthor": "Pudelek (Marcin Szala)",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bud%C4%9Bjovice_-_Kostel_Ob%C4%9Btov%C3%A1n%C3%AD_Panny_Marie_-_v%C3%A9%C5%BE.jpg"
     },
     {
       "osmType": "node",
@@ -396,7 +423,13 @@
       "lat": 48.900738,
       "lon": 17.313425,
       "region": "Jihomoravský kraj",
-      "wikidata": "Q115254499"
+      "wikidata": "Q115254499",
+      "wikidataId": "Q115254499",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bila%20vez%201.jpg?width=800",
+      "photoAuthor": "Radek Linner",
+      "photoLicense": "CC BY 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Bila_vez_1.jpg"
     },
     {
       "osmType": "way",
@@ -408,6 +441,17 @@
       "website": "https://www.vezstepanka.cz/",
       "fee": "no",
       "access": "permissive"
+    },
+    {
+      "osmType": "way",
+      "osmId": 1311795638,
+      "name": "Chmelový maják",
+      "lat": 50.324687,
+      "lon": 13.545443,
+      "height": 42.0,
+      "region": "Ústecký kraj",
+      "openingHours": "Tu-Su 10:00-17:00",
+      "fee": "yes"
     },
     {
       "osmType": "node",
@@ -509,6 +553,21 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Overview_of_Doubravka_XIV_viewtower_in_Prague.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 464097951,
+      "name": "Drahoušek",
+      "lat": 49.698793,
+      "lon": 14.456134,
+      "height": 38.0,
+      "region": "Středočeský kraj",
+      "wikidataId": "Q95500237",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Overview%20of%20Drahou%C5%A1ek%20observation%20tower%20near%20Ose%C4%8Dany%2C%20P%C5%99%C3%ADbram%20District.JPG?width=800",
+      "photoAuthor": "Jiří Sedláček",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Overview_of_Drahou%C5%A1ek_observation_tower_near_Ose%C4%8Dany,_P%C5%99%C3%ADbram_District.JPG"
     },
     {
       "osmType": "way",
@@ -651,7 +710,16 @@
       "region": "Jihomoravský kraj",
       "fee": "no",
       "operator": "ÖTK",
-      "wikidata": "Q110521654"
+      "wikidata": "Q110521654",
+      "wikidataId": "Q110521654",
+      "wikipediaTitle": "Hardeggská vyhlídka",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Hardeggsk%C3%A1_vyhl%C3%ADdka",
+      "wikipediaExtract": "Hardeggská vyhlídka (německy: Hardegger Warte) je vyhlídka v národním parku Podyjí. Je odtud vidět na údolí řeky Dyje, a také na rakouské město Hardegg (nejmenší město v Rakousku) s hradem Hardegg. Vyhlídka se nachází na velkém skalisku, které je vysoké 90 metrů. Na tomto skalisku se vyskytují některé chráněné druhy živočichů a rostlin. Vyhlídka se nachází na území Čížova, což je vesnice, která je součástí Horního Břečkova (okres Znojmo v Jihomoravském kraji). Na hardeggské vyhlídce se nachází také malý altánek.\nVyhlídka je přístupná po modré turistické stezce z Čížova nebo z Hardeggu.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Hardeggsk%C3%A1vyhl%C3%ADdka.jpg?width=800",
+      "photoAuthor": "Bedinek",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Hardeggsk%C3%A1vyhl%C3%ADdka.jpg"
     },
     {
       "osmType": "way",
@@ -660,6 +728,14 @@
       "lat": 50.579193,
       "lon": 14.384185,
       "region": "Ústecký kraj"
+    },
+    {
+      "osmType": "node",
+      "osmId": 2415938905,
+      "name": "Helfenburk u Bavorova",
+      "lat": 49.135889,
+      "lon": 14.007294,
+      "region": "Jihočeský kraj"
     },
     {
       "osmType": "node",
@@ -722,6 +798,27 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rove%C4%8Dn%C3%A9_-_rozhledna_Horn%C3%AD_les,_2024-10,_obr01.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 1369476707,
+      "name": "Hořický chlum",
+      "lat": 50.380095,
+      "lon": 15.624797,
+      "height": 41.54,
+      "ele": 410.0,
+      "region": "Královéhradecký kraj",
+      "website": "http://www.horice.org/cz/kultura-a-pamatky/rozhledna-horicky-chlum/",
+      "wikidata": "Q24352741",
+      "wikidataId": "Q24352741",
+      "wikipediaTitle": "Rozhledna Hořický chlum",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_Ho%C5%99ick%C3%BD_chlum",
+      "wikipediaExtract": "Rozhledna Hořický chlum se nachází přibližně kilometr západně od Chlumu, městské části Hořic v Podkrkonoší. Byla postavena v roce 1998 jako základnová stanice společnosti Eurotel (dnešní O2). Celková výška věže činí 41,5 m, ale její vyhlídkový ochoz se nalézá ve výšce 27 m nad zemí. Na vyhlídku vedou dvě nezávislá schodiště, každé o 142 schodech.\nO provoz rozhledny se stará KČT Hořice v Podkrkonoší.\nV regionu se nachází ještě další dvě rozhledny stejného typu konstrukce i názvu „Chlum“. Jde o Chlum u Hradce Králové a Andrlův Chlum (Ústí nad Orlicí).  Hořická je z nich nejnižší – hradecká měří 55,6 m a orlickoústecká 52 m.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Ho%C5%99ick%C3%BD%20chlum%20(01).jpg?width=800",
+      "photoAuthor": "SimcaCZE",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Ho%C5%99ick%C3%BD_chlum_(01).jpg"
     },
     {
       "osmType": "node",
@@ -1383,7 +1480,16 @@
       "region": "Praha",
       "website": "https://www.muzeumprahy.cz/",
       "operator": "Muzeum hlavního města Prahy",
-      "wikidata": "Q1509185"
+      "wikidata": "Q1509185",
+      "wikidataId": "Q1509185",
+      "wikipediaTitle": "Malostranské mostecké věže",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Malostransk%C3%A9_mosteck%C3%A9_v%C4%9B%C5%BEe",
+      "wikipediaExtract": "Malostranské mostecké věže jsou dvě stylově odlišné nestejně vysoké pražské věže tvořící vstup z Karlova mostu na Malou Stranu na královské cestě na počátku Mostecké ulice. Středověké mosty většinou bývaly na každém konci osazené věží. Karlův most má však na malostranském břehu dvě věže, propojené velkou gotickou bránou. Nižší věži se říká Juditina a je starší než Karlův most, vyšší věž pak byla budována až po jeho dokončení. Věže s bránou tvořily důležitou součást malostranského opevnění v dobách, kdy bylo Menší Město pražské – dnešní Malá Strana – samostatným územím. V případě vpádu cizích vojsk se do věží mohla uchýlit ozbrojená posádka, která bránila nepřátelům v přechodu přes most.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Roman%20Boed%20Karl%C5%AFv%20most3.jpg?width=800",
+      "photoAuthor": "Roman Boed from The Netherlands",
+      "photoLicense": "CC BY 2.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Roman_Boed_Karl%C5%AFv_most3.jpg"
     },
     {
       "osmType": "node",
@@ -1556,10 +1662,10 @@
     },
     {
       "osmType": "node",
-      "osmId": 9788987597,
+      "osmId": 9695521987,
       "name": "minirozhledna",
-      "lat": 49.145668,
-      "lon": 14.539309,
+      "lat": 48.968359,
+      "lon": 14.421525,
       "region": "Jihočeský kraj"
     },
     {
@@ -1572,10 +1678,10 @@
     },
     {
       "osmType": "node",
-      "osmId": 9695521987,
+      "osmId": 9788987597,
       "name": "minirozhledna",
-      "lat": 48.968359,
-      "lon": 14.421525,
+      "lat": 49.145668,
+      "lon": 14.539309,
       "region": "Jihočeský kraj"
     },
     {
@@ -1809,7 +1915,26 @@
       "website": "https://www.obec-staric.cz/turisticke-info-staric-menu/rozhledna-okrouhla/",
       "openingHours": "May-Sep,Jul-Aug Sa,Su 12:00-16:00; Jul-Aug We 13:00-16:00; PH 12:00-16:00",
       "operator": "T-mobile",
-      "wikidata": "Q107467303"
+      "wikidata": "Q107467303",
+      "wikidataId": "Q107467303",
+      "wikipediaTitle": "Okrouhlá (Podbeskydská pahorkatina)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Okrouhl%C3%A1_(Podbeskydsk%C3%A1_pahorkatina)",
+      "wikipediaExtract": "Okrouhlá je kopec, rozhledna a telekomunikační věž, která se nachází u obce Staříč v okrese Frýdek-Místek v Moravskoslezském kraji v Podbeskydské pahorkatině. Rozhledna, která byla postavena v roce 2003 a zpřístupněna veřejnosti v roce 2006, má výšku 55 metrů, vnější schodiště a vyhlídkový ochoz ve výšce 30 metrů. Z ochozu je výhled na Moravskoslezské Beskydy, Nízký Jeseník, Frýdek-Místek, Havířov, Ostravu, Ostravskou pánev a jiná místa v okolí. Vstup na rozhlednu je zpoplatněn.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Sta%C5%99%C3%AD%C4%8D%20-%20rozhledna%20na%20vrchu%20Okrouhl%C3%A1.jpg?width=800",
+      "photoAuthor": "Dr. Killer",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Sta%C5%99%C3%AD%C4%8D_-_rozhledna_na_vrchu_Okrouhl%C3%A1.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 3627781923,
+      "name": "Ornitologická pozorovatelna",
+      "lat": 49.653058,
+      "lon": 17.231219,
+      "region": "Olomoucký kraj",
+      "openingHours": "24/7",
+      "fee": "no"
     },
     {
       "osmType": "node",
@@ -1835,16 +1960,6 @@
       "lat": 49.418898,
       "lon": 17.323676,
       "region": "Olomoucký kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 3627781923,
-      "name": "Ornitologická pozorovatelna",
-      "lat": 49.653058,
-      "lon": 17.231219,
-      "region": "Olomoucký kraj",
-      "openingHours": "24/7",
-      "fee": "no"
     },
     {
       "osmType": "way",
@@ -1909,7 +2024,10 @@
       "region": "Karlovarský kraj",
       "access": "yes",
       "wikidata": "Q1558671",
-      "wikidataId": "Q37990525",
+      "wikidataId": "Q1558671",
+      "wikipediaTitle": "Tisovský vrch",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Tisovsk%C3%BD_vrch",
+      "wikipediaExtract": "Tisovský vrch-Pajndl (německy Peindlberg) se tyčí do výšky 977 m n. m. severně od Nejdku nad vesnicí Tisová.",
       "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Tisov%C3%A1%20(Nejdek)%20-%20rozhledna%20Pajndl%2C%202025-07%2C%20obr01.jpg?width=800",
       "photoAuthor": "Roman Mifek",
       "photoLicense": "CC BY-SA 4.0",
@@ -2121,7 +2239,11 @@
       "region": "Moravskoslezský kraj",
       "website": "http://www.chataprasiva.cz/chata/rozhledna/",
       "openingHours": "Fr,Su 17:00-17:30; Sa 10:00-10:30",
-      "wikidata": "Q12053509"
+      "wikidata": "Q12053509",
+      "wikidataId": "Q12053509",
+      "wikipediaTitle": "Seznam rozhleden v Moravskoslezském kraji",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Seznam_rozhleden_v_Moravskoslezsk%C3%A9m_kraji",
+      "wikipediaExtract": "Seznam rozhleden v Moravskoslezském kraji představuje výčet rozhleden a vyhlídkových věží, které se nachází v Moravskoslezském kraji.\nVzhledem k nejednoznačné definici rozhleden a stále přibývajících staveb tohoto druhu je pravděpodobné, že seznam nebude úplný."
     },
     {
       "osmType": "way",
@@ -2134,7 +2256,24 @@
       "website": "https://www.prague.eu/en/object/places/102/powder-gate-tower-prasna-brana?back=1",
       "openingHours": "Nov-Feb 10:00-18:00; Mar,Oct 10:00-20:00; Apr-Sep 10:00-22:00",
       "operator": "Muzeum hlavního města Prahy",
-      "wikidata": "Q1488700"
+      "wikidata": "Q1488700",
+      "wikidataId": "Q1488700",
+      "wikipediaTitle": "Prašná brána",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Pra%C5%A1n%C3%A1_br%C3%A1na",
+      "wikipediaExtract": "Prašná brána (německy der Pulverturm) je pozdně gotická stavba na rozhraní ulice Na Příkopě a náměstí Republiky vedle Obecního domu naproti domu U Hybernů. Jedná se o jeden ze symbolů Prahy. V bráně začíná Celetná ulice, která zde tvoří první část Královské cesty, která vede odtud až na Pražský hrad. Brána vznikla roku 1475 k reprezentačním účelům a nahradila Bránu svatého Ambrože (součást tehdy již nepotřebného staroměstského opevnění), dostavena byla ale až na konci 19. století, v pseudogotickém puristickém stylu. Brána má výšku 65 metrů, vyhlídkový ochoz se nachází ve výšce 44 metrů a vede na něj 186 schodů.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Prague%2007-2016%20Powder%20Tower%20from%20Republic%20Square.jpg?width=800",
+      "photoAuthor": "A.Savin",
+      "photoLicense": "FAL",
+      "photoLicenseUrl": "http://artlibre.org/licence/lal/en",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Prague_07-2016_Powder_Tower_from_Republic_Square.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 8820577914,
+      "name": "ptačí pozorovatelna",
+      "lat": 49.180734,
+      "lon": 17.929368,
+      "region": "Zlínský kraj"
     },
     {
       "osmType": "node",
@@ -2156,14 +2295,6 @@
       "region": "Jihočeský kraj",
       "openingHours": "24/7",
       "wikidataId": "Q135002607"
-    },
-    {
-      "osmType": "node",
-      "osmId": 8820577914,
-      "name": "ptačí pozorovatelna",
-      "lat": 49.180734,
-      "lon": 17.929368,
-      "region": "Zlínský kraj"
     },
     {
       "osmType": "node",
@@ -2263,7 +2394,16 @@
       "openingHours": "Mo 11:00-22:00; Tu-Su 09:00-22:00",
       "fee": "yes",
       "access": "permit",
-      "wikidata": "Q2332231"
+      "wikidata": "Q2332231",
+      "wikidataId": "Q2332231",
+      "wikipediaTitle": "Staroměstská radnice",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Starom%C4%9Bstsk%C3%A1_radnice",
+      "wikipediaExtract": "Staroměstská radnice v Praze byla založena roku 1338 (jako první v Čechách) na základě privilegia uděleného staroměstským měšťanům králem Janem Lucemburským. Tvoří ji komplex několika domů přiléhajících ke Staroměstskému náměstí postupně připojovaných do jednoho celku pro potřeby správy Starého Města pražského. Od roku 1958 je chráněna jako kulturní památka a od roku 1992 jako národní kulturní památka. \nOd roku 1958 do 30. června roku 2020 turistické prostory radnice spravovala Pražská informační služba, po její transformaci akciová společnost Prague City Tourism a.s.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Prag%20Altstaedter%20Ring%20rathaus.jpg?width=800",
+      "photoAuthor": "Hans Peter Schaefer, http://www.reserv-a-rt.de",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Prag_Altstaedter_Ring_rathaus.jpg"
     },
     {
       "osmType": "node",
@@ -2364,20 +2504,11 @@
     },
     {
       "osmType": "node",
-      "osmId": 5010970673,
-      "name": "Rozhledna",
-      "lat": 50.090139,
-      "lon": 14.443895,
-      "height": 10.0,
-      "region": "Praha",
-      "fee": "no",
-      "wikidata": "Q104759338",
-      "wikidataId": "Q104759338",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Praha%20Karlin%20Kasarna%20g.jpg?width=800",
-      "photoAuthor": "JiriMatejicek",
-      "photoLicense": "CC BY-SA 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Praha_Karlin_Kasarna_g.jpg"
+      "osmId": 2370793591,
+      "name": "rozhledna",
+      "lat": 50.074303,
+      "lon": 16.768575,
+      "region": "Pardubický kraj"
     },
     {
       "osmType": "way",
@@ -2397,11 +2528,20 @@
     },
     {
       "osmType": "node",
-      "osmId": 2370793591,
-      "name": "rozhledna",
-      "lat": 50.074303,
-      "lon": 16.768575,
-      "region": "Pardubický kraj"
+      "osmId": 5010970673,
+      "name": "Rozhledna",
+      "lat": 50.090139,
+      "lon": 14.443895,
+      "height": 10.0,
+      "region": "Praha",
+      "fee": "no",
+      "wikidata": "Q104759338",
+      "wikidataId": "Q104759338",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Praha%20Karlin%20Kasarna%20g.jpg?width=800",
+      "photoAuthor": "JiriMatejicek",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Praha_Karlin_Kasarna_g.jpg"
     },
     {
       "osmType": "node",
@@ -3163,7 +3303,7 @@
     {
       "osmType": "node",
       "osmId": 4180959298,
-      "name": "Rozhledna Hostovice",
+      "name": "Rozhledna Hoslovice",
       "lat": 49.193231,
       "lon": 13.758942,
       "region": "Jihočeský kraj",
@@ -3249,12 +3389,15 @@
       "height": 19.0,
       "region": "Středočeský kraj",
       "wikidata": "Q15360334",
-      "wikidataId": "Q131397957",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhladna%20Hradist%201.jpg?width=800",
+      "wikidataId": "Q15360334",
+      "wikipediaTitle": "Hradiště (Jizerská tabule)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Hradi%C5%A1t%C4%9B_(Jizersk%C3%A1_tabule)",
+      "wikipediaExtract": "Hradiště (314 m n. m.), zlidověle nazýván Hradišť, je vrch v okrese Mělník Středočeského kraje. Leží asi 0,6 km jihovýchodně od obce Kadlín na příslušném katastrálním území.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhladna%20Hradist.jpg?width=800",
       "photoAuthor": "Marzper",
       "photoLicense": "CC BY 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhladna_Hradist_1.jpg"
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhladna_Hradist.jpg"
     },
     {
       "osmType": "way",
@@ -3368,7 +3511,16 @@
       "lat": 50.612768,
       "lon": 13.521026,
       "region": "Ústecký kraj",
-      "wikidata": "Q1688806"
+      "wikidata": "Q1688806",
+      "wikidataId": "Q1688806",
+      "wikipediaTitle": "Jeřabina (rozhledna)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Je%C5%99abina_(rozhledna)",
+      "wikipediaExtract": "Jeřabina je rozhledna na menší stejnojmenné vyvýšenině (německy Haselstein) v Krušných horách v okrese Most asi 20 km severně od města Mostu. Rozhledna se nachází zhruba 100 metrů vpravo od silnice III/2543 Křížatky – Mníšek. Vedou k ní dvě turistické stezky – červeně značená od jihovýchodu z Litvínova a žlutá od severozápadu z Mníšku. Rozhledna zde byla poprvé vystavěna v roce 1884, avšak byla zničena vichřicí. V roce 1929 byla sice obnovena, ale po druhé světové válce zanikla i tato. Naposledy byla obnovena v roce 2009. Z rozhledny je výhled na okolní Krušné hory, na České středohoří a Mosteckou pánev.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Je%C5%99abina.jpg?width=800",
+      "photoAuthor": "AHZ",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Je%C5%99abina.jpg"
     },
     {
       "osmType": "way",
@@ -3435,12 +3587,14 @@
       "fee": "recommended",
       "access": "yes",
       "wikidata": "Q1738421",
-      "wikidataId": "Q92076380",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Kel%C4%8Dsk%C3%BD%20Javorn%C3%ADk%2C%20rozhledna%20(1).jpg?width=800",
-      "photoAuthor": "Palickap",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Kel%C4%8Dsk%C3%BD_Javorn%C3%ADk,_rozhledna_(1).jpg"
+      "wikidataId": "Q1738421",
+      "wikipediaTitle": "Kelčský Javorník",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Kel%C4%8Dsk%C3%BD_Javorn%C3%ADk",
+      "wikipediaExtract": "Kelčský Javorník je 864 metrů vysoká hora v Hostýnsko-vsetínské hornatině, nejvyšší vrchol Hostýnských vrchů.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Kelcsky%20Javornik.jpg?width=800",
+      "photoAuthor": "No machine-readable author provided. Alb~commonswiki assumed (based on copyright claims).",
+      "photoLicense": "Public domain",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Kelcsky_Javornik.jpg"
     },
     {
       "osmType": "node",
@@ -3576,25 +3730,6 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Kozich_u_Libakovic.jpg"
     },
     {
-      "osmType": "way",
-      "osmId": 569256050,
-      "name": "rozhledna Kraví hora",
-      "lat": 48.730894,
-      "lon": 14.719868,
-      "height": 38.0,
-      "region": "Jihočeský kraj",
-      "fee": "no",
-      "access": "yes",
-      "wikidataId": "Q8557108",
-      "wikipediaTitle": "Kraví hora (Novohradské hory, rozhledna)",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Krav%C3%AD_hora_(Novohradsk%C3%A9_hory,_rozhledna)",
-      "wikipediaExtract": "Rozhledna Kraví hora stojí poblíž vrcholu Kraví hory v Novohradských horách.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Krav%C3%AD%20hora%20rozhledna.jpg?width=800",
-      "photoAuthor": "Karelj",
-      "photoLicense": "Public domain",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Krav%C3%AD_hora_rozhledna.jpg"
-    },
-    {
       "osmType": "node",
       "osmId": 254020192,
       "name": "Rozhledna Kraví Hora",
@@ -3613,6 +3748,25 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Krav%C3%AD_hora.JPG"
+    },
+    {
+      "osmType": "way",
+      "osmId": 569256050,
+      "name": "rozhledna Kraví hora",
+      "lat": 48.730894,
+      "lon": 14.719868,
+      "height": 38.0,
+      "region": "Jihočeský kraj",
+      "fee": "no",
+      "access": "yes",
+      "wikidataId": "Q8557108",
+      "wikipediaTitle": "Kraví hora (Novohradské hory, rozhledna)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Krav%C3%AD_hora_(Novohradsk%C3%A9_hory,_rozhledna)",
+      "wikipediaExtract": "Rozhledna Kraví hora stojí poblíž vrcholu Kraví hory v Novohradských horách.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Krav%C3%AD%20hora%20rozhledna.jpg?width=800",
+      "photoAuthor": "Karelj",
+      "photoLicense": "Public domain",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Krav%C3%AD_hora_rozhledna.jpg"
     },
     {
       "osmType": "way",
@@ -3867,6 +4021,29 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Prachatice,_rozhledna_Lib%C3%ADn_(2020-08-17;_05).jpg"
     },
     {
+      "osmType": "way",
+      "osmId": 220666133,
+      "name": "Rozhledna Ládví - Vlková",
+      "lat": 49.886944,
+      "lon": 14.612499,
+      "height": 20.0,
+      "region": "Středočeský kraj",
+      "openingHours": "Mar 1-Oct 31 09:00-19:00",
+      "fee": "no",
+      "access": "yes",
+      "operator": "Obec Kamenice",
+      "wikidata": "Q17138655",
+      "wikidataId": "Q17138655",
+      "wikipediaTitle": "Rozhledna Ládví",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_L%C3%A1dv%C3%AD",
+      "wikipediaExtract": "Rozhledna Ládví u Kamenice stojí na úpatí vrchu Vlková, asi 300 m od rozcestníku modré turistické značky ve vsi Ládeves a 100 m od vesnice Ládví. Je tvořena ocelovým tubusem se spirálovým schodištěm s vyhlídkovou plošinou ve 25 m. Výhled západním směrem je omezen zalesněným vrcholem Vlkové patřící geomorfologicky k Benešovské pahorkatině.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Overview%20of%20Observation%20tower%20L%C3%A1dv%C3%AD-Vlkov%C3%A1%20in%20L%C3%A1dv%C3%AD%2C%20Kamenice%2C%20Praha-V%C3%BDchod%20district.JPG?width=800",
+      "photoAuthor": "Jiří Sedláček",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Overview_of_Observation_tower_L%C3%A1dv%C3%AD-Vlkov%C3%A1_in_L%C3%A1dv%C3%AD,_Kamenice,_Praha-V%C3%BDchod_district.JPG"
+    },
+    {
       "osmType": "node",
       "osmId": 1658053213,
       "name": "rozhledna Lázek",
@@ -3977,15 +4154,15 @@
       "ele": 907.0,
       "region": "Jihočeský kraj",
       "wikidata": "Q12036226",
-      "wikidataId": "Q24081393",
-      "wikipediaTitle": "Mařský vrch (rozhledna)",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Ma%C5%99sk%C3%BD_vrch_(rozhledna)",
-      "wikipediaExtract": "Rozhledna a kaple sv. Václava na Mařském vrchu se nachází na stejnojmenném vrchu u obce Svatá Maří v okrese Prachatice.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Marsky%20vrch%20in%20winter%202010%20(2).JPG?width=800",
+      "wikidataId": "Q12036226",
+      "wikipediaTitle": "Mařský vrch (přírodní památka)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Ma%C5%99sk%C3%BD_vrch_(p%C5%99%C3%ADrodn%C3%AD_pam%C3%A1tka)",
+      "wikipediaExtract": "Mařský vrch je přírodní památka na vrcholku stejnojmenného kopce (dříve nazývaného Liščí skála) tvořící část Vimperské vrchoviny, která se nachází zhruba 1¼ km východně od vesnice Štítkov v okrese Prachatice. Důvodem ochrany je balvanové moře syenitového porfyru na severním svahu, které vzniklo v pleistocénu.\nPoblíž památky se nachází volně dostupná a přístupná deset metrů vysoká rozhledna Mařský vrch a rotunda svatého Václava z roku 1935, ke které vede Křížová cesta. Jižně od přírodní památky se nachází další přírodní památka Skalka.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Natural%20monument%20Ma%C5%99sk%C3%BD%20vrch%20in%20winter%20(01).jpg?width=800",
       "photoAuthor": "Chmee2",
       "photoLicense": "CC BY 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Marsky_vrch_in_winter_2010_(2).JPG"
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Natural_monument_Ma%C5%99sk%C3%BD_vrch_in_winter_(01).jpg"
     },
     {
       "osmType": "node",
@@ -4104,6 +4281,18 @@
     },
     {
       "osmType": "way",
+      "osmId": 172042316,
+      "name": "Rozhledna na Hraničním vrchu",
+      "lat": 50.171783,
+      "lon": 17.604341,
+      "height": 25.0,
+      "ele": 527.0,
+      "region": "Moravskoslezský kraj",
+      "fee": "no",
+      "access": "yes"
+    },
+    {
+      "osmType": "way",
       "osmId": 172042318,
       "name": "Rozhledna na Hraničním vrchu",
       "lat": 50.171671,
@@ -4123,18 +4312,6 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Hrani%C4%8Dn%C3%AD_vrch_01.jpg"
-    },
-    {
-      "osmType": "way",
-      "osmId": 172042316,
-      "name": "Rozhledna na Hraničním vrchu",
-      "lat": 50.171783,
-      "lon": 17.604341,
-      "height": 25.0,
-      "ele": 527.0,
-      "region": "Moravskoslezský kraj",
-      "fee": "no",
-      "access": "yes"
     },
     {
       "osmType": "way",
@@ -4529,10 +4706,7 @@
       "website": "http://www.rozhledna-veselice.cz/",
       "openingHours": "May-Jun Fr 15:00-19:00; May-Jun Sa-Su 10:00-19:00; Jul-Aug Mo-Su 10:00-19:00; Sep-Oct Fr 15:00-18:00; Sep-Oct Sa-Su 10:00-18:00",
       "wikidata": "Q1627395",
-      "wikidataId": "Q130724159",
-      "wikipediaTitle": "Telekomunikační věž Podvrší u Veselice",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Telekomunika%C4%8Dn%C3%AD_v%C4%9B%C5%BE_Podvr%C5%A1%C3%AD_u_Veselice",
-      "wikipediaExtract": "Telekomunikační věž Podvrší u Veselice je stavba, kterou v roce 2001 nechala zbudovat firma Eurotel jako uzlový bod radioreleových tras pro spojení s ústřednami a pro šíření signálu digitálního systému GSM 900 pro mobilní telefony. Obec Vavřinec věž provozuje jako rozhlednu. Umístěna je na zalesněné hoře Podvrší (590 m n. m.) na okraji Adamovské vrchoviny a Moravského krasu, která se nachází 0,5 km od vesnice Veselice, 8 km východně od města Blanska.\nVe 20. letech 20. století na přibližně stejném místě vznikla dřevěná rozhledna, která sloužila jako měřící bod při mapování nové Československé republiky založené v říjnu 1918. Umožňovala návštěvníkovi vystoupat do výše 21 metrů. Během 2.",
+      "wikidataId": "Q1627395",
       "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Veselice%20(Vav%C5%99inec)%20-%20rozhledna%20Podvr%C5%A1%C3%AD%2C%20obr02.jpg?width=800",
       "photoAuthor": "RomanM82",
       "photoLicense": "CC BY-SA 4.0",
@@ -4741,12 +4915,15 @@
       "lon": 15.196268,
       "region": "Liberecký kraj",
       "wikidata": "Q1500935",
-      "wikidataId": "Q132732514",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/RozhlednaSlovanka.jpg?width=800",
-      "photoAuthor": "Original uploader was Pavel Satrapa at cs.wikipedia",
-      "photoLicense": "CC BY-SA 3.0",
-      "photoLicenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:RozhlednaSlovanka.jpg"
+      "wikidataId": "Q1500935",
+      "wikipediaTitle": "Slovanka (Jizerské hory)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Slovanka_(Jizersk%C3%A9_hory)",
+      "wikipediaExtract": "Slovanka je 819 m vysoký zalesněný vrch v Maxovském hřebeni Jizerských hor nad Hraběticemi nedaleko lyžařského střediska Severák. Jeho jižní polovina včetně rozhledny náleží katastrálnímu území Horní Maxov (část města Lučany nad Nisou), severní polovina pak k. ú. Karlov u Josefova Dolu (část obce Josefův Důl); rozhraní probíhá přes vrchol. Kopec se dříve jmenoval Seibtův vrch (německy Seibthübel) podle svého majitele, jméno Slovanka nese po podnikové chatě, která na jeho vrcholu stávala. Od roku 1887 stojí na vrcholu hory nejstarší železná rozhledna v Česku o celkové výšce 14 m.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Seibth%C3%BCgel.jpg?width=800",
+      "photoAuthor": "Benutzer:Hejkal",
+      "photoLicense": "CC BY-SA 2.0 de",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/de/deed.en",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Seibth%C3%BCgel.jpg"
     },
     {
       "osmType": "node",
@@ -4926,7 +5103,16 @@
       "height": 26.0,
       "region": "Ústecký kraj",
       "website": "https://www.bismarcktuerme.de/ebene4/tsch/nixdorf.html",
-      "wikidata": "Q866572"
+      "wikidata": "Q866572",
+      "wikidataId": "Q866572",
+      "wikipediaTitle": "Tanečnice (rozhledna)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Tane%C4%8Dnice_(rozhledna)",
+      "wikipediaExtract": "Tanečnice, původním názvem Bismarckturm (Bismarckova věž), je zděná rozhledna o výšce 26 metrů, stojící na vrcholu stejnojmenného hřbetu Šluknovské pahorkatiny, v katastrálním území města Mikulášovice v okrese Děčín. Rozhledna byla postavena v letech 1904–1905 českoněmeckým Horským a okrašlovacím spolkem pro Mikulášovice (Gebirgs- und Verchönerungs- Verein zu Nixdorf), náhradou za dřívější dřevěnou rozhlednu. Od svého dokončení až do roku 2026 byla nejsevernější rozhlednou Čech.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Tane%C4%8Dnice%20Lookout%2001.jpg?width=800",
+      "photoAuthor": "Spike",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Tane%C4%8Dnice_Lookout_01.jpg"
     },
     {
       "osmType": "way",
@@ -5409,6 +5595,24 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:%C4%8Cern%C3%A1_studnice_16.jpg"
     },
     {
+      "osmType": "node",
+      "osmId": 3754842772,
+      "name": "rozhledna Čeřovka (Milohlídka)",
+      "lat": 50.444823,
+      "lon": 15.360352,
+      "fee": "no",
+      "access": "permissive",
+      "wikidataId": "Q38186348",
+      "wikipediaTitle": "Milohlídka",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Milohl%C3%ADdka",
+      "wikipediaExtract": "Rozhledna Milohlídka stojí na vrcholu kopce zvaného Čeřovka. Pod rozhlednou se nachází čedičový lom, který ovšem ohrožoval stabilitu stavby a tak musel být uzavřen. Následně zde byla vystavěna silná opěrná zeď, která má zpevňovat podloží a chránit turisty před pádem do lomu.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/AussichtsturmJicin.jpg?width=800",
+      "photoAuthor": "de:Benutzer:Hejkal",
+      "photoLicense": "CC BY-SA 2.0 de",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/de/deed.en",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:AussichtsturmJicin.jpg"
+    },
+    {
       "osmType": "way",
       "osmId": 373798757,
       "name": "Rozhledna Čížovka",
@@ -5562,6 +5766,20 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Overview_of_Ruba%C4%8Dka_observation_tower_in_Oslavi%C4%8Dka,_T%C5%99eb%C3%AD%C4%8D_District.JPG"
+    },
+    {
+      "osmType": "node",
+      "osmId": 6711637373,
+      "name": "Rudíkov",
+      "lat": 49.284293,
+      "lon": 15.946839,
+      "region": "Kraj Vysočina",
+      "wikidataId": "Q112111731",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Overview%20of%20observation%20tower%20in%20Rud%C3%ADkov%2C%20T%C5%99eb%C3%AD%C4%8D%20District.jpg?width=800",
+      "photoAuthor": "Jiří Sedláček",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Overview_of_observation_tower_in_Rud%C3%ADkov,_T%C5%99eb%C3%AD%C4%8D_District.jpg"
     },
     {
       "osmType": "way",
@@ -5783,7 +6001,16 @@
       "website": "https://www.prague.eu/cs/objekt/mista/197/staromestska-mostecka-vez",
       "openingHours": "Nov-Feb 10:00-18:00; Mar 01-31,Oct 01-31 10:00-20:00; Apr-Sep 10:00-22:00",
       "operator": "Muzeum hlavního města Prahy",
-      "wikidata": "Q445762"
+      "wikidata": "Q445762",
+      "wikidataId": "Q445762",
+      "wikipediaTitle": "Staroměstská mostecká věž",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Starom%C4%9Bstsk%C3%A1_mosteck%C3%A1_v%C4%9B%C5%BE",
+      "wikipediaExtract": "Staroměstská mostecká věž se nachází na Starém Městě pražském na Křižovnickém náměstí při pravobřežním vstupu na Karlův most na královské cestě.\nStaroměstská mostecká věž se skvostnou plastickou výzdobou byla zamýšlena jako triumfální oblouk, oslavující panování císaře Karla IV. a jeho syna Václava IV. Současně představovala symbolický průchod do nejhonosnější části Prahy – vždyť za ní se otvíral výhled na Pražský hrad, v jehož středu zářila zlatá mozaika Posledního soudu na svatovítské bráně. Ohromenému poutníkovi tím bylo sdělováno: Zde leží sláva říše římské, sídlo samotného císaře.\nJedná se o gotickou věž postavenou společně s mostem Petrem Parléřem.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Karl%C5%AFv%20most%20v%C4%9B%C5%BE.jpg?width=800",
+      "photoAuthor": "VitVit",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Karl%C5%AFv_most_v%C4%9B%C5%BE.jpg"
     },
     {
       "osmType": "node",
@@ -5956,12 +6183,15 @@
       "fee": "no",
       "access": "yes",
       "wikidata": "Q1273417",
-      "wikidataId": "Q30747933",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20na%20Studenci%202014%2001.jpg?width=800",
-      "photoAuthor": "Geocaching (My keš)",
-      "photoLicense": "CC BY 2.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by/2.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_na_Studenci_2014_01.jpg"
+      "wikidataId": "Q1273417",
+      "wikipediaTitle": "Studenec (Lužické hory)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Studenec_(Lu%C5%BEick%C3%A9_hory)",
+      "wikipediaExtract": "Studenec (německy Kaltenberg, v 19. století též nazývaný Ferdinandův kámen) je vrchol o nadmořské výšce 737 m na severu České republiky, v Ústeckém kraji, v okrese Děčín (třetí nejvyšší vrchol okresu Děčín), v západní části Lužických hor. Na vrcholovém kuželu hory se nachází rozhledna a přírodní rezervace Studený vrch.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Studenec%204650u.jpg?width=800",
+      "photoAuthor": "Matěj \"Dědek\" Baťha",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Studenec_4650u.jpg"
     },
     {
       "osmType": "way",
@@ -6341,7 +6571,16 @@
       "lon": 15.353386,
       "height": 52.8,
       "region": "Královéhradecký kraj",
-      "wikidata": "Q11871373"
+      "wikidata": "Q11871373",
+      "wikidataId": "Q11871373",
+      "wikipediaTitle": "Valdická brána",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Valdick%C3%A1_br%C3%A1na",
+      "wikipediaExtract": "Valdická brána je pozůstatkem městského opevnění. Stojí v centru města Jičína (Valdštejnovo náměstí čp. 102) a stala se jeho dominantou. Několikrát vyhořela. V šestnáctém století byla na místě původní brány postavena dvoupatrová hranolovitá budova s průjezdem. V sedmnáctém století byla zastřešena. Během osmnáctého století bylo dostavěno třetí a čtvrté patro s ochozem. V roce 1840 byla při opravě postavena vysoká jehlanová střecha. Tato podoba brány zůstala zachována do současnosti. \nJe vysoká 52 metrů, ochoz se nachází ve 32 metrech. Brána je přístupná veřejnosti jako rozhledna. Konají se zde výstavy či divadelní představení.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Ji%C4%8D%C3%ADn%20-%20v%C4%9B%C5%BE.jpg?width=800",
+      "photoAuthor": "Hadonos",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Ji%C4%8D%C3%ADn_-_v%C4%9B%C5%BE.jpg"
     },
     {
       "osmType": "way",
@@ -6391,7 +6630,9 @@
       "lat": 50.539023,
       "lon": 14.720026,
       "height": 40.0,
-      "region": "Liberecký kraj"
+      "region": "Liberecký kraj",
+      "fee": "no",
+      "access": "yes"
     },
     {
       "osmType": "way",
@@ -6476,7 +6717,13 @@
       "lon": 16.051299,
       "height": 32.0,
       "region": "Jihomoravský kraj",
-      "wikidata": "Q66124053"
+      "wikidata": "Q66124053",
+      "wikidataId": "Q66124053",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Znojmo%2C%20Vlkova%20v%C4%9B%C5%BE.jpg?width=800",
+      "photoAuthor": "Palickap",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Znojmo,_Vlkova_v%C4%9B%C5%BE.jpg"
     },
     {
       "osmType": "node",
@@ -6539,6 +6786,20 @@
       "photoLicense": "CC BY-SA 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Vojt%C4%9Bchovsk%C3%A1_rozhledna_(EU-CZ).jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 3381617383,
+      "name": "Vrškamýk",
+      "lat": 49.640434,
+      "lon": 14.243087,
+      "region": "Středočeský kraj",
+      "wikidataId": "Q116505614",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/New%20buildings%20near%20Vr%C5%A1kam%C3%BDk.jpg?width=800",
+      "photoAuthor": "Huhulenik",
+      "photoLicense": "CC BY 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:New_buildings_near_Vr%C5%A1kam%C3%BDk.jpg"
     },
     {
       "osmType": "node",
@@ -6615,13 +6876,13 @@
     },
     {
       "osmType": "way",
-      "osmId": 1107749476,
-      "name": "vyhlídková plošina",
-      "lat": 49.136071,
-      "lon": 17.50156,
-      "region": "Zlínský kraj",
-      "fee": "no",
-      "access": "yes"
+      "osmId": 777560941,
+      "name": "Vyhlídka Radovič",
+      "lat": 50.274097,
+      "lon": 14.253737,
+      "height": 5.0,
+      "region": "Středočeský kraj",
+      "openingHours": "24/7"
     },
     {
       "osmType": "way",
@@ -6630,6 +6891,16 @@
       "lat": 49.020478,
       "lon": 17.194785,
       "region": "Jihomoravský kraj"
+    },
+    {
+      "osmType": "way",
+      "osmId": 1107749476,
+      "name": "vyhlídková plošina",
+      "lat": 49.136071,
+      "lon": 17.50156,
+      "region": "Zlínský kraj",
+      "fee": "no",
+      "access": "yes"
     },
     {
       "osmType": "node",
@@ -6702,6 +6973,16 @@
     },
     {
       "osmType": "way",
+      "osmId": 431280034,
+      "name": "Vyhlídková věž",
+      "lat": 49.194484,
+      "lon": 16.599976,
+      "region": "Jihomoravský kraj",
+      "website": "https://www.spilberk.cz/spilberk/historie-hradu/rozhledna/",
+      "fee": "yes"
+    },
+    {
+      "osmType": "way",
       "osmId": 177154801,
       "name": "vyhlídková věž",
       "lat": 49.634134,
@@ -6710,14 +6991,18 @@
       "access": "customers"
     },
     {
-      "osmType": "way",
-      "osmId": 431280034,
-      "name": "Vyhlídková věž",
-      "lat": 49.194484,
-      "lon": 16.599976,
-      "region": "Jihomoravský kraj",
-      "website": "https://www.spilberk.cz/spilberk/historie-hradu/rozhledna/",
-      "fee": "yes"
+      "osmType": "node",
+      "osmId": 3378074028,
+      "name": "vyhlídková věž",
+      "lat": 49.260184,
+      "lon": 15.240635,
+      "region": "Kraj Vysočina",
+      "wikidataId": "Q137214480",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Po%C4%8D%C3%A1tky-kostel-v%C4%9B%C5%BE2019.jpg?width=800",
+      "photoAuthor": "Ben Skála, Benfoto",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Po%C4%8D%C3%A1tky-kostel-v%C4%9B%C5%BE2019.jpg"
     },
     {
       "osmType": "node",
@@ -6747,7 +7032,13 @@
       "lat": 49.53539,
       "lon": 12.938415,
       "region": "Plzeňský kraj",
-      "wikidata": "Q116947274"
+      "wikidata": "Q116947274",
+      "wikidataId": "Q116947274",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Horsovsky%20Tyn%20Gloriet%2002.JPG?width=800",
+      "photoAuthor": "Jik jik",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Horsovsky_Tyn_Gloriet_02.JPG"
     },
     {
       "osmType": "node",
@@ -6845,6 +7136,15 @@
       "height": 8.0,
       "region": "Středočeský kraj",
       "openingHours": "24/7",
+      "fee": "no"
+    },
+    {
+      "osmType": "way",
+      "osmId": 550881346,
+      "name": "Vávrova vyhlídka",
+      "lat": 50.0798,
+      "lon": 12.359965,
+      "region": "Karlovarský kraj",
       "fee": "no"
     },
     {
@@ -6969,11 +7269,15 @@
       "openingHours": "Apr-May,Sep-Oct Sa,Su 10:00-18:00; Jun-Aug 10:00-18:00",
       "fee": "yes",
       "wikidata": "Q207225",
-      "wikidataId": "Q9373863",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/ZlatyChlum.jpg?width=800",
-      "photoAuthor": "Stok",
-      "photoLicense": "Public domain",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:ZlatyChlum.jpg"
+      "wikidataId": "Q207225",
+      "wikipediaTitle": "Zlatý chlum",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Zlat%C3%BD_chlum",
+      "wikipediaExtract": "Zlatý chlum, často psaný též Zlatý Chlum (německy Goldkoppe; 892 m n. m.) je vrchol v České republice ležící v Zlatohorské vrchovině zhruba 2,5 km vsv. od okresního města Jeseník. Často uváděná výška 875 m se týká kóty při rozhledně. Vlastní vrchol hory se však nalézá od věže asi 200 m jihovýchodně a dle základní topografické mapy ČR 1 : 5 000 dosahuje výšky 891,7 m n. m.\nPoblíž vrcholu se nachází rozhledna, otevřená roku 1899, s výhledem na Jeseníky a do Polska.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Zlat%C3%BD%20chlum%20Jesen%C3%ADk%202021.jpg?width=800",
+      "photoAuthor": "Adrian Tync",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Zlat%C3%BD_chlum_Jesen%C3%ADk_2021.jpg"
     },
     {
       "osmType": "way",
@@ -7051,6 +7355,15 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:%C4%8Ceb%C3%ADnka_(2).jpg"
     },
     {
+      "osmType": "node",
+      "osmId": 7184284590,
+      "name": "Čermná",
+      "lat": 49.534207,
+      "lon": 13.121945,
+      "region": "Plzeňský kraj",
+      "fee": "no"
+    },
+    {
       "osmType": "way",
       "osmId": 452697060,
       "name": "Černá věž",
@@ -7059,7 +7372,16 @@
       "region": "Jihočeský kraj",
       "fee": "yes",
       "access": "yes",
-      "wikidata": "Q3565955"
+      "wikidata": "Q3565955",
+      "wikidataId": "Q3565955",
+      "wikipediaTitle": "Černá věž (České Budějovice)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/%C4%8Cern%C3%A1_v%C4%9B%C5%BE_(%C4%8Cesk%C3%A9_Bud%C4%9Bjovice)",
+      "wikipediaExtract": "Černá věž je známá stavba ze 16. století v centru Českých Budějovic u katedrály svatého Mikuláše. Dnes je oblíbenou turistickou atrakcí, která je v sezóně zpřístupněna veřejnosti a poskytuje výhled především na centrum města.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Cerna%20vez.jpg?width=800",
+      "photoAuthor": "karakal",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Cerna_vez.jpg"
     },
     {
       "osmType": "node",
@@ -7185,6 +7507,18 @@
       "photoLicense": "CC BY-SA 3.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:St%C4%9Bbo%C5%99ice,_Jamnice,_rozhledna_%C5%A0ibenice_(2019-08-14;_03)_(cropped).jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 11887514298,
+      "name": "Šibeník",
+      "lat": 50.501994,
+      "lon": 13.651579,
+      "height": 26.0,
+      "region": "Ústecký kraj",
+      "openingHours": "Mo-Su 10:00-19:00",
+      "fee": "yes",
+      "operator": "SPORTOVNÍ HALA MOST, a.s."
     },
     {
       "osmType": "way",
@@ -7485,17 +7819,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 11887514298,
-      "lat": 50.501994,
-      "lon": 13.651579,
-      "height": 26.0,
-      "region": "Ústecký kraj",
-      "openingHours": "Mo-Su 10:00-19:00",
-      "fee": "yes",
-      "operator": "SPORTOVNÍ HALA MOST, a.s."
-    },
-    {
-      "osmType": "node",
       "osmId": 12062774238,
       "lat": 49.491926,
       "lon": 16.683283,
@@ -7545,6 +7868,8 @@
       "region": "Zlínský kraj",
       "wikidata": "Q109567804",
       "wikidataId": "Q109567804",
+      "name": "Rozhledna Kunovická hůrka",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Rozhledna Kunovická hůrka",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_Kunovick%C3%A1_h%C5%AFrka",
       "wikipediaExtract": "Rozhledna Kunovická hůrka se nachází poblíž vrcholu kopce Kunovická hůrka nad vesnicí Rajnochovice v katastru obce Kunovice v okrese Vsetín v Hostýnských vrších (části pohoří Hostýnsko-vsetínská hornatina) ve Zlínském kraji.",
@@ -7679,6 +8004,8 @@
       "fee": "yes",
       "access": "yes",
       "wikidataId": "Q12049969",
+      "name": "Rozhledna a televizní vysílač Praděd",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Rozhledna a televizní vysílač Praděd",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_a_televizn%C3%AD_vys%C3%ADla%C4%8D_Prad%C4%9Bd",
       "wikipediaExtract": "Rozhledna a televizní vysílač Praděd je stavba na vrcholu Pradědu v Hrubém Jeseníku. Jeho vrchol je nejvyšším pevným umělým bodem Česka, s nadmořskou výškou mezi 1 637 a 1 638 m převyšuje vrchol nejvyšší české hory Sněžky. Vysílač stojí v Moravskoslezském kraji ve slezském katastrálním území Malá Morávka (součást obce Malá Morávka), v těsné blízkosti historické zemské hranice Moravy a Slezska.",
@@ -7795,7 +8122,9 @@
       "osmId": 13918158793,
       "lat": 48.996412,
       "lon": 14.440715,
-      "region": "Jihočeský kraj"
+      "region": "Jihočeský kraj",
+      "fee": "no",
+      "access": "yes"
     },
     {
       "osmType": "node",
@@ -7829,6 +8158,7 @@
       "osmId": 14102685870,
       "lat": 50.52154,
       "lon": 14.073091,
+      "region": "Ústecký kraj",
       "access": "private"
     },
     {
@@ -7846,6 +8176,24 @@
       "lon": 17.240125,
       "height": 8.0,
       "region": "Olomoucký kraj"
+    },
+    {
+      "osmType": "node",
+      "osmId": 2395674798,
+      "lat": 49.166078,
+      "lon": 13.797588,
+      "region": "Jihočeský kraj",
+      "wikidataId": "Q109520916",
+      "name": "Rozhledna Čestice u Volyně",
+      "nameFromWikipedia": true,
+      "wikipediaTitle": "Rozhledna Čestice u Volyně",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_%C4%8Cestice_u_Volyn%C4%9B",
+      "wikipediaExtract": "Rozhledna Čestice u Volyně je malá kovová rozhledna, která vznikla jako přístavba k vysílači mobilního operátora. Nachází se na bezejmenném vršku jihozápadně od obce Čestice asi 6,5 km od Volyně a 13 km od Strakonic.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Cestice.JPG?width=800",
+      "photoAuthor": "Jik jik",
+      "photoLicense": "CC BY-SA 3.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Cestice.JPG"
     },
     {
       "osmType": "node",
@@ -7876,18 +8224,13 @@
     },
     {
       "osmType": "node",
-      "osmId": 2415938905,
-      "lat": 49.135889,
-      "lon": 14.007294,
-      "region": "Jihočeský kraj"
-    },
-    {
-      "osmType": "node",
       "osmId": 2419543458,
       "lat": 49.253521,
       "lon": 14.097558,
       "region": "Jihočeský kraj",
       "wikidataId": "Q96328974",
+      "name": "Řežabinec",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Řežabinec (rozhledna)",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/%C5%98e%C5%BEabinec_(rozhledna)",
       "wikipediaExtract": "Řežabinec je rozhledna postavená v roce 1985 jako pozorovatelna vodního ptactva na rybníku Řežabinec na území obce Kestřany v okrese Písek. Nadmořská výška u paty vyhlídky je 372 metrů.",
@@ -7948,19 +8291,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 3381617383,
-      "lat": 49.640434,
-      "lon": 14.243087,
-      "region": "Středočeský kraj",
-      "wikidataId": "Q116505614",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/New%20buildings%20near%20Vr%C5%A1kam%C3%BDk.jpg?width=800",
-      "photoAuthor": "Huhulenik",
-      "photoLicense": "CC BY 3.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:New_buildings_near_Vr%C5%A1kam%C3%BDk.jpg"
-    },
-    {
-      "osmType": "node",
       "osmId": 3441462531,
       "lat": 49.571322,
       "lon": 18.673834,
@@ -7990,6 +8320,8 @@
       "fee": "no",
       "access": "yes",
       "wikidataId": "Q11785797",
+      "name": "Lahovický most",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Lahovický most",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Lahovick%C3%BD_most",
       "wikipediaExtract": "Lahovický most je pražským silničním mostem přes Berounku. Nachází se na silnici I/4 na jihu města nedaleko Lahovic a přístavu Radotín. Od roku 1743 zde stál dřevěný most, který byl v roce 1918 nahrazen železobetonovým a kolem roku 1963 zdvojen. Nynější most byl na jejich místě postaven v letech 2001–2004.",
@@ -8018,8 +8350,8 @@
     {
       "osmType": "node",
       "osmId": 3607316217,
-      "lat": 49.693728,
-      "lon": 13.239504,
+      "lat": 49.693698,
+      "lon": 13.239404,
       "region": "Plzeňský kraj",
       "wikidataId": "Q96404758",
       "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Novy%20rybnik%20rozhledna%201.jpg?width=800",
@@ -8104,6 +8436,8 @@
       "fee": "no",
       "access": "yes",
       "wikidataId": "Q11869702",
+      "name": "Val",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Val (rozhledna)",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Val_(rozhledna)",
       "wikipediaExtract": "Rozhledna Val (též Rozhledna na Dolní Hedeči) se nachází na vrcholu Val v Hanušovické vrchovině. Rozhledna stojí na katastrálním území vsi Dolní Hedeč v okresu Ústí nad Orlicí, asi 2,5 kilometru jihovýchodně od centra města Králíky.\nRozhlednu tvoří telekomunikační věž s vyhlídkovou plošinou. Z plošiny je výhled na Králický Sněžník, Hrubý Jeseník, Hanušovickou vrchovinu, Orlické hory, Bystřické hory a do Kladské kotliny. Rozhledna byla zpřístupněna veřejnosti 16. června 2003.",
@@ -8250,6 +8584,8 @@
       "lon": 18.517417,
       "region": "Moravskoslezský kraj",
       "wikidataId": "Q107695841",
+      "name": "Fryštát",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Fryštát (rozhledna)",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Fry%C5%A1t%C3%A1t_(rozhledna)",
       "wikipediaExtract": "Rozhledna Fryštát, nazývaná také Lipina, se nachází nad malým rybníčkem v areálu Golf Resort Lipiny, u soutoku říčky Stonávky s řekou Olší, ve Fryštátu, části města Karviná (okres Karviná v Moravskoslezském kraji). Architektonicky se jedná o ocelovou příhradovou konstrukci – napodobeninu těžební věže, která byla postavena v roce 2011 jako rozhledna a součást golfového areálu Karviná-Lipiny. Na vrchol lze vystoupat po vnitřním točitém schodišti na krytou plošinu ve výšce 9 metrů. Z rozhledny lze přehlédnou celé golfové hřiště a blízké okolí. Vstup na věž je omezený, avšak možný z venkovní části místní restaurace.",
@@ -8283,19 +8619,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 6711637373,
-      "lat": 49.284293,
-      "lon": 15.946839,
-      "region": "Kraj Vysočina",
-      "wikidataId": "Q112111731",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Overview%20of%20observation%20tower%20in%20Rud%C3%ADkov%2C%20T%C5%99eb%C3%AD%C4%8D%20District.jpg?width=800",
-      "photoAuthor": "Jiří Sedláček",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Overview_of_observation_tower_in_Rud%C3%ADkov,_T%C5%99eb%C3%AD%C4%8D_District.jpg"
-    },
-    {
-      "osmType": "node",
       "osmId": 6904699942,
       "lat": 49.103608,
       "lon": 17.410666,
@@ -8315,14 +8638,6 @@
       "lon": 13.676153,
       "region": "Plzeňský kraj",
       "wikidataId": "Q139890475"
-    },
-    {
-      "osmType": "node",
-      "osmId": 7184284590,
-      "lat": 49.534207,
-      "lon": 13.121945,
-      "region": "Plzeňský kraj",
-      "fee": "no"
     },
     {
       "osmType": "node",
@@ -8501,6 +8816,8 @@
       "region": "Kraj Vysočina",
       "wikidata": "Q106489157",
       "wikidataId": "Q106489157",
+      "name": "Rozhledna Bernard",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Rozhledna Bernard",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_Bernard",
       "wikipediaExtract": "Rozhledna Bernard se nachází v centru Humpolce, v areálu stejnojmenného pivovaru. Jedním z autorů rozhledny je Petr Bernard (bratr ředitele pivovaru).",
@@ -8581,6 +8898,8 @@
       "height": 22.0,
       "region": "Kraj Vysočina",
       "wikidataId": "Q52888193",
+      "name": "Orlík",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Orlík (rozhledna)",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Orl%C3%ADk_(rozhledna)",
       "wikipediaExtract": "Rozhledna Orlík (nebo také rozhledna na hradě Orlík) je rozhledna na věži zříceniny hradu Orlík nedaleko vesnice Rozkoš u Humpolce v okresu Pelhřimov.",
@@ -8598,6 +8917,8 @@
       "region": "Pardubický kraj",
       "fee": "no",
       "wikidataId": "Q23712802",
+      "name": "Rozhledna Na Chlumu",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Rozhledna Na Chlumu (Slatiňany)",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_Na_Chlumu_(Slati%C5%88any)",
       "wikipediaExtract": "Rozhledna Na Chlumu, nazývaná také vyhlídková věž Na Chlumu či Auersperská vyhlídka, je malá zastřešená rozhledna, vyhlídka a odpočinkové místo postavené z kamene a dřeva. Původně se jednalo o tzv. eremitáž, tedy drobnou stavbu v komponované krajině určenou k rozjímání a navození atmosféry samoty a duchovna, která sloužila spíše jako scénografický prvek než k reálnému bydlení. Nachází v krajinné památkové zóně ve městě Slatiňany v okrese Chrudim  v Pardubickém kraji.",
@@ -8634,16 +8955,6 @@
       "lat": 49.750023,
       "lon": 12.732384,
       "region": "Plzeňský kraj"
-    },
-    {
-      "osmType": "way",
-      "osmId": 1311795638,
-      "lat": 50.324687,
-      "lon": 13.545443,
-      "height": 42.0,
-      "region": "Ústecký kraj",
-      "openingHours": "Tu-Su 10:00-17:00",
-      "fee": "yes"
     },
     {
       "osmType": "way",
@@ -8714,7 +9025,10 @@
       "lat": 50.390648,
       "lon": 16.902663,
       "region": "Olomoucký kraj",
+      "access": "yes",
       "wikidataId": "Q9373873",
+      "name": "Borůvková hora",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Borůvková hora (rozhledna)",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Bor%C5%AFvkov%C3%A1_hora_(rozhledna)",
       "wikipediaExtract": "Rozhledna Borůvková hora se nachází na stejnojmenném vrcholu v Rychlebských horách v Olomouckém kraji.",
@@ -8723,26 +9037,6 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:2015_Wie%C5%BCa_widokowa_na_Bor%C3%B3wkowej_05.jpg"
-    },
-    {
-      "osmType": "way",
-      "osmId": 179754437,
-      "lat": 50.444824,
-      "lon": 15.360351,
-      "height": 8.0,
-      "region": "Královéhradecký kraj",
-      "fee": "no",
-      "access": "yes",
-      "wikidata": "Q38186348",
-      "wikidataId": "Q38186348",
-      "wikipediaTitle": "Milohlídka",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Milohl%C3%ADdka",
-      "wikipediaExtract": "Rozhledna Milohlídka stojí na vrcholu kopce zvaného Čeřovka. Pod rozhlednou se nachází čedičový lom, který ovšem ohrožoval stabilitu stavby a tak musel být uzavřen. Následně zde byla vystavěna silná opěrná zeď, která má zpevňovat podloží a chránit turisty před pádem do lomu.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/AussichtsturmJicin.jpg?width=800",
-      "photoAuthor": "de:Benutzer:Hejkal",
-      "photoLicense": "CC BY-SA 2.0 de",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/de/deed.en",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:AussichtsturmJicin.jpg"
     },
     {
       "osmType": "way",
@@ -8788,7 +9082,17 @@
       "website": "https://www.visittrebic.eu/pamatky/mestska-vez/",
       "fee": "yes",
       "access": "yes",
-      "wikidata": "Q9373844"
+      "wikidata": "Q9373844",
+      "wikidataId": "Q9373844",
+      "name": "Městská věž",
+      "nameFromWikipedia": true,
+      "wikipediaTitle": "Městská věž (Třebíč)",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/M%C4%9Bstsk%C3%A1_v%C4%9B%C5%BE_(T%C5%99eb%C3%AD%C4%8D)",
+      "wikipediaExtract": "Městská věž v Třebíči je věž přiléhající ke kostelu sv. Martina.\nJejí výška po vrchol kříže činí 75 metrů. Ochoz se nachází ve výšce 35 metrů. Hodinové ciferníky na ní umístěné jsou se svým průměrem 5,5 metru jedněmi z největších v Evropě.\nPostavena byla kolem roku 1335, kdy Třebíč dosáhla městského práva. Původně byla coby městská hláska součástí městského opevňovacího systému a s budovou chrámu byla spojena až roku 1716. V průběhu své existence prošla řadou úprav a oprav. Na jejím vrcholu se tak vystřídalo několik různých krovů. Roku 1468 byl vrchol věže spálen a zničen spolu s celým městem po vpádu uherského vojska vedeného Matyášem Korvínem.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/M%C4%9Bstsk%C3%A1%20v%C4%9B%C5%BE%20v%20T%C5%99eb%C3%AD%C4%8Di.jpg?width=800",
+      "photoAuthor": "Original uploader was Parkis at cs.wikipedia",
+      "photoLicense": "Public domain",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:M%C4%9Bstsk%C3%A1_v%C4%9B%C5%BE_v_T%C5%99eb%C3%AD%C4%8Di.jpg"
     },
     {
       "osmType": "way",
@@ -8829,6 +9133,8 @@
       "lon": 16.012385,
       "region": "Královéhradecký kraj",
       "wikidataId": "Q18006326",
+      "name": "Slavětínská rozhledna",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Slavětínská rozhledna",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Slav%C4%9Bt%C3%ADnsk%C3%A1_rozhledna",
       "wikipediaExtract": "Rozhledna na Markoušovickém hřebeni, též známá jako Slavětínská rozhledna, či Markoušovická rozhledna, se nachází na bezejmenném vrcholu s kótou 708 m n. m. v Jestřebích horách. Rozhledna stojí v lesích v katastrálním území Slavětín u Radvanic na rozmezí obcí Velké Svatoňovice, Radvanice a Trutnov v okresu Trutnov, asi 1 km severně od vsi Markoušovice.",
@@ -8960,14 +9266,6 @@
     },
     {
       "osmType": "way",
-      "osmId": 550881346,
-      "lat": 50.0798,
-      "lon": 12.359965,
-      "region": "Karlovarský kraj",
-      "fee": "no"
-    },
-    {
-      "osmType": "way",
       "osmId": 560740791,
       "lat": 49.54908,
       "lon": 13.017754,
@@ -8990,6 +9288,8 @@
       "height": 7.0,
       "region": "Středočeský kraj",
       "wikidataId": "Q20058062",
+      "name": "Rozhledna Veselov",
+      "nameFromWikipedia": true,
       "wikipediaTitle": "Rozhledna Veselov",
       "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_Veselov",
       "wikipediaExtract": "Rozhledna Veselov je dřevěná rozhledna u obce Družec v okrese Kladno ve Středočeském kraji. Vznikla v roce 2014 ve spolupráci obcí Velká Dobrá, Družec, Braškov a Doksy.\nVěž rozhledny připomíná triangulační pyramidu. Navrhl ji Ing. arch. Petr Vodrážka. Pata věže je ve výšce 430 m n. m. První plošina je ve výšce 3 m a druhá 7 m. Celková výška rozhledny je 12 metrů.",
@@ -9012,15 +9312,6 @@
       "lat": 50.697837,
       "lon": 14.098965,
       "region": "Ústecký kraj"
-    },
-    {
-      "osmType": "way",
-      "osmId": 777560941,
-      "lat": 50.274097,
-      "lon": 14.253737,
-      "height": 5.0,
-      "region": "Středočeský kraj",
-      "openingHours": "24/7"
     },
     {
       "osmType": "way",
@@ -9064,6 +9355,6 @@
       "region": "Středočeský kraj"
     }
   ],
-  "enrichedAt": "2026-08-30T12:38:15.572957Z",
+  "enrichedAt": "2026-09-06T10:00:15.954097Z",
   "enrichmentSource": "Wikidata, Wikipedia (CC BY-SA), Wikimedia Commons"
 }

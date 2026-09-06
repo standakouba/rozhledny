@@ -26,8 +26,14 @@ const _endpoints = <String>[
 
 /// Rozhledna v OSM = `tower:type=observation`. Druhý řádek dobírá věže
 /// značené jen jako vyhlídka, které první filtr mine.
+///
+/// Porovnává se regulárním výrazem, ne na přesnou shodu: věž bývá zároveň
+/// vysílač a `tower:type` pak nese víc hodnot najednou —
+/// `communication;observation`, `observation;communication`, dokonce
+/// `bell_tower, observation`. Přesná shoda takové věže míjela a v datech
+/// chyběly i známé rozhledny jako Drahoušek nebo Hořický chlum.
 const _towerFilter = '''
-  nwr(area.reg)["tower:type"="observation"];
+  nwr(area.reg)["tower:type"~"observation"];
   nwr(area.reg)["man_made"="tower"]["tourism"="viewpoint"];
 ''';
 
@@ -215,7 +221,9 @@ SELECT ?s ?kraj WHERE {
   ?k osmkey:admin_level 4 .
   ?k osmkey:name ?kraj .
   ?k ogc:sfContains ?s .
-  { ?s osmkey:tower:type "observation" }
+  # Táž podmínka jako v Overpass dotazu výš, včetně vícehodnotového
+  # `tower:type` — jinak by věž z dat vypadla jen tady a zůstala bez kraje.
+  { ?s osmkey:tower:type ?tt . FILTER(CONTAINS(STR(?tt), "observation")) }
   UNION
   { ?s osmkey:man_made "tower" . ?s osmkey:tourism "viewpoint" }
 }
@@ -263,6 +271,63 @@ Future<Map<String, dynamic>> _sparql(String query) async {
 
 // ------------------------------------------------------------------ Model
 
+/// Ruční opravy jmen, která má OSM špatně.
+///
+/// Bez tohohle by se překlep vrátil při každém přegenerování assetu a oprava
+/// v `rozhledny.json` by tiše zmizela. Opravovat přímo v OSM je správnější,
+/// ale než se změna promítne, musí sedět aspoň naše data.
+/// Rozhodčím je článek na Wikipedii, na který ukazuje `wikidataId` téhož bodu.
+/// Rozdíly ve slovosledu („Heřmanická rozhledna“ vs „Rozhledna Heřmanice“)
+/// sem nepatří — jen případy, kde je jedno z těch dvou zjevně přepsané.
+const _nameOverrides = <String, String>{
+  // Stožár stojí nad obcí Hoslovice (okres Strakonice), tag `name` v OSM má
+  // překlep; Wikipedie i Wikidata vedou rozhlednu správně.
+  'node/4180959298': 'Rozhledna Hoslovice',
+
+  // Věž nese jméno Alaina Rohana, ne „Allaina“.
+  'way/485549536': 'Alainova věž',
+
+  // Jméno je odvozené od keltského kmene Bójů (Boii), proto dvě „i“. Tak ho
+  // píše i článek na Wikipedii, na který bod odkazuje.
+  'node/829529480': 'Boiika',
+
+  // Níž jsou věže, které v OSM `name` nemají vůbec. Tabulka je tím pádem
+  // nejen na opravy, ale i na doplnění — u každé je dole důvod, proč víme,
+  // že jde právě o ni. Správnější cesta je dopsat jméno rovnou do OSM;
+  // než se tam objeví, drží data pohromadě tohle.
+
+  // Příhradová vyhlídka u areálu RVS Radovič. Poloha sedí na 15 m s tím, co
+  // jako „vyhlídka Radovič“ ukazuje mapy.cz; sousední bod 300 m východně je
+  // myslivecká pozorovatelna, kterou tak pojmenoval i rozcestník KČT.
+  'way/777560941': 'Vyhlídka Radovič',
+
+  // Stojí na hradišti Vrškamýk (49,6403/14,2431), ne u Kamýka nad Vltavou —
+  // tam je druhá, dřevěná věž o 1,6 km dál.
+  'node/3381617383': 'Vrškamýk',
+
+  // Kopec Šibeník v Mostě je 158 m odsud, věž provozuje tamní sportovní hala.
+  'node/11887514298': 'Šibeník',
+
+  // 42 m vysoká věž u chmelařského muzea v Žatci, sedí výška i poloha.
+  'way/1311795638': 'Chmelový maják',
+
+  // Fotka na Commons u téhle položky se jmenuje přímo „observation tower
+  // in Rudíkov“.
+  'node/6711637373': 'Rudíkov',
+
+  // Hrad Helfenburk u Bavorova je 25 m odsud. V datech je i Helfenburk
+  // u Úštěku, proto tady celé jméno.
+  'node/2415938905': 'Helfenburk u Bavorova',
+
+  // Ves Čermná na Domažlicku leží 470 m odsud a rozhledna nese její jméno.
+  'node/7184284590': 'Čermná',
+
+  // Věž u Vávrovy lávky v chebské Krajince. Poznat ji jde podle okolí:
+  // lanové centrum je 130 m na východ a 200 m na sever, přesně jak sedí
+  // v mapě. Mapy.cz jí říkají „Vyhlídková věž Vávrova lávka“.
+  'way/550881346': 'Vávrova vyhlídka',
+};
+
 List<_Tower> _parseTowers(List<dynamic> elements) {
   final byKey = <String, _Tower>{};
   for (final raw in elements) {
@@ -277,7 +342,7 @@ List<_Tower> _parseTowers(List<dynamic> elements) {
     final tower = _Tower(
       osmType: e['type'] as String,
       osmId: e['id'] as int,
-      name: _str(tags['name']),
+      name: _nameOverrides['${e['type']}/${e['id']}'] ?? _str(tags['name']),
       lat: lat.toDouble(),
       lon: lon.toDouble(),
       height: _num(tags['height'] ?? tags['building:height']),

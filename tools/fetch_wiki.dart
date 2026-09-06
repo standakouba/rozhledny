@@ -49,7 +49,9 @@ Future<void> main(List<String> args) async {
   stdout.writeln('Rozhleden v assetu: ${towers.length}');
 
   stdout.writeln('\n1/4  Wikidata: rozhledny v ČR...');
-  final items = await _cached(_wikidataCache, fresh, _fetchWikidata);
+  final tagged = _osmWikidataIds(towers);
+  final items =
+      await _cached(_wikidataCache, fresh, () => _fetchWikidata(tagged));
   stdout.writeln('     ${items.length} položek');
 
   stdout.writeln('\n2/4  Párování...');
@@ -75,10 +77,17 @@ Future<void> main(List<String> args) async {
   stdout.writeln('     ${images.length} fotek');
 
   // Zápis zpátky do assetu
-  var withText = 0, withPhoto = 0, photoNoAttribution = 0;
+  var withText = 0, withPhoto = 0, photoNoAttribution = 0, namedFromWiki = 0;
   for (final tower in towers) {
     final key = '${tower['osmType']}/${tower['osmId']}';
     final m = matches[key];
+
+    // Jméno doplněné odsud se před každým během zahazuje, aby po odpárování
+    // rozhledny nezůstalo viset. Ručně zapsané `name` z OSM se nemaže.
+    if (tower['nameFromWikipedia'] == true) {
+      tower.remove('name');
+      tower.remove('nameFromWikipedia');
+    }
 
     // Pole se vždycky nejdřív vyhodí — po přegenerování nesmí zůstat viset
     // popis rozhledny, která se mezitím přestala párovat.
@@ -92,6 +101,21 @@ Future<void> main(List<String> args) async {
     if (m == null) continue;
 
     tower['wikidataId'] = m.wikidataId;
+
+    // Skoro třetina rozhleden nemá v OSM `name`. U části z nich jméno přitom
+    // známe — mají článek na Wikipedii. Doplní se rovnou do dat, aby s ním
+    // uměla pracovat i aplikace: jmenovka na mapě, hledání i řazení v seznamu.
+    // Kdyby se to řešilo až při zobrazení, musel by tu náhradu znát každý
+    // kus obrazovky zvlášť.
+    final own = (tower['name'] as String?)?.trim();
+    if ((own == null || own.isEmpty) && m.wikipediaTitle != null) {
+      final derived = _nameFromTitle(m.wikipediaTitle!);
+      if (derived != null) {
+        tower['name'] = derived;
+        tower['nameFromWikipedia'] = true;
+        namedFromWiki++;
+      }
+    }
 
     final extract = m.wikipediaTitle == null ? null : extracts[m.wikipediaTitle];
     if (extract != null && extract.isNotEmpty) {
@@ -133,7 +157,19 @@ Future<void> main(List<String> args) async {
         '(${(file.lengthSync() / 1024).round()} kB)')
     ..writeln('  s popisem ............ $withText')
     ..writeln('  s fotkou ............. $withPhoto')
-    ..writeln('  fotka bez atribuce ... $photoNoAttribution (vynechána)');
+    ..writeln('  fotka bez atribuce ... $photoNoAttribution (vynechána)')
+    ..writeln('  jméno z Wikipedie .... $namedFromWiki (v OSM chybělo)');
+}
+
+/// Jméno rozhledny z titulku článku na Wikipedii.
+///
+/// Titulky rozlišují stejnojmenné články závorkou za názvem — „Val
+/// (rozhledna)“, „Městská věž (Třebíč)“. To je encyklopedické rozlišení, na
+/// mapě je z něj šum, tak jde pryč. Vrací `null`, když by po očištění nezbylo
+/// nic použitelného.
+String? _nameFromTitle(String title) {
+  final name = title.replaceAll(RegExp(r'\s*\([^)]*\)\s*$'), '').trim();
+  return name.isEmpty ? null : name;
 }
 
 String _trim(String text) {
@@ -160,8 +196,11 @@ class _WikiItem {
 
   final String id;
   final String label;
-  final double lat;
-  final double lon;
+
+  /// Souřadnice chybí u položek dotažených podle identifikátoru z OSM tagu —
+  /// ty se párují jménem toho tagu, ne blízkostí, takže je nepotřebují.
+  final double? lat;
+  final double? lon;
   final String? wikipediaUrl;
   final String? commonsFile;
 
@@ -173,8 +212,8 @@ class _WikiItem {
   Map<String, dynamic> toJson() => {
         'id': id,
         'label': label,
-        'lat': lat,
-        'lon': lon,
+        if (lat != null) 'lat': lat,
+        if (lon != null) 'lon': lon,
         if (wikipediaUrl != null) 'wikipediaUrl': wikipediaUrl,
         if (commonsFile != null) 'commonsFile': commonsFile,
       };
@@ -182,8 +221,8 @@ class _WikiItem {
   static _WikiItem fromJson(Map<String, dynamic> j) => _WikiItem(
         id: j['id'] as String,
         label: j['label'] as String,
-        lat: (j['lat'] as num).toDouble(),
-        lon: (j['lon'] as num).toDouble(),
+        lat: (j['lat'] as num?)?.toDouble(),
+        lon: (j['lon'] as num?)?.toDouble(),
         wikipediaUrl: j['wikipediaUrl'] as String?,
         commonsFile: j['commonsFile'] as String?,
       );
@@ -191,31 +230,94 @@ class _WikiItem {
   String get wikidataId => id;
 }
 
-Future<List<_WikiItem>> _fetchWikidata() async {
-  final body = await _getJson(Uri.parse(
-      'https://query.wikidata.org/sparql?format=json&query=${Uri.encodeQueryComponent('''
+/// Wikidata identifikátory, které u rozhleden uvádí přímo OSM.
+Set<String> _osmWikidataIds(List<Map<String, dynamic>> towers) {
+  final ids = <String>{};
+  for (final t in towers) {
+    final id = _wikidataId(t['wikidata'] as String?);
+    if (id != null) ids.add(id);
+  }
+  return ids;
+}
+
+final _qidPattern = RegExp(r'^Q\d+$');
+
+/// Tag `wikidata` umí nést víc hodnot oddělených středníkem. Bere se první
+/// platná — dvě různé položky k jedné věži stejně nedávají smysl.
+String? _wikidataId(String? tag) {
+  if (tag == null) return null;
+  for (final part in tag.split(';')) {
+    final value = part.trim();
+    if (_qidPattern.hasMatch(value)) return value;
+  }
+  return null;
+}
+
+Future<List<_WikiItem>> _fetchWikidata(Set<String> osmIds) async {
+  final byId = <String, _WikiItem>{};
+
+  await _queryWikidata('''
 SELECT ?item ?itemLabel ?coord ?cs ?img WHERE {
   ?item wdt:P31/wdt:P279* wd:$_rozhlednaClass ; wdt:P17 wd:$_czechia ; wdt:P625 ?coord .
   OPTIONAL { ?cs schema:about ?item ; schema:isPartOf <https://cs.wikipedia.org/> . }
   OPTIONAL { ?item wdt:P18 ?img . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "cs,en". }
 }
-''')}'));
+''', byId);
 
-  final point = RegExp(r'Point\(([-0-9.]+) ([-0-9.]+)\)');
-  final byId = <String, _WikiItem>{};
+  // Věže, na které OSM ukazuje přímo, ale Wikidata je pod rozhlednu neřadí.
+  // Typicky městské a hradní věže, ze kterých se dá rozhlížet: Bílá věž
+  // v Českých Budějovicích je vedená jen jako „věž“ (Q12518), takže ji dotaz
+  // podle třídy minul — přestože identifikátor máme z mapy černý na bílém.
+  final missing = osmIds.where((id) => !byId.containsKey(id)).toList();
+  if (missing.isNotEmpty) {
+    stdout.writeln('     ${missing.length} položek z OSM tagů je mimo třídu '
+        'rozhledna, dotahuju je podle identifikátoru');
+    for (var i = 0; i < missing.length; i += 100) {
+      final batch = missing.sublist(i, min(i + 100, missing.length));
+      if (i > 0) {
+        await Future<void>.delayed(const Duration(milliseconds: 1200));
+      }
+      await _queryWikidata('''
+SELECT ?item ?itemLabel ?coord ?cs ?img WHERE {
+  VALUES ?item { ${batch.map((id) => 'wd:$id').join(' ')} }
+  OPTIONAL { ?item wdt:P625 ?coord . }
+  OPTIONAL { ?cs schema:about ?item ; schema:isPartOf <https://cs.wikipedia.org/> . }
+  OPTIONAL { ?item wdt:P18 ?img . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "cs,en". }
+}
+''', byId);
+    }
+  }
+
+  return byId.values.toList();
+}
+
+final _pointPattern = RegExp(r'Point\(([-0-9.]+) ([-0-9.]+)\)');
+
+Future<void> _queryWikidata(String query, Map<String, _WikiItem> into) async {
+  final body = await _getJson(Uri.parse(
+      'https://query.wikidata.org/sparql?format=json&query='
+      '${Uri.encodeQueryComponent(query)}'));
+
   for (final raw in (body['results'] as Map)['bindings'] as List) {
     final b = raw as Map<String, dynamic>;
     final id = (b['item']['value'] as String).split('/').last;
-    if (byId.containsKey(id)) continue;
-    final m = point.firstMatch(b['coord']['value'] as String);
-    if (m == null) continue;
+    if (into.containsKey(id)) continue;
 
-    byId[id] = _WikiItem(
+    // Souřadnice chybí jen u položek dotažených podle identifikátoru. NaN
+    // je schválně: porovnání vzdálenosti s ním vyjde vždycky nepravdivě,
+    // takže se taková položka nemůže omylem přilepit k sousední věži podle
+    // blízkosti — dostane se k rozhledně jen přes svůj `wikidata` tag.
+    final point = b['coord'] == null
+        ? null
+        : _pointPattern.firstMatch(b['coord']['value'] as String);
+
+    into[id] = _WikiItem(
       id: id,
       label: b['itemLabel']?['value'] as String? ?? id,
-      lat: double.parse(m[2]!),
-      lon: double.parse(m[1]!),
+      lat: point == null ? null : double.parse(point[2]!),
+      lon: point == null ? null : double.parse(point[1]!),
       wikipediaUrl: b['cs']?['value'] as String?,
       // P18 přijde jako .../Special:FilePath/Nazev%20souboru.jpg
       commonsFile: b['img'] == null
@@ -224,7 +326,6 @@ SELECT ?item ?itemLabel ?coord ?cs ?img WHERE {
               (b['img']['value'] as String).split('FilePath/').last),
     );
   }
-  return byId.values.toList();
 }
 
 // ---------------------------------------------------------------- párování
@@ -246,7 +347,7 @@ Map<String, _WikiItem> _match(
   // Nejdřív jistoty podle tagu, ať proximita nesebere položku někomu,
   // kdo na ni má explicitní odkaz.
   for (final t in towers) {
-    final tag = t['wikidata'] as String?;
+    final tag = _wikidataId(t['wikidata'] as String?);
     if (tag == null) continue;
     final item = byId[tag];
     if (item == null) continue;
@@ -263,9 +364,13 @@ Map<String, _WikiItem> _match(
     var bestDistance = double.infinity;
     for (final item in items) {
       if (usedItems.contains(item.id)) continue;
+      // Bez souřadnic se párovat podle blízkosti nedá. Takové položky se sem
+      // dostaly jen proto, že na ně ukazuje `wikidata` tag — a ten se řeší
+      // v kole nad tímhle.
+      if (item.lat == null || item.lon == null) continue;
       final d = _distanceMeters(
           (t['lat'] as num).toDouble(), (t['lon'] as num).toDouble(),
-          item.lat, item.lon);
+          item.lat!, item.lon!);
       if (d < bestDistance) {
         bestDistance = d;
         best = item;
