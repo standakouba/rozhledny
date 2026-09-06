@@ -38,7 +38,8 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 - u nálezu je vidět kraj a vzdálenost, protože samotné jméno nestačí:
   rozhledna Chlum je v Česku několikrát
 - počítadlo rozhleden v rohu mapy se přesunulo pod vyhledávací pole
-- klepnutí do mapy zavírá klávesnici
+- klepnutí do mapy zavírá klávesnici i seznam nálezů; hledaný text v poli
+  zůstává, smaže ho křížek
 
 ## 0.15.0
 

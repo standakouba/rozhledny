@@ -37,27 +37,31 @@ class _MapSearchBarState extends State<MapSearchBar> {
   final _controller = TextEditingController();
   final _focus = FocusNode();
 
-  /// Nálezy se schovají po výběru, ale text v poli zůstane. Bez tohohle
-  /// příznaku by se seznam hned zase otevřel, protože v poli pořád něco je.
-  bool _showResults = false;
+  @override
+  void initState() {
+    super.initState();
+    // Nálezy visí nad mapou, takže musí zmizet ve chvíli, kdy člověk klepne
+    // jinam. Řídí se proto zaměřením pole: mapa ho při klepnutí do ní odebírá
+    // a tím seznam zavře. Text v poli zůstává, ať je vidět, co se hledalo.
+    _focus.addListener(_onFocusChanged);
+  }
+
+  void _onFocusChanged() => setState(() {});
 
   @override
   void dispose() {
+    _focus.removeListener(_onFocusChanged);
     _controller.dispose();
     _focus.dispose();
     super.dispose();
   }
 
   void _clear() {
-    setState(() {
-      _controller.clear();
-      _showResults = false;
-    });
+    setState(_controller.clear);
     _focus.unfocus();
   }
 
   void _select(TowerWithStats tower) {
-    setState(() => _showResults = false);
     _focus.unfocus();
     widget.onSelected(tower);
   }
@@ -65,8 +69,10 @@ class _MapSearchBarState extends State<MapSearchBar> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final found = _showResults
-        ? searchTowers(widget.towers, _controller.text)
+    final query = _controller.text.trim();
+    final showResults = _focus.hasFocus && query.isNotEmpty;
+    final found = showResults
+        ? searchTowers(widget.towers, query)
         : const <TowerWithStats>[];
 
     return Column(
@@ -89,8 +95,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
                     controller: _controller,
                     focusNode: _focus,
                     textInputAction: TextInputAction.search,
-                    onChanged: (_) => setState(() => _showResults = true),
-                    onTap: () => setState(() => _showResults = true),
+                    onChanged: (_) => setState(() {}),
                     decoration: const InputDecoration(
                       hintText: 'Hledat rozhlednu…',
                       border: InputBorder.none,
@@ -110,7 +115,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
             ),
           ),
         ),
-        if (_showResults && _controller.text.trim().isNotEmpty)
+        if (showResults)
           Padding(
             padding: const EdgeInsets.only(top: 6),
             child: Material(

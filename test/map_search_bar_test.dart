@@ -83,6 +83,23 @@ void main() {
     expect(find.text('Kleť'), findsNothing, reason: 'nálezy se po výběru zavřou');
   });
 
+  testWidgets('nálezy zmizí, když pole ztratí zaměření', (tester) async {
+    // Tak se zavírají po klepnutí do mapy — ta zaměření odebírá. Hledaný
+    // text v poli přitom zůstává.
+    await pumpBar(tester, towers: [t('Kleť')]);
+
+    await tester.enterText(find.byType(TextField), 'klet');
+    await tester.pump();
+    expect(find.text('Kleť'), findsOneWidget);
+
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pump();
+
+    expect(find.text('Kleť'), findsNothing);
+    final field = tester.widget<TextField>(find.byType(TextField));
+    expect(field.controller?.text, 'klet');
+  });
+
   testWidgets('když nic nesedí, řekne se to', (tester) async {
     await pumpBar(tester, towers: [t('Kleť')]);
 
