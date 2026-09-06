@@ -68,7 +68,12 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
   u Kdyně) v datech celou dobu byly, jen jako bezejmenný puntík — v OSM
   jméno nemají, takže je nešlo najít ani hledáním. Rozhledna Na horách
   u Rohatců chyběla docela: v OSM je jen vyhlídka a v názvu nemá slovo
-  „rozhledna“, takže ji minuly všechny tři řádky filtru. Rozhleden je teď 700
+  „rozhledna“, takže ji minuly všechny tři řádky filtru
+- **Třasák v Útvině v OSM nebyl vůbec**, tak jsme ho tam zanesli — tagy sedí
+  na budovu z RUIANu, která je ta věž. Generátor si ho vzal sám, jen kraj
+  musel dostat ručně: ten se přiřazuje dotazem do QLeveru a jeho snímek OSM
+  je starý týdny, takže dnešní zápis v něm ještě není. Až se snímek posune,
+  hodnota se přestane používat sama. Rozhleden je teď 701
 - popisy a fotky dostaly i věže, které Wikidata neřadí pod rozhlednu.
   Generátor si položku dohledával podle třídy a vzdálenosti a přehlížel
   přitom `wikidata` tag, který u bodu rovnou stojí v OSM — teď ho bere jako

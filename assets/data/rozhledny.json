@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-06T12:52:12.205779Z",
+  "generatedAt": "2026-09-06T13:27:38.008775Z",
   "area": "CZ",
   "source": "OpenStreetMap contributors (ODbL)",
-  "count": 700,
+  "count": 701,
   "towers": [
     {
       "osmType": "node",
@@ -1743,6 +1743,15 @@
     },
     {
       "osmType": "node",
+      "osmId": 3816657149,
+      "name": "Minirozhledna",
+      "lat": 49.855508,
+      "lon": 14.820817,
+      "region": "Středočeský kraj",
+      "access": "private"
+    },
+    {
+      "osmType": "node",
       "osmId": 9695521987,
       "name": "minirozhledna",
       "lat": 48.968359,
@@ -1764,15 +1773,6 @@
       "lat": 49.145668,
       "lon": 14.539309,
       "region": "Jihočeský kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 3816657149,
-      "name": "Minirozhledna",
-      "lat": 49.855508,
-      "lon": 14.820817,
-      "region": "Středočeský kraj",
-      "access": "private"
     },
     {
       "osmType": "node",
@@ -2050,24 +2050,6 @@
     },
     {
       "osmType": "node",
-      "osmId": 3627781923,
-      "name": "Ornitologická pozorovatelna",
-      "lat": 49.653058,
-      "lon": 17.231219,
-      "region": "Olomoucký kraj",
-      "openingHours": "24/7",
-      "fee": "no"
-    },
-    {
-      "osmType": "node",
-      "osmId": 11653238794,
-      "name": "Ornitologická pozorovatelna",
-      "lat": 49.418898,
-      "lon": 17.323676,
-      "region": "Olomoucký kraj"
-    },
-    {
-      "osmType": "node",
       "osmId": 4317901992,
       "name": "ornitologická pozorovatelna",
       "lat": 49.354931,
@@ -2082,6 +2064,24 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Ornitologick%C3%A1_pozorovatelna,_Chropyn%C4%9B,_okres_Krom%C4%9B%C5%99%C3%AD%C5%BE.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 11653238794,
+      "name": "Ornitologická pozorovatelna",
+      "lat": 49.418898,
+      "lon": 17.323676,
+      "region": "Olomoucký kraj"
+    },
+    {
+      "osmType": "node",
+      "osmId": 3627781923,
+      "name": "Ornitologická pozorovatelna",
+      "lat": 49.653058,
+      "lon": 17.231219,
+      "region": "Olomoucký kraj",
+      "openingHours": "24/7",
+      "fee": "no"
     },
     {
       "osmType": "way",
@@ -2391,6 +2391,22 @@
     },
     {
       "osmType": "node",
+      "osmId": 8820610341,
+      "name": "ptačí pozorovatelna",
+      "lat": 49.182755,
+      "lon": 17.960407,
+      "region": "Zlínský kraj"
+    },
+    {
+      "osmType": "node",
+      "osmId": 8820577914,
+      "name": "ptačí pozorovatelna",
+      "lat": 49.180734,
+      "lon": 17.929368,
+      "region": "Zlínský kraj"
+    },
+    {
+      "osmType": "node",
       "osmId": 13868648606,
       "name": "Ptačí pozorovatelna",
       "lat": 49.767261,
@@ -2409,22 +2425,6 @@
       "region": "Jihočeský kraj",
       "openingHours": "24/7",
       "wikidataId": "Q135002607"
-    },
-    {
-      "osmType": "node",
-      "osmId": 8820577914,
-      "name": "ptačí pozorovatelna",
-      "lat": 49.180734,
-      "lon": 17.929368,
-      "region": "Zlínský kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 8820610341,
-      "name": "ptačí pozorovatelna",
-      "lat": 49.182755,
-      "lon": 17.960407,
-      "region": "Zlínský kraj"
     },
     {
       "osmType": "node",
@@ -2608,6 +2608,48 @@
     },
     {
       "osmType": "node",
+      "osmId": 3475173927,
+      "name": "Rozhledna",
+      "lat": 50.120636,
+      "lon": 14.416713,
+      "height": 10.0,
+      "region": "Praha",
+      "wikidataId": "Q120084299",
+      "wikipediaTitle": "Rozhledna v botanické zahradě v Praze-Troji",
+      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_v_botanick%C3%A9_zahrad%C4%9B_v_Praze-Troji",
+      "wikipediaExtract": "Rozhledna v botanické zahradě v Praze-Troji se nachází v arboretu v horní (severní) části pražské botanické zahrady na svahu nad Trojou. Desetimetrová konstrukce připomínající vztyčenou část trojsegmentového ocelového potrubí je vlastnictvím botanické zahrady a pochází z dílny akademického sochaře Čestmíra Sušky Uvnitř netradiční rozhledny je vřetenovité točité ocelové schodiště, válcový plášť tubusu je dekorativně „prořezán“ ornamentálně uspořádanými otvory umožňujícími pohledy do korun stromů arboreta nebo (jižním směrem) na panorama Prahy.",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Botanicka%20Zahrada%20Praha%20Troja%20Cestmir%20Suska.jpg?width=800",
+      "photoAuthor": "Mojmir Churavy",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Botanicka_Zahrada_Praha_Troja_Cestmir_Suska.jpg"
+    },
+    {
+      "osmType": "way",
+      "osmId": 1023790032,
+      "name": "Rozhledna",
+      "lat": 50.301424,
+      "lon": 16.397727,
+      "height": 18.0,
+      "region": "Královéhradecký kraj",
+      "wikidata": "Q124336045",
+      "wikidataId": "Q124336045",
+      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20na%20Velk%C3%A9%20De%C5%A1tn%C3%A9.jpg?width=800",
+      "photoAuthor": "Filip Krejdl",
+      "photoLicense": "CC BY-SA 4.0",
+      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_na_Velk%C3%A9_De%C5%A1tn%C3%A9.jpg"
+    },
+    {
+      "osmType": "node",
+      "osmId": 9129821112,
+      "name": "Rozhledna",
+      "lat": 49.995493,
+      "lon": 14.858776,
+      "region": "Středočeský kraj"
+    },
+    {
+      "osmType": "node",
       "osmId": 5010970673,
       "name": "Rozhledna",
       "lat": 50.090139,
@@ -2647,48 +2689,6 @@
       "lat": 50.074303,
       "lon": 16.768575,
       "region": "Pardubický kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 9129821112,
-      "name": "Rozhledna",
-      "lat": 49.995493,
-      "lon": 14.858776,
-      "region": "Středočeský kraj"
-    },
-    {
-      "osmType": "node",
-      "osmId": 3475173927,
-      "name": "Rozhledna",
-      "lat": 50.120636,
-      "lon": 14.416713,
-      "height": 10.0,
-      "region": "Praha",
-      "wikidataId": "Q120084299",
-      "wikipediaTitle": "Rozhledna v botanické zahradě v Praze-Troji",
-      "wikipediaUrl": "https://cs.wikipedia.org/wiki/Rozhledna_v_botanick%C3%A9_zahrad%C4%9B_v_Praze-Troji",
-      "wikipediaExtract": "Rozhledna v botanické zahradě v Praze-Troji se nachází v arboretu v horní (severní) části pražské botanické zahrady na svahu nad Trojou. Desetimetrová konstrukce připomínající vztyčenou část trojsegmentového ocelového potrubí je vlastnictvím botanické zahrady a pochází z dílny akademického sochaře Čestmíra Sušky Uvnitř netradiční rozhledny je vřetenovité točité ocelové schodiště, válcový plášť tubusu je dekorativně „prořezán“ ornamentálně uspořádanými otvory umožňujícími pohledy do korun stromů arboreta nebo (jižním směrem) na panorama Prahy.",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20Botanicka%20Zahrada%20Praha%20Troja%20Cestmir%20Suska.jpg?width=800",
-      "photoAuthor": "Mojmir Churavy",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Botanicka_Zahrada_Praha_Troja_Cestmir_Suska.jpg"
-    },
-    {
-      "osmType": "way",
-      "osmId": 1023790032,
-      "name": "Rozhledna",
-      "lat": 50.301424,
-      "lon": 16.397727,
-      "height": 18.0,
-      "region": "Královéhradecký kraj",
-      "wikidata": "Q124336045",
-      "wikidataId": "Q124336045",
-      "photoUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rozhledna%20na%20Velk%C3%A9%20De%C5%A1tn%C3%A9.jpg?width=800",
-      "photoAuthor": "Filip Krejdl",
-      "photoLicense": "CC BY-SA 4.0",
-      "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_na_Velk%C3%A9_De%C5%A1tn%C3%A9.jpg"
     },
     {
       "osmType": "node",
@@ -4515,6 +4515,18 @@
     },
     {
       "osmType": "way",
+      "osmId": 172042316,
+      "name": "Rozhledna na Hraničním vrchu",
+      "lat": 50.171783,
+      "lon": 17.604341,
+      "height": 25.0,
+      "ele": 527.0,
+      "region": "Moravskoslezský kraj",
+      "fee": "no",
+      "access": "yes"
+    },
+    {
+      "osmType": "way",
       "osmId": 172042318,
       "name": "Rozhledna na Hraničním vrchu",
       "lat": 50.171671,
@@ -4534,18 +4546,6 @@
       "photoLicense": "CC BY-SA 4.0",
       "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Rozhledna_Hrani%C4%8Dn%C3%AD_vrch_01.jpg"
-    },
-    {
-      "osmType": "way",
-      "osmId": 172042316,
-      "name": "Rozhledna na Hraničním vrchu",
-      "lat": 50.171783,
-      "lon": 17.604341,
-      "height": 25.0,
-      "ele": 527.0,
-      "region": "Moravskoslezský kraj",
-      "fee": "no",
-      "access": "yes"
     },
     {
       "osmType": "way",
@@ -6789,6 +6789,16 @@
       "photoPageUrl": "https://commons.wikimedia.org/wiki/File:Oslavany,_Padochovsk%C3%A1,_b%C3%BDval%C3%BD_d%C5%AFl_Kukla_(09).jpg"
     },
     {
+      "osmType": "way",
+      "osmId": 390433418,
+      "name": "Třasák",
+      "lat": 50.06767,
+      "lon": 12.958379,
+      "height": 13.0,
+      "region": "Karlovarský kraj",
+      "access": "permissive"
+    },
+    {
       "osmType": "node",
       "osmId": 4128480098,
       "name": "Třenická hora",
@@ -7215,16 +7225,6 @@
       "openingHours": "24/7"
     },
     {
-      "osmType": "way",
-      "osmId": 1107749476,
-      "name": "vyhlídková plošina",
-      "lat": 49.136071,
-      "lon": 17.50156,
-      "region": "Zlínský kraj",
-      "fee": "no",
-      "access": "yes"
-    },
-    {
       "osmType": "node",
       "osmId": 10773792461,
       "name": "vyhlídková plošina",
@@ -7239,6 +7239,16 @@
       "lat": 49.020478,
       "lon": 17.194785,
       "region": "Jihomoravský kraj"
+    },
+    {
+      "osmType": "way",
+      "osmId": 1107749476,
+      "name": "vyhlídková plošina",
+      "lat": 49.136071,
+      "lon": 17.50156,
+      "region": "Zlínský kraj",
+      "fee": "no",
+      "access": "yes"
     },
     {
       "osmType": "node",
@@ -9643,6 +9653,6 @@
       "region": "Středočeský kraj"
     }
   ],
-  "enrichedAt": "2026-09-06T12:52:20.142263Z",
+  "enrichedAt": "2026-09-06T13:27:39.746494Z",
   "enrichmentSource": "Wikidata, Wikipedia (CC BY-SA), Wikimedia Commons"
 }

@@ -67,6 +67,17 @@ const _extraObjects = <String, String>{
   'node/4527603991': 'Ústecký kraj',
 };
 
+/// Kraje k bodům, které jsou v OSM novější než datová kopie QLeveru.
+///
+/// Kraje se přiřazují dotazem do QLeveru a ten jede nad snímkem OSM starým
+/// klidně několik týdnů. Rozhledna zanesená do mapy dnes v jeho odpovědi
+/// prostě není a zůstala by bez kraje — tedy mimo filtr v seznamu i mimo
+/// statistiku po krajích. Hodnota odsud se bere až jako záložní, takže jakmile
+/// se snímek posune, přebije ji QLever a řádek se dá smazat.
+const _manualRegions = <String, String>{
+  'way/390433418': 'Karlovarský kraj', // Třasák v Útvině, do OSM 6. 9. 2026
+};
+
 const _outPath = 'assets/data/rozhledny.json';
 
 /// Syrová odpověď prvního dotazu. Overpass je nespolehlivý a přiřazování krajů
@@ -94,7 +105,8 @@ out center tags;
   final byRegion = await _cachedMap(_regionCachePath, fresh, _fetchRegions);
   final counts = <String, int>{};
   for (final t in towers) {
-    final region = byRegion[t.key] ?? _extraObjects[t.key];
+    final region =
+        byRegion[t.key] ?? _extraObjects[t.key] ?? _manualRegions[t.key];
     if (region != null) {
       t.region = region;
       counts[region] = (counts[region] ?? 0) + 1;
