@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cache/flutter_map_cache.dart';
@@ -18,6 +19,7 @@ import '../towers/tower_editor_sheet.dart';
 import '../towers/tower_visibility.dart';
 import 'map_compass.dart';
 import 'map_round_button.dart';
+import 'tile_retry.dart';
 import 'tower_marker.dart';
 
 /// Zhruba střed republiky a zoom, ve kterém je vidět celá.
@@ -69,6 +71,24 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   StreamSubscription<MapEvent>? _events;
 
+  /// Poskytovatel dlaždic přežívá překreslení.
+  ///
+  /// `CachedTileProvider` si v konstruktoru zakládá vlastního HTTP klienta.
+  /// Vyrobit ho v `build` znamená nového klienta s prázdným poolem spojení na
+  /// každý snímek posunu mapy — a ten předchozí po sobě nikdo neuklidí.
+  TileProvider? _tiles;
+  String? _tilesFor;
+
+  /// Kanál, kterým se dlaždicová vrstva požádá o nové načtení, a hlídač,
+  /// který o to po nepovedené dlaždici požádá. Bez něj zůstane rozmazaná
+  /// mapa rozmazaná, dokud s ní člověk sám nepohne — viz [TileRetry].
+  final _tileReset = StreamController<void>.broadcast();
+  late final _tileRetry = TileRetry(
+    onRetry: () {
+      if (mounted && !_tileReset.isClosed) _tileReset.add(null);
+    },
+  );
+
   /// Po startu se mapa jednou přesune na aktuální polohu.
   ///
   /// Jen jednou: GPS chodí opakovaně a bez téhle pojistky by mapa trhla
@@ -95,9 +115,31 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   @override
   void dispose() {
+    _tileRetry.dispose();
+    _tileReset.close();
     _events?.cancel();
     _controller.dispose();
     super.dispose();
+  }
+
+  /// Poskytovatel dlaždic pro daný podklad. Vyrobí se jednou a drží se.
+  ///
+  /// Dokud není připravená cache, vrací `null` a podklad se nekreslí vůbec.
+  /// Vyžádat dlaždice dřív znamená poslat je mimo cache rovnou na síť — a ta
+  /// po startu telefonu chvíli nemusí být. Cesta k adresáři cache je přitom
+  /// otázka pár snímků, takže je to sotva postřehnutelné čekání.
+  TileProvider? _tileProvider(String basemapId, AsyncValue<CacheStore> store) {
+    if (store.isLoading) return null;
+    if (_tilesFor != basemapId) {
+      _tiles = store.hasValue
+          ? CachedTileProvider(
+              store: store.requireValue,
+              maxStale: tileMaxStale,
+            )
+          : NetworkTileProvider();
+      _tilesFor = basemapId;
+    }
+    return _tiles;
   }
 
   /// Pohnul mapou uživatel, nebo se posunula sama (kód, změna velikosti)?
@@ -134,6 +176,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         _rotation == camera.rotation) {
       return;
     }
+    // Jiný výřez znamená jiné dlaždice, takže i nové pokusy o načtení. Bez
+    // toho by mapa po třech nepovedených zůstala bez opakování až do restartu.
+    _tileRetry.viewChanged();
     setState(() {
       _bounds = camera.visibleBounds;
       _zoom = camera.zoom;
@@ -206,7 +251,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final settings = ref.watch(settingsProvider);
     final basemap = settings.basemap;
     final apiKey = settings.mapyApiKey;
-    final store = ref.watch(tileCacheStoreProvider(basemap.id));
+    final tiles = _tileProvider(
+      basemap.id,
+      ref.watch(tileCacheStoreProvider(basemap.id)),
+    );
     final towers = ref.watch(towersProvider);
     final me = ref.watch(currentPositionProvider).value;
     final shown = shownTowers(
@@ -272,17 +320,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               onLongPress: (_, point) => setState(() => _pin = point),
             ),
             children: [
-              TileLayer(
-                urlTemplate: basemap.url(apiKey),
-                userAgentPackageName: 'cz.standakouba.rozhledny',
-                maxNativeZoom: basemap.maxZoom,
-                tileProvider: store.value == null
-                    ? NetworkTileProvider()
-                    : CachedTileProvider(
-                        store: store.value!,
-                        maxStale: tileMaxStale,
-                      ),
-              ),
+              // Podklad se objeví, teprve až je připravená cache dlaždic —
+              // viz _tileProvider.
+              if (tiles != null)
+                TileLayer(
+                  urlTemplate: basemap.url(apiKey),
+                  userAgentPackageName: 'cz.standakouba.rozhledny',
+                  maxNativeZoom: basemap.maxZoom,
+                  tileProvider: tiles,
+                  reset: _tileReset.stream,
+                  errorTileCallback: (_, _, _) => _tileRetry.failed(),
+                ),
               MarkerLayer(
                 markers: [
                   for (final t in visible)
