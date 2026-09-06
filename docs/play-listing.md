@@ -155,7 +155,7 @@ se přenášejí exportem do souboru.
 |---|---|
 | Kategorie | Cestování a místní informace |
 | Kontaktní e-mail | rozhledny.app@gmail.com |
-| Zásady ochrany údajů | *(URL na docs/privacy.html po zapnutí GitHub Pages)* |
+| Zásady ochrany údajů | https://standakouba.github.io/rozhledny/privacy.html |
 | Obsahuje reklamu | ne |
 | Nákupy v aplikaci | ne |
 
