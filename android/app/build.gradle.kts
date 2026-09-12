@@ -29,6 +29,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    buildFeatures {
+        // Novější AGP generování `resValue` samo od sebe nezapíná. Bez tohohle
+        // řádku build spadne na „defaultConfig contains custom resource
+        // values, but the feature is disabled“.
+        resValues = true
+    }
+
     defaultConfig {
         // Název balíčku je po nahrání do Google Play neměnný.
         applicationId = "cz.standakouba.rozhledny"
@@ -42,6 +49,10 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Jméno pod ikonou. Z manifestu se přesunulo sem, aby ho ladicí build
+        // mohl přebít a obě aplikace se na ploše daly rozeznat.
+        resValue("string", "app_name", "Rozhledny")
     }
 
     signingConfigs {
@@ -58,6 +69,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Na telefonu je nainstalovaná verze z Google Play a tu podepisuje
+            // Play vlastním klíčem — lokální build ji nepřepíše ani tím
+            // správným upload klíčem (INSTALL_FAILED_UPDATE_INCOMPATIBLE).
+            // Jediná cesta „přes ni“ by vedla přes odinstalaci, tedy přes
+            // smazání nasbíraných návštěv, což jsou jediná data v téhle
+            // aplikaci, která se nedají vygenerovat znovu.
+            //
+            // Ladicí build proto běží vedle ní: vlastní název balíčku, vlastní
+            // databáze, vlastní řádek v seznamu aplikací. Na ostrou verzi ani
+            // na její data nesahá.
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            resValue("string", "app_name", "Rozhledny (debug)")
+        }
         release {
             // Bez klíče se release nepodepisuje ladicím klíčem, ale build
             // rovnou spadne. Tiché podepsání ladicím klíčem vyrobí balíček,
