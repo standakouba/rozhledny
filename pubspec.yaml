@@ -76,6 +76,11 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   drift_dev: ^2.34.5
   build_runner: ^2.16.0
+  # Test migrací staví starou databázi přímo přes sqlite3, aby se schéma
+  # verze 1 vzalo ze skutečnosti a ne z odhadu. Přes drift sem chodí tak jako
+  # tak, ale co se importuje, má být napsané — jinak ho odsud může odnést
+  # kterákoli aktualizace závislostí.
+  sqlite3: ^3.5.2
   image: ^4.9.2
   flutter_launcher_icons: ^0.14.4
 

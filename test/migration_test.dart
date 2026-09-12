@@ -265,5 +265,5 @@ void _createV1Database(
   );
 
   db.execute('PRAGMA user_version = 1');
-  db.dispose();
+  db.close();
 }
