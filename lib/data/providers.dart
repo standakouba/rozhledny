@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../services/contributions.dart';
 import '../services/settings.dart';
 import 'database.dart';
 import 'seed.dart';
@@ -41,4 +42,21 @@ final visitsProvider = StreamProvider.family<List<Visit>, String>((
   towerUuid,
 ) {
   return ref.watch(databaseProvider).watchVisits(towerUuid);
+});
+
+final reportsProvider = StreamProvider<List<TowerReport>>(
+  (ref) => ref.watch(databaseProvider).watchReports(),
+);
+
+/// Co má uživatel připravené k odeslání autorovi dat.
+///
+/// Přepočítá se, kdykoli se změní rozhledny nebo hlášení. Po odeslání se ale
+/// mění jen čas v nastavení, o kterém žádný stream neví — tam si volající
+/// musí říct o [Ref.invalidate] sám.
+final contributionsProvider = FutureProvider<ContributionSet>((ref) async {
+  ref.watch(towersProvider);
+  ref.watch(reportsProvider);
+  final db = ref.watch(databaseProvider);
+  final prefs = await ref.watch(sharedPrefsProvider.future);
+  return collectContributions(db, since: lastContributionsSentAt(prefs));
 });

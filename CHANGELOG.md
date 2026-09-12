@@ -21,6 +21,60 @@ a s verzí aplikace se záměrně nespojuje — schéma se mění mnohem méně 
 
 ---
 
+## 0.17.0
+
+- **návrhy do dat.** Rozhledna, kterou někdo v datech nenašel a přidal si ji
+  sám, oprava názvu nebo polohy u bodu z OSM a nově i nahlášená chyba se
+  sejdou v Nastavení a dají se poslat autorovi aplikace. Dosud tohle všechno
+  zůstalo v jednom telefonu, i když je to přesně ten druh informace, který
+  v datech chybí a odjinud se nedá zjistit
+- odesílá **uživatel**, ne aplikace: otevře se poštovní program s hotovým
+  e-mailem a jeho přesné znění je předem vidět. Žádný server ani účty k tomu
+  nejsou potřeba a v deklaraci na Play zůstává „nesbírá žádná data“ —
+  je to přenos, který spustil uživatel. V zásadách ochrany údajů je to popsané
+- **návštěvy, hodnocení ani poznámky u rozhleden se neposílají.** Poznámka je
+  uživatelův text („byli jsme tam s Bárou“), do dat o rozhlednách nepatří.
+  Ven jde jediný text, který napsal vysloveně jako zprávu: poznámka
+  u nahlášení
+- **nahlásit chybu** jde u bodu ze základních dat — rozhledna už neexistuje,
+  není to rozhledna, je v mapě dvakrát, nebo něco jiného s vlastním popisem.
+  Bod z mapy přitom nemizí: jestli má zmizet ze všech telefonů, se nerozhodne
+  v jednom z nich, a rozhledna může být zavřená a stát dál. Smazat jde pořád
+  jen vlastní bod
+- špatný název a posunutá poloha mezi důvody nahlášení nejsou. Na ty je editor
+  rozhledny, který rovnou nese opravenou hodnotu — hlášení „je to špatně“ by
+  proti tomu bylo o půl informace chudší
+- jedno hlášení na rozhlednu; další nahlášení téhož bodu to původní přepíše
+- **z návrhu jde vyřadit jednotlivé položky.** V náhledu má každý řádek křížek
+  a vrátit se to dá ze snackbaru. Bez toho byl návrh všechno, nebo nic — kdo
+  nechtěl poslat jednu ze tří věcí, neměl co dělat
+- u **nahlášení** znamená vyřazení smazání: jinou funkci než dojít k autorovi
+  nemá, takže po „tohle posílat nechci“ nemá co zbýt. U **rozhledny** naopak
+  smazání být nesmí — bod zůstává v mapě i s návštěvami a jen se přestane
+  nabízet. Jedno tlačítko pro obojí by u každého znamenalo něco jiného, a u
+  toho druhého zrovna to, co uživatel nechce
+- rozmyslet si to jde i později: v nabídce detailu rozhledny je přepínač
+  **Neposílat do dat** / **Nabídnout do dat**. Ukazuje se jen u bodu, který by
+  se vůbec nabízel, tedy u vlastního a u opraveného z OSM
+- vyřazení se ukládá hned, ne až při odeslání — má platit i pro toho, kdo
+  náhled zavře křížkem. A na zálohu pro druhý telefon nemá vliv: příznak
+  s ní naopak putuje, aby tam tentýž bod nevyskočil znovu
+- schéma databáze je na verzi 6; `keepPrivate` je **nullable**, protože
+  záloha se serializuje po sloupcích a nenulovatelný logický sloupec by na
+  zálohách ze starších verzí shodil celý import hláškou `type 'Null' is not
+  a subtype of type 'bool'`. Prázdno se čte jako „nabízet“ a hlídá to test
+- podruhé se posílá jen to, co od minula přibylo. Řádek „poslat i to, co už
+  odešlo“ je pro případ, že mail nikdy nedorazil — jestli ho uživatel
+  v poštovním programu opravdu odeslal, se z aplikace zjistit nedá
+- tělo delší než 3,5 kB jde přílohou přes sdílení místo odkazem `mailto:`.
+  Dlouhý intent někteří poštovní klienti tiše uříznou a návrh by dorazil
+  rozpůlený, aniž by si toho všimla jedna nebo druhá strana
+- `tools/import_contributions.dart` srovná, co dorazilo, se současným assetem
+  a vypíše, o čem se má rozhodnout. Spolkne i celý text e-mailu, návrhy víc
+  lidí na totéž místo sloučí a hlavně pozná bod, který v datech celou dobu je:
+  v OSM nemá jméno, takže ho hledání nenašlo a uživatel si ho založil znovu
+- tabulka hlášení je nová a na stávající data nesahá
+
 ## 0.16.0
 
 - **hledání rovnou nad mapou.** Dosud vedla cesta ke konkrétní rozhledně

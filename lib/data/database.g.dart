@@ -292,6 +292,20 @@ class $TowersTable extends Towers with TableInfo<$TowersTable, Tower> {
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _keepPrivateMeta = const VerificationMeta(
+    'keepPrivate',
+  );
+  @override
+  late final GeneratedColumn<bool> keepPrivate = GeneratedColumn<bool>(
+    'keep_private',
+    aliasedName,
+    true,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("keep_private" IN (0, 1))',
+    ),
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -358,6 +372,7 @@ class $TowersTable extends Towers with TableInfo<$TowersTable, Tower> {
     source,
     userModified,
     osmMissing,
+    keepPrivate,
     createdAt,
     updatedAt,
     deleted,
@@ -560,6 +575,15 @@ class $TowersTable extends Towers with TableInfo<$TowersTable, Tower> {
         osmMissing.isAcceptableOrUnknown(data['osm_missing']!, _osmMissingMeta),
       );
     }
+    if (data.containsKey('keep_private')) {
+      context.handle(
+        _keepPrivateMeta,
+        keepPrivate.isAcceptableOrUnknown(
+          data['keep_private']!,
+          _keepPrivateMeta,
+        ),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -701,6 +725,10 @@ class $TowersTable extends Towers with TableInfo<$TowersTable, Tower> {
         DriftSqlType.bool,
         data['${effectivePrefix}osm_missing'],
       )!,
+      keepPrivate: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}keep_private'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -757,6 +785,21 @@ class Tower extends DataClass implements Insertable<Tower> {
 
   /// Rozhledna, která z OSM zmizela. Nemaže se — můžou na ní viset návštěvy.
   final bool osmMissing;
+
+  /// Bod, který si uživatel nechává pro sebe — do návrhu do dat se nenabízí.
+  ///
+  /// Smazání by tady bylo špatná odpověď: „nechci to posílat“ neznamená
+  /// „nechci to mít“. Bod zůstává v mapě i s návštěvami, jen se o něm nikam
+  /// nepíše. Na zálohu na druhý telefon to vliv nemá — ta je uživatelova —
+  /// a příznak s ní naopak putuje, aby druhý telefon tentýž bod nenabízel
+  /// znovu a uživatel ho neodklikával dvakrát.
+  ///
+  /// Nullable schválně, i když jsou to dvě hodnoty. Záloha se serializuje po
+  /// sloupcích a `fromJson` shodí na nenulovatelném `bool`, který v ní chybí,
+  /// celý import (`type 'Null' is not a subtype of type 'bool'`). Každý nový
+  /// nenulovatelný sloupec by tak rozbil čtení záloh vyrobených starší verzí.
+  /// Prázdno se čte jako „nabízet“.
+  final bool? keepPrivate;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -790,6 +833,7 @@ class Tower extends DataClass implements Insertable<Tower> {
     required this.source,
     required this.userModified,
     required this.osmMissing,
+    this.keepPrivate,
     required this.createdAt,
     required this.updatedAt,
     required this.deleted,
@@ -868,6 +912,9 @@ class Tower extends DataClass implements Insertable<Tower> {
     }
     map['user_modified'] = Variable<bool>(userModified);
     map['osm_missing'] = Variable<bool>(osmMissing);
+    if (!nullToAbsent || keepPrivate != null) {
+      map['keep_private'] = Variable<bool>(keepPrivate);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     map['deleted'] = Variable<bool>(deleted);
@@ -935,6 +982,9 @@ class Tower extends DataClass implements Insertable<Tower> {
       source: Value(source),
       userModified: Value(userModified),
       osmMissing: Value(osmMissing),
+      keepPrivate: keepPrivate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(keepPrivate),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deleted: Value(deleted),
@@ -976,6 +1026,7 @@ class Tower extends DataClass implements Insertable<Tower> {
       ),
       userModified: serializer.fromJson<bool>(json['userModified']),
       osmMissing: serializer.fromJson<bool>(json['osmMissing']),
+      keepPrivate: serializer.fromJson<bool?>(json['keepPrivate']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deleted: serializer.fromJson<bool>(json['deleted']),
@@ -1014,6 +1065,7 @@ class Tower extends DataClass implements Insertable<Tower> {
       ),
       'userModified': serializer.toJson<bool>(userModified),
       'osmMissing': serializer.toJson<bool>(osmMissing),
+      'keepPrivate': serializer.toJson<bool?>(keepPrivate),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deleted': serializer.toJson<bool>(deleted),
@@ -1048,6 +1100,7 @@ class Tower extends DataClass implements Insertable<Tower> {
     TowerSource? source,
     bool? userModified,
     bool? osmMissing,
+    Value<bool?> keepPrivate = const Value.absent(),
     DateTime? createdAt,
     DateTime? updatedAt,
     bool? deleted,
@@ -1085,6 +1138,7 @@ class Tower extends DataClass implements Insertable<Tower> {
     source: source ?? this.source,
     userModified: userModified ?? this.userModified,
     osmMissing: osmMissing ?? this.osmMissing,
+    keepPrivate: keepPrivate.present ? keepPrivate.value : this.keepPrivate,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
     deleted: deleted ?? this.deleted,
@@ -1140,6 +1194,9 @@ class Tower extends DataClass implements Insertable<Tower> {
       osmMissing: data.osmMissing.present
           ? data.osmMissing.value
           : this.osmMissing,
+      keepPrivate: data.keepPrivate.present
+          ? data.keepPrivate.value
+          : this.keepPrivate,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deleted: data.deleted.present ? data.deleted.value : this.deleted,
@@ -1176,6 +1233,7 @@ class Tower extends DataClass implements Insertable<Tower> {
           ..write('source: $source, ')
           ..write('userModified: $userModified, ')
           ..write('osmMissing: $osmMissing, ')
+          ..write('keepPrivate: $keepPrivate, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deleted: $deleted')
@@ -1212,6 +1270,7 @@ class Tower extends DataClass implements Insertable<Tower> {
     source,
     userModified,
     osmMissing,
+    keepPrivate,
     createdAt,
     updatedAt,
     deleted,
@@ -1247,6 +1306,7 @@ class Tower extends DataClass implements Insertable<Tower> {
           other.source == this.source &&
           other.userModified == this.userModified &&
           other.osmMissing == this.osmMissing &&
+          other.keepPrivate == this.keepPrivate &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.deleted == this.deleted);
@@ -1280,6 +1340,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
   final Value<TowerSource> source;
   final Value<bool> userModified;
   final Value<bool> osmMissing;
+  final Value<bool?> keepPrivate;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<bool> deleted;
@@ -1311,6 +1372,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
     this.source = const Value.absent(),
     this.userModified = const Value.absent(),
     this.osmMissing = const Value.absent(),
+    this.keepPrivate = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deleted = const Value.absent(),
@@ -1343,6 +1405,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
     required TowerSource source,
     this.userModified = const Value.absent(),
     this.osmMissing = const Value.absent(),
+    this.keepPrivate = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
     this.deleted = const Value.absent(),
@@ -1380,6 +1443,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
     Expression<String>? source,
     Expression<bool>? userModified,
     Expression<bool>? osmMissing,
+    Expression<bool>? keepPrivate,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<bool>? deleted,
@@ -1412,6 +1476,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
       if (source != null) 'source': source,
       if (userModified != null) 'user_modified': userModified,
       if (osmMissing != null) 'osm_missing': osmMissing,
+      if (keepPrivate != null) 'keep_private': keepPrivate,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deleted != null) 'deleted': deleted,
@@ -1446,6 +1511,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
     Value<TowerSource>? source,
     Value<bool>? userModified,
     Value<bool>? osmMissing,
+    Value<bool?>? keepPrivate,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
     Value<bool>? deleted,
@@ -1478,6 +1544,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
       source: source ?? this.source,
       userModified: userModified ?? this.userModified,
       osmMissing: osmMissing ?? this.osmMissing,
+      keepPrivate: keepPrivate ?? this.keepPrivate,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       deleted: deleted ?? this.deleted,
@@ -1570,6 +1637,9 @@ class TowersCompanion extends UpdateCompanion<Tower> {
     if (osmMissing.present) {
       map['osm_missing'] = Variable<bool>(osmMissing.value);
     }
+    if (keepPrivate.present) {
+      map['keep_private'] = Variable<bool>(keepPrivate.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -1612,6 +1682,7 @@ class TowersCompanion extends UpdateCompanion<Tower> {
           ..write('source: $source, ')
           ..write('userModified: $userModified, ')
           ..write('osmMissing: $osmMissing, ')
+          ..write('keepPrivate: $keepPrivate, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deleted: $deleted')
@@ -2176,16 +2247,428 @@ class VisitsCompanion extends UpdateCompanion<Visit> {
   }
 }
 
+class $TowerReportsTable extends TowerReports
+    with TableInfo<$TowerReportsTable, TowerReport> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TowerReportsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+    'uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _towerUuidMeta = const VerificationMeta(
+    'towerUuid',
+  );
+  @override
+  late final GeneratedColumn<String> towerUuid = GeneratedColumn<String>(
+    'tower_uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<TowerReportReason, String>
+  reason = GeneratedColumn<String>(
+    'reason',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  ).withConverter<TowerReportReason>($TowerReportsTable.$converterreason);
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    uuid,
+    towerUuid,
+    reason,
+    note,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'tower_reports';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TowerReport> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+        _uuidMeta,
+        uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('tower_uuid')) {
+      context.handle(
+        _towerUuidMeta,
+        towerUuid.isAcceptableOrUnknown(data['tower_uuid']!, _towerUuidMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_towerUuidMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TowerReport map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TowerReport(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      uuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}uuid'],
+      )!,
+      towerUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tower_uuid'],
+      )!,
+      reason: $TowerReportsTable.$converterreason.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}reason'],
+        )!,
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TowerReportsTable createAlias(String alias) {
+    return $TowerReportsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<TowerReportReason, String, String>
+  $converterreason = const EnumNameConverter<TowerReportReason>(
+    TowerReportReason.values,
+  );
+}
+
+class TowerReport extends DataClass implements Insertable<TowerReport> {
+  final int id;
+  final String uuid;
+
+  /// Jedno hlášení na rozhlednu. Další nahlášení téhož bodu to původní
+  /// přepíše — dvě zprávy o jedné věži se nerozhodnou líp než jedna a jen by
+  /// se hromadily u toho, kdo si na tlačítko zvykl.
+  final String towerUuid;
+  final TowerReportReason reason;
+  final String? note;
+  final DateTime createdAt;
+  const TowerReport({
+    required this.id,
+    required this.uuid,
+    required this.towerUuid,
+    required this.reason,
+    this.note,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['tower_uuid'] = Variable<String>(towerUuid);
+    {
+      map['reason'] = Variable<String>(
+        $TowerReportsTable.$converterreason.toSql(reason),
+      );
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  TowerReportsCompanion toCompanion(bool nullToAbsent) {
+    return TowerReportsCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      towerUuid: Value(towerUuid),
+      reason: Value(reason),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory TowerReport.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TowerReport(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      towerUuid: serializer.fromJson<String>(json['towerUuid']),
+      reason: $TowerReportsTable.$converterreason.fromJson(
+        serializer.fromJson<String>(json['reason']),
+      ),
+      note: serializer.fromJson<String?>(json['note']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'towerUuid': serializer.toJson<String>(towerUuid),
+      'reason': serializer.toJson<String>(
+        $TowerReportsTable.$converterreason.toJson(reason),
+      ),
+      'note': serializer.toJson<String?>(note),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  TowerReport copyWith({
+    int? id,
+    String? uuid,
+    String? towerUuid,
+    TowerReportReason? reason,
+    Value<String?> note = const Value.absent(),
+    DateTime? createdAt,
+  }) => TowerReport(
+    id: id ?? this.id,
+    uuid: uuid ?? this.uuid,
+    towerUuid: towerUuid ?? this.towerUuid,
+    reason: reason ?? this.reason,
+    note: note.present ? note.value : this.note,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  TowerReport copyWithCompanion(TowerReportsCompanion data) {
+    return TowerReport(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      towerUuid: data.towerUuid.present ? data.towerUuid.value : this.towerUuid,
+      reason: data.reason.present ? data.reason.value : this.reason,
+      note: data.note.present ? data.note.value : this.note,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TowerReport(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('towerUuid: $towerUuid, ')
+          ..write('reason: $reason, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, uuid, towerUuid, reason, note, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TowerReport &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.towerUuid == this.towerUuid &&
+          other.reason == this.reason &&
+          other.note == this.note &&
+          other.createdAt == this.createdAt);
+}
+
+class TowerReportsCompanion extends UpdateCompanion<TowerReport> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<String> towerUuid;
+  final Value<TowerReportReason> reason;
+  final Value<String?> note;
+  final Value<DateTime> createdAt;
+  const TowerReportsCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.towerUuid = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.note = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  TowerReportsCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required String towerUuid,
+    required TowerReportReason reason,
+    this.note = const Value.absent(),
+    required DateTime createdAt,
+  }) : uuid = Value(uuid),
+       towerUuid = Value(towerUuid),
+       reason = Value(reason),
+       createdAt = Value(createdAt);
+  static Insertable<TowerReport> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<String>? towerUuid,
+    Expression<String>? reason,
+    Expression<String>? note,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (towerUuid != null) 'tower_uuid': towerUuid,
+      if (reason != null) 'reason': reason,
+      if (note != null) 'note': note,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  TowerReportsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? uuid,
+    Value<String>? towerUuid,
+    Value<TowerReportReason>? reason,
+    Value<String?>? note,
+    Value<DateTime>? createdAt,
+  }) {
+    return TowerReportsCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      towerUuid: towerUuid ?? this.towerUuid,
+      reason: reason ?? this.reason,
+      note: note ?? this.note,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (towerUuid.present) {
+      map['tower_uuid'] = Variable<String>(towerUuid.value);
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(
+        $TowerReportsTable.$converterreason.toSql(reason.value),
+      );
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TowerReportsCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('towerUuid: $towerUuid, ')
+          ..write('reason: $reason, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TowersTable towers = $TowersTable(this);
   late final $VisitsTable visits = $VisitsTable(this);
+  late final $TowerReportsTable towerReports = $TowerReportsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [towers, visits];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    towers,
+    visits,
+    towerReports,
+  ];
 }
 
 typedef $$TowersTableCreateCompanionBuilder = TowersCompanion Function({
@@ -2216,6 +2699,7 @@ typedef $$TowersTableCreateCompanionBuilder = TowersCompanion Function({
   required TowerSource source,
   Value<bool> userModified,
   Value<bool> osmMissing,
+  Value<bool?> keepPrivate,
   required DateTime createdAt,
   required DateTime updatedAt,
   Value<bool> deleted,
@@ -2248,6 +2732,7 @@ typedef $$TowersTableUpdateCompanionBuilder = TowersCompanion Function({
   Value<TowerSource> source,
   Value<bool> userModified,
   Value<bool> osmMissing,
+  Value<bool?> keepPrivate,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<bool> deleted,
@@ -2395,6 +2880,11 @@ class $$TowersTableFilterComposer
 
   ColumnFilters<bool> get osmMissing => $composableBuilder(
     column: $table.osmMissing,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get keepPrivate => $composableBuilder(
+    column: $table.keepPrivate,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2558,6 +3048,11 @@ class $$TowersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get keepPrivate => $composableBuilder(
+    column: $table.keepPrivate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -2686,6 +3181,11 @@ class $$TowersTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<bool> get keepPrivate => $composableBuilder(
+    column: $table.keepPrivate,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -2751,6 +3251,7 @@ class $$TowersTableTableManager
                 Value<TowerSource> source = const Value.absent(),
                 Value<bool> userModified = const Value.absent(),
                 Value<bool> osmMissing = const Value.absent(),
+                Value<bool?> keepPrivate = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<bool> deleted = const Value.absent(),
@@ -2782,6 +3283,7 @@ class $$TowersTableTableManager
                 source: source,
                 userModified: userModified,
                 osmMissing: osmMissing,
+                keepPrivate: keepPrivate,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 deleted: deleted,
@@ -2815,6 +3317,7 @@ class $$TowersTableTableManager
                 required TowerSource source,
                 Value<bool> userModified = const Value.absent(),
                 Value<bool> osmMissing = const Value.absent(),
+                Value<bool?> keepPrivate = const Value.absent(),
                 required DateTime createdAt,
                 required DateTime updatedAt,
                 Value<bool> deleted = const Value.absent(),
@@ -2846,6 +3349,7 @@ class $$TowersTableTableManager
                 source: source,
                 userModified: userModified,
                 osmMissing: osmMissing,
+                keepPrivate: keepPrivate,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 deleted: deleted,
@@ -3134,6 +3638,220 @@ typedef $$VisitsTableProcessedTableManager =
       Visit,
       PrefetchHooks Function()
     >;
+typedef $$TowerReportsTableCreateCompanionBuilder =
+    TowerReportsCompanion Function({
+      Value<int> id,
+      required String uuid,
+      required String towerUuid,
+      required TowerReportReason reason,
+      Value<String?> note,
+      required DateTime createdAt,
+    });
+typedef $$TowerReportsTableUpdateCompanionBuilder =
+    TowerReportsCompanion Function({
+      Value<int> id,
+      Value<String> uuid,
+      Value<String> towerUuid,
+      Value<TowerReportReason> reason,
+      Value<String?> note,
+      Value<DateTime> createdAt,
+    });
+
+class $$TowerReportsTableFilterComposer
+    extends Composer<_$AppDatabase, $TowerReportsTable> {
+  $$TowerReportsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+    column: $table.uuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get towerUuid => $composableBuilder(
+    column: $table.towerUuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<TowerReportReason, TowerReportReason, String>
+  get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$TowerReportsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TowerReportsTable> {
+  $$TowerReportsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+    column: $table.uuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get towerUuid => $composableBuilder(
+    column: $table.towerUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$TowerReportsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TowerReportsTable> {
+  $$TowerReportsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<String> get towerUuid =>
+      $composableBuilder(column: $table.towerUuid, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<TowerReportReason, String> get reason =>
+      $composableBuilder(column: $table.reason, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$TowerReportsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TowerReportsTable,
+          TowerReport,
+          $$TowerReportsTableFilterComposer,
+          $$TowerReportsTableOrderingComposer,
+          $$TowerReportsTableAnnotationComposer,
+          $$TowerReportsTableCreateCompanionBuilder,
+          $$TowerReportsTableUpdateCompanionBuilder,
+          (
+            TowerReport,
+            BaseReferences<_$AppDatabase, $TowerReportsTable, TowerReport>,
+          ),
+          TowerReport,
+          PrefetchHooks Function()
+        > {
+  $$TowerReportsTableTableManager(_$AppDatabase db, $TowerReportsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TowerReportsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TowerReportsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TowerReportsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> uuid = const Value.absent(),
+                Value<String> towerUuid = const Value.absent(),
+                Value<TowerReportReason> reason = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => TowerReportsCompanion(
+                id: id,
+                uuid: uuid,
+                towerUuid: towerUuid,
+                reason: reason,
+                note: note,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String uuid,
+                required String towerUuid,
+                required TowerReportReason reason,
+                Value<String?> note = const Value.absent(),
+                required DateTime createdAt,
+              }) => TowerReportsCompanion.insert(
+                id: id,
+                uuid: uuid,
+                towerUuid: towerUuid,
+                reason: reason,
+                note: note,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$TowerReportsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TowerReportsTable,
+      TowerReport,
+      $$TowerReportsTableFilterComposer,
+      $$TowerReportsTableOrderingComposer,
+      $$TowerReportsTableAnnotationComposer,
+      $$TowerReportsTableCreateCompanionBuilder,
+      $$TowerReportsTableUpdateCompanionBuilder,
+      (
+        TowerReport,
+        BaseReferences<_$AppDatabase, $TowerReportsTable, TowerReport>,
+      ),
+      TowerReport,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3142,4 +3860,6 @@ class $AppDatabaseManager {
       $$TowersTableTableManager(_db, _db.towers);
   $$VisitsTableTableManager get visits =>
       $$VisitsTableTableManager(_db, _db.visits);
+  $$TowerReportsTableTableManager get towerReports =>
+      $$TowerReportsTableTableManager(_db, _db.towerReports);
 }

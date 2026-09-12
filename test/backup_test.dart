@@ -330,5 +330,34 @@ void main() {
       expect(() => decodeBackup({'towers': []}),
           throwsA(isA<FormatException>()));
     });
+
+    test('záloha ze starší verze se přečte i bez novějších sloupců', () {
+      // Záloha se serializuje po sloupcích, takže v té starší nový sloupec
+      // prostě není. Nenulovatelný logický sloupec by na tom shodil celý
+      // import hláškou „type 'Null' is not a subtype of type 'bool'“ —
+      // proto je `keepPrivate` nullable a proto tenhle test existuje.
+      final payload = decodeBackup({
+        'formatVersion': backupFormatVersion,
+        'towers': [
+          {
+            'id': 1,
+            'uuid': 'stara-zaloha',
+            'lat': 49.0,
+            'lon': 15.0,
+            'source': 'user',
+            'createdAt': 1757000000000,
+            'updatedAt': 1757000000000,
+            'userModified': false,
+            'osmMissing': false,
+            'deleted': false,
+          },
+        ],
+        'visits': <dynamic>[],
+      });
+
+      final tower = payload.towers.single;
+      expect(tower.uuid, 'stara-zaloha');
+      expect(tower.keepPrivate, isNull, reason: 'prázdno znamená nabízet');
+    });
   });
 }

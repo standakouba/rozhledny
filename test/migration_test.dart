@@ -130,6 +130,38 @@ void main() {
     expect(await db.watchVisits(kletUuid).first, hasLength(2));
   });
 
+  test('po upgradu jde nahlásit chybu v datech', () async {
+    // Přechod na verzi 5 přidává tabulku hlášení. Že vznikla i na telefonu,
+    // kde aplikace běží od verze 1, se pozná až pokusem do ní zapsat.
+    final db = AppDatabase(NativeDatabase(File(dbPath)));
+    addTearDown(db.close);
+
+    await db.upsertReport(TowerReportsCompanion.insert(
+      uuid: 'hlaseni-1',
+      towerUuid: kletUuid,
+      reason: TowerReportReason.gone,
+      createdAt: DateTime(2026, 6, 5),
+    ));
+
+    expect((await db.reportForTower(kletUuid))!.reason, TowerReportReason.gone);
+    expect(await db.watchVisits(kletUuid).first, hasLength(2),
+        reason: 'nová tabulka nesmí sáhnout na návštěvy');
+  });
+
+  test('po upgradu jde vlastní bod vyřadit z návrhu do dat', () async {
+    // Verze 6 přidává sloupec `keepPrivate`. Prázdno znamená nabízet, takže
+    // stávající body migrace nedopisuje — a přepnout se musí dát i u nich.
+    final db = AppDatabase(NativeDatabase(File(dbPath)));
+    addTearDown(db.close);
+
+    expect((await db.towerByUuid(ownUuid))!.keepPrivate, isNull);
+
+    await db.setTowerKeepPrivate(ownUuid, true);
+    expect((await db.towerByUuid(ownUuid))!.keepPrivate, isTrue);
+    expect((await db.towerByUuid(ownUuid))!.deleted, isFalse,
+        reason: 'vyřazení z návrhu není smazání');
+  });
+
   test('opakované obohacení nic nerozbije', () async {
     final db = AppDatabase(NativeDatabase(File(dbPath)));
     addTearDown(db.close);

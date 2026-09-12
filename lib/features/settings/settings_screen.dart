@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../data/providers.dart';
 import '../map/basemap.dart';
 import '../../services/backup.dart';
+import 'contribution_tiles.dart';
 import '../../services/photo_prefetch.dart';
 import '../../services/settings.dart';
 import '../towers/tower_visibility.dart';
@@ -122,6 +123,11 @@ class _Body extends ConsumerWidget {
         const Divider(),
         const _Header('Přenos na druhý telefon'),
         const _BackupTiles(),
+        const Divider(),
+        // Sousedí s přenosem na druhý telefon schválně: obojí je „data ven“
+        // a v obou případech je odesílatelem uživatel, ne aplikace.
+        const _Header('Návrhy do dat'),
+        const ContributionTiles(),
         const Divider(),
         const _Header('O aplikaci'),
         const _VersionTile(),

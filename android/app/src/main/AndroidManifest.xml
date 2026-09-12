@@ -86,6 +86,15 @@
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="https"/>
         </intent>
+        <!-- Návrh do dat otevírá poštovní program s předvyplněnou adresou.
+             Bez tohohle záznamu vrátí canLaunchUrl false i na telefonu,
+             kde pošta je, a návrh by pokaždé spadl na sdílení s přílohou —
+             tam si adresu musí uživatel doplnit sám a návrh se snadno
+             ztratí. -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO"/>
+            <data android:scheme="mailto"/>
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

@@ -58,11 +58,57 @@ class Towers extends Table {
   /// Rozhledna, která z OSM zmizela. Nemaže se — můžou na ní viset návštěvy.
   BoolColumn get osmMissing => boolean().withDefault(const Constant(false))();
 
+  /// Bod, který si uživatel nechává pro sebe — do návrhu do dat se nenabízí.
+  ///
+  /// Smazání by tady bylo špatná odpověď: „nechci to posílat“ neznamená
+  /// „nechci to mít“. Bod zůstává v mapě i s návštěvami, jen se o něm nikam
+  /// nepíše. Na zálohu na druhý telefon to vliv nemá — ta je uživatelova —
+  /// a příznak s ní naopak putuje, aby druhý telefon tentýž bod nenabízel
+  /// znovu a uživatel ho neodklikával dvakrát.
+  ///
+  /// Nullable schválně, i když jsou to dvě hodnoty. Záloha se serializuje po
+  /// sloupcích a `fromJson` shodí na nenulovatelném `bool`, který v ní chybí,
+  /// celý import (`type 'Null' is not a subtype of type 'bool'`). Každý nový
+  /// nenulovatelný sloupec by tak rozbil čtení záloh vyrobených starší verzí.
+  /// Prázdno se čte jako „nabízet“.
+  BoolColumn get keepPrivate => boolean().nullable()();
+
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
 
   /// Tombstone místo skutečného smazání, jinak by import záznam vzkřísil.
   BoolColumn get deleted => boolean().withDefault(const Constant(false))();
+}
+
+/// Proč podle uživatele bod v základních datech nesedí.
+///
+/// Vědomě tu nejsou „špatný název“ a „posunutá poloha“ — na ty je editor
+/// rozhledny, který rovnou nese opravenou hodnotu. Nahlášení je od toho,
+/// co se opravit nedá, protože bod v datech vůbec nemá být.
+enum TowerReportReason { gone, notATower, duplicate, other }
+
+/// Nahlášení chyby v základních datech.
+///
+/// Na rozdíl od smazání bod z mapy neodstraňuje: jestli má zmizet ze **všech**
+/// telefonů, se nerozhoduje v jednom z nich. Uživatel jen říká, co viděl,
+/// a záznam počká, až ho sám odešle.
+///
+/// Do zálohy na druhý telefon nepatří — je to zpráva pro autora dat, ne data,
+/// o která by uživatel mohl přijít. Kdyby se přenášela, dorazilo by totéž
+/// hlášení dvakrát.
+class TowerReports extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get uuid => text().unique()();
+
+  /// Jedno hlášení na rozhlednu. Další nahlášení téhož bodu to původní
+  /// přepíše — dvě zprávy o jedné věži se nerozhodnou líp než jedna a jen by
+  /// se hromadily u toho, kdo si na tlačítko zvykl.
+  TextColumn get towerUuid => text().unique()();
+
+  TextColumn get reason => textEnum<TowerReportReason>()();
+  TextColumn get note => text().nullable()();
+
+  DateTimeColumn get createdAt => dateTime()();
 }
 
 /// Jedna návštěva rozhledny. Vztah k [Towers] je 1:N — na Kleť se jezdí opakovaně
@@ -112,13 +158,13 @@ class TowerWithStats {
   bool get isVisited => visitCount > 0;
 }
 
-@DriftDatabase(tables: [Towers, Visits])
+@DriftDatabase(tables: [Towers, Visits, TowerReports])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor])
     : super(executor ?? driftDatabase(name: 'rozhledny'));
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -170,6 +216,16 @@ class AppDatabase extends _$AppDatabase {
         // samotné soubory maže PhotoCleanup při startu aplikace.
         await customStatement('DROP TABLE IF EXISTS photos');
         await customStatement('DROP INDEX IF EXISTS idx_photos_visit');
+      }
+      if (from < 5) {
+        // Nahlášené chyby v datech. Prázdná tabulka navíc, na nic stávajícího
+        // nesahá — na telefonu, kde aplikace už běží, prostě přibude.
+        await m.createTable(towerReports);
+      }
+      if (from < 6) {
+        // „Tenhle bod si nechám pro sebe.“ Prázdno znamená nabízet, takže
+        // stávající řádky není potřeba dopisovat.
+        await m.addColumn(towers, towers.keepPrivate);
       }
     },
   );
@@ -228,6 +284,19 @@ class AppDatabase extends _$AppDatabase {
   Future<void> upsertTower(TowersCompanion tower) => into(towers)
       .insert(tower, onConflict: DoUpdate((_) => tower, target: [towers.uuid]));
 
+  /// Přepne, jestli se bod nabízí do návrhu do dat.
+  ///
+  /// Mění `updatedAt` jako každá jiná úprava řádku: slučování při importu se
+  /// podle něj rozhoduje, a bod vrácený zpátky mezi nabídnuté se má objevit
+  /// v nejbližším návrhu, i kdyby už jednou odešel.
+  Future<void> setTowerKeepPrivate(String uuid, bool value) =>
+      (update(towers)..where((t) => t.uuid.equals(uuid))).write(
+        TowersCompanion(
+          keepPrivate: Value(value),
+          updatedAt: Value(DateTime.now()),
+        ),
+      );
+
   /// Vlastní rozhlednu jen označí za smazanou a totéž udělá s jejími
   /// návštěvami — jinak by import vrátil obojí zpátky.
   Future<void> softDeleteTower(String uuid) async {
@@ -272,6 +341,32 @@ class AppDatabase extends _$AppDatabase {
         ),
       );
 
+  // ------------------------------------------------------- nahlášené chyby
+
+  Stream<List<TowerReport>> watchReports() => select(towerReports).watch();
+
+  Future<List<TowerReport>> allReports() => select(towerReports).get();
+
+  Future<TowerReport?> reportForTower(String towerUuid) =>
+      (select(towerReports)..where(
+            (r) => r.towerUuid.equals(towerUuid),
+          ))
+          .getSingleOrNull();
+
+  /// Zapíše hlášení, nebo přepíše to, které u rozhledny už je. Cíl konfliktu
+  /// je `tower_uuid` — viz [upsertTower], `id` volající nezná.
+  Future<void> upsertReport(TowerReportsCompanion report) =>
+      into(towerReports).insert(
+        report,
+        onConflict: DoUpdate((_) => report, target: [towerReports.towerUuid]),
+      );
+
+  /// Hlášení se maže doopravdy, ne tombstonem. Nikam se nesynchronizuje,
+  /// takže ho nemá co vzkřísit, a „vzal jsem to zpátky“ má znamenat, že po
+  /// tom nezbude nic.
+  Future<void> deleteReport(String towerUuid) =>
+      (delete(towerReports)..where((r) => r.towerUuid.equals(towerUuid))).go();
+
   // ----------------------------------------------------------------- fotky
 
   // -------------------------------------------------- záloha a slučování
@@ -296,6 +391,21 @@ class AppDatabase extends _$AppDatabase {
           .get();
 
   Future<List<Visit>> allVisitsForExport() => select(visits).get();
+
+  /// Rozhledny, na kterých uživatel něco udělal sám: založil je, nebo opravil
+  /// bod z OSM. Včetně smazaných — že si vlastní bod zase odstranil, je pro
+  /// návrh do dat zpráva jako každá jiná.
+  ///
+  /// Podmínka je dnes stejná jako u [exportableTowers], ale odpovídá na jinou
+  /// otázku: tam jde o to, co druhý telefon nemá, tady o to, co uživatel
+  /// nasbíral. Až se jedno z toho změní, nemá to tomu druhému zamíchat daty.
+  Future<List<Tower>> contributedTowers() =>
+      (select(towers)..where(
+            (t) =>
+                t.source.equalsValue(TowerSource.user) |
+                t.userModified.equals(true),
+          ))
+          .get();
 
   /// Všechny rozhledny včetně smazaných. Potřebuje je srovnání s assetem,
   /// aby poznalo, na které body se sahat nesmí.

@@ -156,6 +156,14 @@ class AssetSyncReport {
 /// Klíč, pod kterým si aplikace pamatuje, co už do dat promítla.
 const _keyAssetDigest = 'seed_asset_digest';
 
+/// Otisk dat, se kterými je telefon srovnaný.
+///
+/// Připojuje se k návrhu do dat: bez něj by nešlo poznat, jestli „chybějící
+/// rozhledna“ opravdu chybí, nebo jestli jen ten telefon běží na starším
+/// assetu, kde ještě nebyla.
+String? syncedAssetStamp(SharedPreferences prefs) =>
+    prefs.getString(_keyAssetDigest);
+
 /// Verze pravidel, podle kterých se data srovnávají.
 ///
 /// Otisk assetu sám nestačí. Když se změní kód srovnání a asset zůstane

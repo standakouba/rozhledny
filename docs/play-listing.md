@@ -176,6 +176,14 @@ Vyplňuje se pravdivě — Play deklarace namátkově ověřuje.
 uživatele. Poskytovatel obsahu ovšem uvidí IP adresu — to je popsané
 v zásadách ochrany údajů.
 
+**Návrh do dat** je jediné místo, kde z aplikace odchází něco, co uživatel
+vytvořil. Aplikace ho neodesílá: připraví e-mail a předá ho poštovnímu
+programu, odesílá ho uživatel sám a předem vidí jeho přesné znění. Play tenhle
+případ řadí k „přenosu, který spustil uživatel“, a jako sběr dat se
+nedeklaruje — proto zůstává **Ne**. Kdyby se odesílání někdy dělo samo nebo
+na pozadí, odpověď se musí změnit a doplnit se typ „Ostatní údaje vytvořené
+uživatelem“. Popsané je to v zásadách ochrany údajů.
+
 ## Grafika
 
 | Co | Soubor | Rozměr |

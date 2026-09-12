@@ -22,6 +22,9 @@ přenášejí exportem do souboru, který se na druhé straně slučuje.
   abecedy, poslední návštěvy nebo počtu návštěv
 - **Statistiky** — pokrok, rozpad po krajích a letech, kam se vracíte
 - **Přenos** — export do ZIP a import se slučováním podle UUID
+- **Návrhy do dat** — přidaná rozhledna, oprava názvu či polohy a nahlášená
+  chyba se sejdou v Nastavení; odesílá je e-mailem uživatel, sama aplikace
+  neposílá nic a nikam
 
 ## Sestavení
 
@@ -62,6 +65,18 @@ Oba cachují odpovědi do `.cache/`, takže opakovaný běh nestahuje nic zbyte�
 Proč dvě různá rozhraní: Overpass po několika dotazech odřízne IP na desítky
 minut, takže přiřazení čtrnácti krajů přes něj nikdy nedoběhlo. QLever to
 zvládne jedním SPARQL dotazem.
+
+Návrhy, které pošlou uživatelé, přečte třetí skript. Nic nezapisuje — jen
+srovná, co dorazilo, se současným assetem a vypíše, o čem se má rozhodnout:
+
+```bash
+dart tools/import_contributions.dart navrhy/
+```
+
+Kromě samotného JSONu spolkne i celý text e-mailu. Nejčastější nález není
+chybějící rozhledna, ale bod, který v datech celou dobu je — v OSM nemá jméno,
+takže ho uživatel nenašel hledáním a založil si vlastní. Takové návrhy skript
+pozná podle vzdálenosti a rovnou u nich řekne, se kterou rozhlednou splývají.
 
 ## Testy
 

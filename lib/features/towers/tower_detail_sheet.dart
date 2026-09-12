@@ -9,6 +9,7 @@ import '../visits/visit_editor.dart';
 import 'tower_info_card.dart';
 import 'tower_colors.dart';
 import 'tower_editor_sheet.dart';
+import 'tower_report_sheet.dart';
 
 /// Detail rozhledny se seznamem všech návštěv.
 ///
@@ -82,6 +83,25 @@ class _Content extends ConsumerWidget {
       BuildContext context, WidgetRef ref, String action) async {
     if (action == 'edit') {
       await TowerEditorSheet.show(context, existing: stats.tower);
+      return;
+    }
+
+    if (action == 'report') {
+      await TowerReportSheet.show(context, stats.tower);
+      return;
+    }
+
+    if (action == 'private') {
+      final keep = !(stats.tower.keepPrivate ?? false);
+      await ref
+          .read(databaseProvider)
+          .setTowerKeepPrivate(stats.tower.uuid, keep);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(keep
+            ? 'Do návrhu do dat se tahle rozhledna nabízet nebude.'
+            : 'Rozhledna se zase nabídne do návrhu do dat.'),
+      ));
       return;
     }
 
@@ -169,6 +189,37 @@ class _Content extends ConsumerWidget {
                       contentPadding: EdgeInsets.zero,
                       leading: Icon(Icons.delete_outline),
                       title: Text('Smazat'),
+                    ),
+                  ),
+                // Bod ze základních dat smazat nejde, ale dá se o něm dát
+                // vědět: že spadl, že to rozhledna není, že je v mapě
+                // dvakrát. U vlastního bodu by to nedávalo smysl — ten si
+                // uživatel založil sám a opraví si ho taky sám.
+                if (t.source == TowerSource.osm)
+                  const PopupMenuItem(
+                    value: 'report',
+                    child: ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.outlined_flag),
+                      title: Text('Nahlásit chybu v datech'),
+                    ),
+                  ),
+                // Vyřadit z návrhu jde jen to, co by se vůbec nabízelo:
+                // vlastní bod a opravená rozhledna z OSM. U nedotčeného bodu
+                // z OSM by ta položka slibovala volbu, která nic nemění.
+                if (t.source == TowerSource.user || t.userModified)
+                  PopupMenuItem(
+                    value: 'private',
+                    child: ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon((t.keepPrivate ?? false)
+                          ? Icons.outbox_outlined
+                          : Icons.lock_outline),
+                      title: Text((t.keepPrivate ?? false)
+                          ? 'Nabídnout do dat'
+                          : 'Neposílat do dat'),
                     ),
                   ),
               ],
