@@ -87,6 +87,22 @@ Mapové podklady © Seznam.cz a.s. a další.
 
 *(max 500 znaků na jazyk, pole „What's new" u každého vydání)*
 
+### 0.17.0 — návrhy do dat e-mailem
+
+```
+Návrhy do dat. Rozhlednu, kterou jste si přidali sami, opravu názvu nebo
+polohy a nově i nahlášenou chybu najdete pohromadě v Nastavení a pošlete
+autorovi aplikace. Odesíláte je vy ze svého poštovního programu a přesné znění
+e-mailu vidíte předem.
+
+Návštěvy, hodnocení ani poznámky u rozhleden se neposílají.
+
+Nahlásit jde, že rozhledna nestojí, není to rozhledna nebo je v mapě dvakrát.
+Z mapy vám přitom nezmizí.
+
+Co posílat nechcete, z návrhu vyřadíte křížkem.
+```
+
 ### 0.16.0 — hledání nad mapou a víc rozhleden
 
 ```
